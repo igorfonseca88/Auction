@@ -9,7 +9,7 @@ function responseFunction(loader){
 	if(loader.xmlDoc.responseText){
 		//document.getElementById("opacidade").style.display = "none";
 		//document.getElementById("loadAjax").style.display = "none";
-		//alert("teste");
+		alert("teste");
 		alert(loader.xmlDoc.responseText);
 	}
 }
