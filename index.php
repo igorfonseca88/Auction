@@ -1,11 +1,10 @@
 <?
-	include "config.php";
+	//include "config.php";
 ?>
 <html>
 <head>
-<script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
-<script type="text/javascript" src="<?php echo BASE_URL(); ?>js/ajax.js"></script>
+<script type="text/javascript" src="js/dhtmlxcommon.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
 <script>
 function enviarMsg(){
 
