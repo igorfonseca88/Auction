@@ -11,14 +11,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sistema de Gerencimento de Conte&uacute;do 1.0 - MyNewBiz</title>
 
-        <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>minha_conta/css/conteudo.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>minha_conta/css/jquery.datepick.css" media="screen" />
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>minha_conta/js/jquery.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>minha_conta/js/funcoes.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>minha_conta/js/jquery1-5.min.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>minha_conta/js/jquery-ui-1-8.min.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>minha_conta/js/jquery.maskMoney.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>minha_conta/js/jquery.maskedinput.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>conta/css/conteudo.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>conta/css/jquery.datepick.css" media="screen" />
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery.js"></script>
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/funcoes.js"></script>
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery1-5.min.js"></script>
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery-ui-1-8.min.js"></script>
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery.maskMoney.js"></script>
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery.maskedinput.js"></script>
         
         
         <script>
@@ -59,7 +59,7 @@
 			 <li class="titulo"><a><span>Meu Admin</span></a></li>
 			 <li><a href="<?php echo BASE_URL(); ?>"><span>Principal</span></a></li>
 			 <!--<li><a href=""><span>Alterar minha senha</span></a></li>-->
-			 <li><a href="<?php echo BASE_URL(); ?>minha_conta/login/login/logoff"><span>Sair</span></a></li>
+			 <li><a href="<?php echo BASE_URL(); ?>conta/login/login/logoff"><span>Sair</span></a></li>
 		  </ul>
 		  <ul>
 			 <li class="titulo"><a><span>Áreas</span></a></li>
@@ -67,7 +67,7 @@
                          <li><a href=""><span>Usuários</span></a></li>
                          <li><a href=""><span>Categorias</span></a></li>
 			 <li><a href=""><span>Produtos</span></a></li>
-			 <li><a href="<?php echo BASE_URL(); ?>minha_conta/leilaoController/"><span>Leilões</span></a></li>
+			 <li><a href="<?php echo BASE_URL(); ?>conta/leilaoController/"><span>Leilões</span></a></li>
 			 <li><a href=""><span>Financeiro</span></a></li>
 		  </ul>
 		</div>

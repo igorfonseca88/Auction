@@ -10,7 +10,7 @@ $this->load->view('_inc/superior');
 
     <div class="formulario">
         <h2>Listagem de leilões</h2>
-        <input type="button" class="button" type="button" name="btNovoLeilao" onclick="location.href='<?= base_url() ?>clienteController/novoClienteAction'" value="Novo leilão" />
+        <input type="button" class="button" type="button" name="btNovoLeilao" onclick="location.href='<?= base_url() ?>conta/leilaoController/novoLeilaoAction'" value="Novo leilão" />
         <p><? //echo $this->session->flashdata('sucesso'); ?></p>
 
        
@@ -19,7 +19,7 @@ $this->load->view('_inc/superior');
             <div class="galeria_lista">
                 <p>Leilão número <?=$leilao->idLeilao?></p>
                 <div class="galeria_img">
-                    <a href="<?= base_url() ?>leilaoController/editarLeilaoAction/<?=$leilao->idLeilao?>"><img width="150px" height="180px" src="<?= base_url() ?>minha_conta/upload/produtos/velutex.jpg"/></a> 
+                    <a href="<?= base_url() ?>conta/leilaoController/editarLeilaoAction/<?=$leilao->idLeilao?>"><img width="150px" height="180px" src="<?= base_url() ?>minha_conta/upload/produtos/velutex.jpg"/></a> 
                 </div>
             </div>
              

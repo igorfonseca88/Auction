@@ -5,84 +5,61 @@ $this->load->view('_inc/superior');
 
     <div class="titulo">
         <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
-        <p><span><span>Você está em:</span> <a href="/otimolance/minha_conta">Principal</a> &raquo; 
-                <a href="<?= BASE_URL(); ?>minha_conta/leilaoController">Listagem de leilões</a> &raquo; Editar cadastro de leilão</span>
+        <p><span><span>Você está em:</span> <a href="/otimolance/conta">Principal</a> &raquo; 
+                <a href="<?= BASE_URL(); ?>conta/leilaoController">Listagem de leilões</a> &raquo; Editar cadastro de leilão</span>
     </div>
 
     <div class="formulario">
         <h2>Editar cadastro de leilão</h2>
         <p><? echo $this->session->flashdata('sucesso'); ?></p>
-        <form method="post" action="<?= BASE_URL(); ?>minha_conta/leilaoController/editCliente">
+        <form method="post" action="<?= BASE_URL(); ?>conta/leilaoController/editarLeilao">
 
             <? foreach ($leilao as $row) { ?>
-                <input type="hidden" name="idClienteh" id="idClienteh" value="<?= $row->idCliente ?>"/>
                 <div class="item">
-                    <label>Categoria</label><br />
-                    <input type="text" name="txtCategoria" id="txtCategoria" value="<?= $row->cnpj_cpf ?>" class="input"/>
-                </div>
+                <label>Data início</label><br />
+                <input type="text" name="dataInicio" id="dataInicio" value="<?=$row->dataInicio?>" class="input"/>
+            </div>
+            
+            <div class="item">
+                <label>Hora início</label><br />
+                <input type="text" name="horaInicio" id="horaInicio" value="" class="input"/>
+            </div>
 
-                <div class="item">
-                    <label>Razão social</label><br />
-                    <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" value="<?= $row->razaoSocial ?>" class="input"/>
-                </div>
+            <div class="item">
+                <label>Tempo cronômetro</label><br />
+                <select name='tempoCronometro' id='tempoCronometro' class="select">
+                    <option value=""> Selecione </option>
+                    <option value="15"> 15 segundos</option>
+                    <option value="20"> 20 segundos</option>
+                    <option value="25"> 25 segundos</option>
+                    <option value="30"> 30 segundos</option>
+                </select>
+            </div>
 
-                <div class="item">
-                    <label>Nome fantasia</label><br />
-                    <input type="text" name="txtNomeFantasia" id="txtNomeFantasia" value="<?= $row->nomeFantasia ?>" class="input"/>
-                </div>
+            <div class="item">
+                <label>Valor leilão</label><br />
+                <select name='valorLeilao' id='valorLeilao' class="select">
+                    <option value=""> Selecione </option>
+                    <option value="1"> 1 centavo</option>
+                    <option value="2"> 2 centavoss</option>
+                </select>
+            </div>
+            
+            
+            <div class="item">
+                <label>Categoria do leilão</label><br />
+                <select name='idCategoriaLeilao' id='idCategoriaLeilao' class="select">
+                    <option value=""> Selecione </option>
+                    <?
+                    if (count($categorias)) {
+                        foreach ($categorias as $key) {
+                            echo "<option value='" . $key->idCategoriaLeilao . "'>" . $key->categoriaLeilao . "</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
 
-                <div class="item">
-                    <label>Logradouro</label><br />
-                    <input type="text" name="txtLogradouro" id="txtLogradouro" value="<?= $row->logradouro ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Número</label><br />
-                    <input type="text" name="txtNumero" id="txtNumero" value="<?= $row->nro ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Bairro</label><br />
-                    <input type="text" name="txtBairro" id="txtBairro" value="<?= $row->bairro ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Complemento</label><br />
-                    <input type="text" name="txtComplemento" id="txtComplemento" value="<?= $row->complemento ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>CEP</label><br />
-                    <input type="text" name="txtCEP" id="txtCEP" value="<?= $row->cep ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Telefone</label><br />
-                    <input type="text" name="txtTelefone" id="txtTelefone" value="<?= $row->telefone ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>E-mail</label><br />
-                    <input type="text" name="txtEmail" id="txtEmail" value="<?= $row->email ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Site</label><br />
-                    <input type="text" name="txtSite" id="txtSite" value="<?= $row->site ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Institucional</label><br />
-                    <textarea class="textarea" name="txtInstitucional" id="txtInstitucional" cols="60" rows="10"><?= $row->institucional ?></textarea>
-                </div>
-
-                <div class="item">
-                    <label>Vídeo</label><br />
-                    <input type="text" name="video" id="video" value="" class="input"/>
-                    
-                    <?= $row->video; ?>
-                </div>
-                <br/>
 
                 <div class="acao">
                     <input type="button" value="Cancelar" class="button" />

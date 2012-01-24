@@ -5,80 +5,61 @@ $this->load->view('_inc/superior');
 
     <div class="titulo">
         <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
-        <p><span><span>Você está em:</span> <a href="/revistafalaserio/">Principal</a> &raquo; 
-                <a href="<?= BASE_URL(); ?>clienteController/">Listagem de clientes</a> &raquo; Novo cliente</span>
+        <p><span><span>Você está em:</span> <a href="/otimolance/conta/">Principal</a> &raquo; 
+                <a href="<?= BASE_URL(); ?>leilaoController/">Listagem de leilões</a> &raquo; Novo leilão</span>
     </div>
     <div class="formulario">
-        <h2>Novo cadastro de cliente</h2>
+        <h2>Novo cadastro de leilão</h2>
         <p><? echo $this->session->flashdata('sucesso'); ?></p>
-        <form method="post" action="addCliente">
+        <form method="post" action="salvarNovoLeilao">
             <div class="item">
-                <label>CNPJ/CPF</label><br />
-                <input type="text" name="txtCPF_CNPJ" id="txtCPF_CNPJ" value="" class="input"/>
+                <label>Data início</label><br />
+                <input type="text" name="dataInicio" id="dataInicio" value="" class="input"/>
+            </div>
+            
+            <div class="item">
+                <label>Hora início</label><br />
+                <input type="text" name="horaInicio" id="horaInicio" value="" class="input"/>
             </div>
 
             <div class="item">
-                <label>Razão social</label><br />
-                <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" value="" class="input"/>
+                <label>Tempo cronômetro</label><br />
+                <select name='tempoCronometro' id='tempoCronometro' class="select">
+                    <option value=""> Selecione </option>
+                    <option value="15"> 15 segundos</option>
+                    <option value="20"> 20 segundos</option>
+                    <option value="25"> 25 segundos</option>
+                    <option value="30"> 30 segundos</option>
+                </select>
             </div>
 
             <div class="item">
-                <label>Nome fantasia</label><br />
-                <input type="text" name="txtNomeFantasia" id="txtNomeFantasia" value="" class="input"/>
+                <label>Valor leilão</label><br />
+                <select name='valorLeilao' id='valorLeilao' class="select">
+                    <option value=""> Selecione </option>
+                    <option value="1"> 1 centavo</option>
+                    <option value="2"> 2 centavoss</option>
+                </select>
             </div>
+            
+            
             <div class="item">
-                <label>Logradouro</label><br />
-                <input type="text" name="txtLogradouro" id="txtLogradouro" value="" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>Número</label><br />
-                <input type="text" name="txtNumero" id="txtNumero" value="" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>Bairro</label><br />
-                <input type="text" name="txtBairro" id="txtBairro" value="" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>Complemento</label><br />
-                <input type="text" name="txtComplemento" id="txtComplemento" value="" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>CEP</label><br />
-                <input type="text" name="txtCEP" id="txtCEP" value="" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>Telefone</label><br />
-                <input type="text" name="txtTelefone" id="txtTelefone" value="" class="inputText"/>
-            </div>
-
-            <div class="item">
-                <label>E-mail</label><br />
-                <input type="text" name="txtEmail" id="txtEmail" value="<?= $row->email ?>" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>Site</label><br />
-                <input type="text" name="txtSite" id="txtSite" value="" class="input"/>
-            </div>
-
-            <div class="item">
-                <label>Institucional</label><br />
-                <textarea class="textarea" name="txtInstitucional" id="txtInstitucional" cols="60" rows="10"></textarea>
-            </div>
-
-            <div class="item">
-                <label>Vídeo</label><br />
-                <input type="text" name="video" id="video" class="input"/>
+                <label>Categoria do leilão</label><br />
+                <select name='idCategoriaLeilao' id='idCategoriaLeilao' class="select">
+                    <option value=""> Selecione </option>
+                    <?
+                    if (count($categorias)) {
+                        foreach ($categorias as $key) {
+                            echo "<option value='" . $key->idCategoriaLeilao . "'>" . $key->categoriaLeilao . "</option>";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
 
             <div class="acao">
                 <input type="button" value="Cancelar" class="button" />
-                <input type="submit" class="button" name="btSalvarCliente" value="Salvar Cliente" />
+                <input type="submit" class="button" name="btSalvarLeilao" value="Salvar leilão" />
             </div>
 
         </form>
