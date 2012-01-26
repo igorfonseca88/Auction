@@ -1,5 +1,5 @@
 <?
-$this->load->view('_inc/superior');
+$this->load->view('priv/_inc/superior');
 ?>	
 <div id="conteudo">
 
@@ -38,7 +38,7 @@ $this->load->view('_inc/superior');
                 <select name='valorLeilao' id='valorLeilao' class="select">
                     <option value=""> Selecione </option>
                     <option value="1"> 1 centavo</option>
-                    <option value="2"> 2 centavoss</option>
+                    <option value="2"> 2 centavos</option>
                 </select>
             </div>
             
@@ -67,5 +67,5 @@ $this->load->view('_inc/superior');
     </div>
 </div>
 <?
-$this->load->view('_inc/inferior');
+$this->load->view('priv/_inc/inferior');
 ?>

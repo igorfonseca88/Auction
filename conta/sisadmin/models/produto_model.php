@@ -3,7 +3,8 @@
 class Produto_model extends CI_Model {
 
     function getAll() {
-        $query = $this->db->query("select * from tb_produto");
+        $query = $this->db->query("select idProduto, p.nome, descricao, p.idCategoria, preco, c.nome as categoria 
+            from tb_produto p join tb_categoria c on p.idCategoria = c.idCategoria ");
         return $query->result();
     }
 

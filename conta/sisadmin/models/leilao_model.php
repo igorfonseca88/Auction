@@ -1,23 +1,74 @@
 <?php
 
 class Leilao_model extends CI_Model {
-
-    function getAll() {
-        $query = $this->db->query("select idLeilao, dataCriacao, dataInicio, dataFim, tempoCronometro, valorLeilao, idConta, idCategoriaLeilao
-                   from tb_leilao");
-        return $query->result();
-    }
     
-    function salvar($data = array()){
+    public $situacao;
+    public $idCategoriaLeilao;
+
+    function salvar($data = array()) {
         $this->db->insert('tb_leilao', $data);
+        return $this->db->insert_id();
+    }
+
+    function alterar($data = array(), $id) {
+        $this->db->where('idLeilao', $id);
+        $this->db->update('tb_leilao', $data);
         return $this->db->affected_rows();
     }
-	
-	function buscarLeilaoPorId($id){
-	$query = $this->db->query("select idLeilao, dataCriacao, dataInicio, dataFim, tempoCronometro, valorLeilao, idConta, idCategoriaLeilao
-                   from tb_leilao where idLeilao = $id ");
+
+    /*
+     * Método para salvar o item do leilão
+     */
+
+    function salvarItemLeilao($data = array(), $idItemLeilao = 0) {
+
+        if ($idItemLeilao == 0) {
+            $this->db->insert('tb_itemLeilao', $data);
+            return $this->db->insert_id();
+        } else {
+            $this->db->where('idItemLeilao', $idItemLeilao);
+            $this->db->update('tb_itemLeilao', $data);
+            return $this->db->affected_rows();
+        }
+    }
+
+    function getAll() {
+        
+        $where = "";
+        if($this->situacao == "Em andamento"){
+            $where = " WHERE l.dataFim is null ";
+        }
+        else if($this->situacao == "Finalizado"){
+            $where =  " WHERE l.dataFim is not null ";
+        }
+        
+        if($this->idCategoriaLeilao != ""){
+            $where != "" ? $where .= " AND " : $where = " WHERE ";
+            $where.= " l.idCategoriaLeilao = " . $this->idCategoriaLeilao;
+        }
+        
+        
+        $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
+            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome
+                   from tb_leilao l 
+                   left join tb_itemleilao il on l.idLeilao = il.idLeilao
+                   join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+                   left join tb_produto p on il.idProduto = p.idProduto $where ");
         return $query->result();
-	}
+    }
+
+    function buscarLeilaoPorId($id) {
+
+        $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
+               tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
+               il.valorProduto, il.valorFrete, il.valorArremate, il.idItemLeilao, il.idProduto
+               FROM tb_leilao l 
+               left join tb_itemleilao il on l.idLeilao = il.idLeilao 
+               where l.idLeilao = $id ");
+        return $query->result();
+    }
+
+    
 
 }
 

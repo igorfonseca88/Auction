@@ -12,10 +12,10 @@ class Principal extends CI_Controller {
         if(!$this->usuario->logged()){
             //$error = array('error' => 'Permissão negada.');
             
-            $this->load->view('login/login_view',$error);
+            $this->load->view('priv/login/login_view',$error);
             return;
         }else{
-            $this->load->view('default');
+            $this->load->view('priv/default');
         }
     }
 

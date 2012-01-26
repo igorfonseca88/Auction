@@ -10,7 +10,7 @@
 	#topo h1 {float:left;margin:60px 0 0 250px}
 	
 	/* Form */
-	.error {font-size:14px;color:#990000}	
+	
 	.text, .submit {background:none;border:1px solid #C1C2C8;padding:5px;width:300px;border-radius:5px;font-size:18px;color:#868589;float:left;clear:both;margin:5px 0 5px 0}
 	.submit {width:70px;float:right;cursor:pointer;color:#70A73B;border:1px solid #70A73B}
 	
@@ -36,6 +36,7 @@
 	#conteudo .formulario div.item {width:455px;}
 	#conteudo .formulario div.acao {width:455px;text-align:right}
 	#conteudo .formulario .input {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:450px;margin: 5px 0 15px 0}
+        #conteudo .formulario .inputSmall {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:250px;margin: 5px 0 15px 0}
 	#conteudo .formulario .textarea {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:450px;margin: 5px 0 15px 0;font-family:Verdana, Geneva, sans-serif;font-size:12px;}
 	#conteudo .formulario .select {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:455px;margin: 5px 0 15px 0}
 	#conteudo .formulario .input:hover, #conteudo .formulario .textarea:hover, #conteudo .formulario .select:hover {border: 1px solid #999;}
@@ -115,5 +116,59 @@ img.remover {
 	bottom: 0;
 	left: 0;
 	cursor: default;
+}
+
+.info, .success, .warning, .error, .validation {
+
+    border: 1px solid;
+
+    margin: 10px 0px;
+
+    padding:15px 10px 15px 50px;
+
+    background-repeat: no-repeat;
+
+    background-position: 10px center;
+
+}
+
+.info {
+
+    color: #00529B;
+
+    background-color: #BDE5F8;
+
+    background-image: url('info.png');
+
+}
+
+.success {
+
+    color: #4F8A10;
+
+    background-color: #DFF2BF;
+
+    background-image:url('/otimolance/conta/img/correto.jpg');
+
+}
+
+.warning {
+
+    color: #9F6000;
+
+    background-color: #FEEFB3;
+
+    background-image: url('warning.png');
+
+}
+
+.error {
+
+    color: #D8000C;
+
+    background-color: #FFBABA;
+
+    background-image: url('/otimolance/conta/img/erro.jpg');
+
 }
 
