@@ -46,6 +46,6 @@ function enviarMsg(){
 	<input type="button" onclick="autenticar('igor', 'senha123')" value="Enviar" />
 	
 	<p id="result"></p>
-</form>
+</form>  
 </body>
 </html>

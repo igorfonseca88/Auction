@@ -1,6 +1,6 @@
  function autenticar(usuario, senha){
 	var params = "usuario="+usuario+"&senha="+senha;
-	dhtmlxAjax.post("minha_conta/login/login/autenticar/",params,responseFunction);
+	dhtmlxAjax.post("conta/login/login/autenticar/",params,responseFunction);
 
  }
 
