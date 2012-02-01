@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sistema de Gerencimento de Conte&uacute;do 1.0 - MyNewBiz</title>
 
-        <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>conta/css/conteudo.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="/otimolance/css/conteudo.css" media="screen" />
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/funcoes.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>conta/js/jquery1-5.min.js"></script>

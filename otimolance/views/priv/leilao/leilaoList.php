@@ -10,7 +10,7 @@ $this->load->view('priv/_inc/superior');
 
     <div class="formulario">
 
-        <form method="post" action="<?= base_url() ?>conta/leilaoController/pesquisarAction">
+        <form method="post" action="<?= base_url() ?>leilaoController/pesquisarAction">
             <div class="item">
                 <label>Situação</label><br />
                 <select name='situacao' id='situacao' class="select">
@@ -44,7 +44,7 @@ $this->load->view('priv/_inc/superior');
 
 
         <h2>Listagem de leilões</h2>
-        <input type="button" class="button" type="button" name="btNovoLeilao" onclick="location.href='<?= base_url() ?>conta/leilaoController/novoLeilaoAction'" value="Novo leilão" />
+        <input type="button" class="button" type="button" name="btNovoLeilao" onclick="location.href='<?= base_url() ?>leilaoController/novoLeilaoAction'" value="Novo leilão" />
         <p><? //echo $this->session->flashdata('sucesso');      ?></p>
 
 
@@ -54,8 +54,8 @@ $this->load->view('priv/_inc/superior');
                 <p>Produto: <?= $leilao->nome ?></p>
                 <p>Leilão nº <?= $leilao->idLeilao ?> - Início <?= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?></p>
                 <div class="galeria_img">
-                    <a href="<?= base_url() ?>conta/leilaoController/editarLeilaoAction/<?= $leilao->idLeilao ?>">
-                        <img width="130px" height="180px" src="<?= base_url() ?>conta/img/imagem_nao_cadastrada.jpg"/>
+                    <a href="<?= base_url() ?>leilaoController/editarLeilaoAction/<?= $leilao->idLeilao ?>">
+                        <img width="130px" height="180px" src="<?= base_url() ?>img/imagem_nao_cadastrada.jpg"/>
                     </a> 
                 </div>
             </div>
