@@ -1,3 +1,5 @@
+var DELIMITADOR_STRING = "@";
+
 $(function($) {
     // Quando enviado o formulário
     $("#upload").submit(function() {
@@ -113,12 +115,20 @@ function fechaPopup()
 
 function carregaDadosProduto(produto){
     alert(produto);
-    
-    var params = "idProduto="+produto;
-    dhtmlxAjax.get("/otimolance/produtoController/buscarDadosProdutoAjax/",params,responseDadosProdutoAjax);
+    if(produto != ""){
+        var params = "idProduto="+produto;
+        dhtmlxAjax.post("/otimolance/produtoController/buscarDadosProdutoAjax/",params,responseDadosProdutoAjax);
+    }
     
 }
 
 function responseDadosProdutoAjax (loader){
-    alert(loader.xmlDoc.responseText);
+    var resposta = "";
+    if(loader.xmlDoc.responseText){
+        retorno = loader.xmlDoc.responseText;
+        resposta = retorno.split(DELIMITADOR_STRING);
+        alert(resposta[0]);
+        document.getElementById("valorProduto").value= resposta[0];
+    }
+
 }
