@@ -2,8 +2,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="PT" />
-<title>Revista Fala Sério :: Login</title>
-<link rel="stylesheet" type="text/css" href="<?=base_url();?>minha_conta/css/conteudo.css" />
+<title>Ótimo Lance :: Login</title>
+<link rel="stylesheet" type="text/css" href="<?=base_url();?>css/conteudo.css" />
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 </div>
 <div id="conteudo" style="width:100%;margin:0 0 0 0">
 	<div id="telaLogin"> <?php echo validation_errors(); ?>
-		<form action="login" method='post'>
+		<form action="/otimolance/login/login/autenticarAdmin" method='post'>
 			Usuário (email cadastrado):<br/>
 			<input name="usuarioEmail" type="text" class="text" size="35" id="usuarioEmail" />
 			<br />

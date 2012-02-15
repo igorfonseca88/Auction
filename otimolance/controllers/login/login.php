@@ -7,77 +7,112 @@ class Login extends CI_Controller {
     }
 
     function index() {
-        
-        // VALIDATION RULES 
-        //$this->load->library('form_validation');
-        $this->form_validation->set_rules('usuarioEmail', 'Usuario', 'required');
-        $this->form_validation->set_rules('senha', 'Senha', 'required');
-        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
 
-        if ($this->form_validation->run() == FALSE) {
-            $error = array('error' => 'Usuario e senha obrigatórios.');
-            $this->load->vars($error);
-            $this->load->view('login/login_view');
-        } else {
-            $error = $this->autenticar();
-            
-            $error = array('error' => 'Usuario inativo.');
-            $this->load->vars($error);
-            $this->load->view('login/login_view');
-            
+        if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuario(Conta_model::TU_ADMIN)) {
+            redirect('principal/arearestrita');
         }
+
+        $this->load->view('priv/login/login_view');
     }
-	
-	function autenticar(){
-	
-		$usuario = $this->input->post("usuario");
-		$senha = $this->input->post("senha");
-		echo $usuario."--";
-		echo $senha;
-		exit;
-	
-	}
 
-    function login() {
-	    // MODELO USUARIO
-        $this->load->model('Usuario_model');
-        $this->Usuario_model->setLogin($this->input->post("usuarioEmail"));
-        $this->Usuario_model->setSenha($this->input->post("senha"));
+    function autenticarClientes() {
+
+        // se um usu�rio do tipo administrador estiver na sess�o n�o deixa logar aqui
+        if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuario(Conta_model::TU_ADMIN)) {
+            redirect('principal/redirecionaLogin');
+        }
+        // MODELO USUARIO
+
+        $this->Conta_model->setLogin($this->input->post("login"));
+        $this->Conta_model->setSenha($this->input->post("senha"));
 
 
-        $usuarios = $this->Usuario_model->validate();
+        $usuarios = $this->Conta_model->validate();
+
 
         if ($usuarios) {
 
             foreach ($usuarios as $row) {
-                $this->Usuario_model->setIdUsuario($row->idUsuario);
-                $this->Usuario_model->setSituacao($row->situacao);
+                $this->Conta_model->setIdConta($row->idConta);
+                $this->Conta_model->setIdTipoUsuario($row->idTipoUsuario);
+                $this->Conta_model->setTipoUsuario($row->tipoUsuario);
             }
-            
-            if($this->Usuario_model->getSituacao() != "ATIVO"){
+
+            if ($this->Conta_model->getTipoUsuario() != "cliente") {
                 return 1;
             }
-            
+
             // VERIFICA LOGIN E SENHA 
             $data = array(
-                'session_id' => $this->Usuario_model->getIdUsuario(),
-                'idUsuario' => $this->Usuario_model->getIdUsuario(),
-                'login' => $this->Usuario_model->getLogin(),
-                'senha' => $this->Usuario_model->getSenha(),   
+                'session_id' => $this->Conta_model->getIdConta(),
+                'idConta' => $this->Conta_model->getIdConta(),
+                'login' => $this->Conta_model->getLogin(),
+                'senha' => $this->Conta_model->getSenha(),
+                'idTipoUsuario' => $this->Conta_model->getIdTipoUsuario(),
                 'logged' => true
-                 );
-           
+            );
+
             $this->session->set_userdata($data);
-            redirect('principal');
+            redirect('home');
+        } else {
+            redirect('clientes/autenticar');
+        }
+    }
+
+    function autenticarAdmin() {
+        // se um usu�rio do tipo cliente estiver na sess�o n�o deixa logar aqui
+        if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuario(Conta_model::TU_CLIENTE)) {
+            redirect('home');
+        }
+
+        // MODELO USUARIO
+
+        $this->Conta_model->setLogin($this->input->post("usuarioEmail"));
+        $this->Conta_model->setSenha($this->input->post("senha"));
+
+
+        $usuarios = $this->Conta_model->validate();
+
+
+        if ($usuarios) {
+
+            foreach ($usuarios as $row) {
+                $this->Conta_model->setIdConta($row->idConta);
+                $this->Conta_model->setIdTipoUsuario($row->idTipoUsuario);
+                $this->Conta_model->setTipoUsuario($row->tipoUsuario);
+            }
+
+            if ($this->Conta_model->getTipoUsuario() != "administrador") {
+                return 1;
+            }
+            $numeroRand = rand(00, 999999999);
+            // VERIFICA LOGIN E SENHA 
+            $data = array(
+                'session_idRest' => ($this->Conta_model->getIdConta()*$numeroRand),
+                'idConta' => $this->Conta_model->getIdConta(),
+                'loginRest' => $this->Conta_model->getLogin(),
+                'senha' => $this->Conta_model->getSenha(),
+                'idTipoUsuario' => $this->Conta_model->getIdTipoUsuario(),
+                'logged' => true
+            );
+
+            $this->session->set_userdata($data);
+            redirect('principal/arearestrita');
         } else {
             redirect($this->index());
         }
     }
-    
-    function logoff(){
+
+    function logoffClientes() {
         $this->session->sess_destroy();
-        redirect($this->index());
+        redirect("home");
     }
+
+    function logoff() {
+        $this->session->sess_destroy();
+        redirect("principal/arearestrita");
+    }
+
 }
 
 /* End of file welcome.php */

@@ -106,6 +106,11 @@ class ProdutoController extends CI_Controller {
         $this->load->view("leilao/leilaoEdit");
     }
     
+    function buscarDadosProdutoAjax($id){
+        echo "teste".$id;
+        exit;
+    }
+    
 }
 
 ?>

@@ -5,17 +5,17 @@ $this->load->view('priv/_inc/superior');
 
     <div class="titulo">
         <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
-        <p><span><span>Você está em:</span> <a href="/otimolance/conta">Principal</a> &raquo; 
+        <p><span><span>Você está em:</span> <a href="<?= BASE_URL(); ?>/area-restrita">Principal</a> &raquo; 
                 <a href="<?= BASE_URL(); ?>conta/leilaoController">Listagem de leilões</a> &raquo; Editar cadastro de leilão</span>
     </div>
 
     <div class="formulario">
         <h2>Editar cadastro de leilão</h2>
-        <?=$sucesso != "" ? '<div class="success"> '.$sucesso.' </div>': ""?>
-        <?=$erro != "" ? '<div class="error"> '.$erro.' </div>': ""?>
-        
+        <?= $sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
+
         <? foreach ($leilao as $row) { ?>
-        <form method="post" action="<?= BASE_URL(); ?>conta/leilaoController/editarLeilao/<?=$row->idLeilao?>">
+            <form method="post" action="<?= BASE_URL(); ?>leilaoController/editarLeilao/<?= $row->idLeilao ?>">
                 <div class="item">
                     <label>Data início</label><br />
                     <input type="text" name="dataInicio" id="dataInicio" value="<?= date('d/m/Y', strtotime($row->dataInicio)) ?>" class="inputSmall"/>
@@ -68,57 +68,58 @@ $this->load->view('priv/_inc/superior');
                 <div class="acao">
                     <input type="button" value="Cancelar" class="button" />
                     <input type="submit" class="button" name="btSalvarLeilao" value="Salvar leilão" />
+                    <input type="button" class="button" name="btPublicarLeilao" value="Publicar leilão" />
                 </div>		
 
 
             </form>
             <br/>
             <h2>Produto</h2>
-            
-            <form method="post" action="<?= BASE_URL(); ?>conta/leilaoController/salvarItemLeilao/<?=$row->idLeilao?>">
 
-            <div class="acao">
+            <form method="post" action="<?= BASE_URL(); ?>leilaoController/salvarItemLeilao/<?= $row->idLeilao ?>">
+
+                <div class="acao">
                     <input type="submit" class="button" name="btIncluir" value="Salvar produto" />
-            </div>		
-                
-                <input type="hidden" name="hItemLeilao" id="hItemLeilao" value="<?=$row->idItemLeilao?>" />    
-            
-            <div class="item">
-                <label>Nome produto</label><br />
-                <?
-                if (count($produtos)) {
-                    foreach ($produtos as $produto) {
-                        ?>
-                        <select name='idProduto' id='idProduto' class="select">
-                            <option value=""> Selecione </option>
+                </div>		
 
-                            <?
-                            if ($produto->idProduto == $row->idProduto)
-                                echo "<option value='" . $produto->idProduto . "' selected>" . $produto->categoria . " - " . $produto->nome . "</option>";
-                            else
-                                echo "<option value='" . $produto->idProduto . "'>" . $produto->categoria . " - " . $produto->nome . "</option>";
-                            ?>
-                        </select>
-                    </div>
+                <input type="hidden" name="hItemLeilao" id="hItemLeilao" value="<?= $row->idItemLeilao ?>" />    
 
-                    <div class="item">
-                        <label>Valor do produto</label><br />
-                        <input type="text" name="valorProduto" id="valorProduto" value="<?= $row->valorProduto ?>" class="inputSmall"/>
-                    </div>
-
-                <?
-                }
-            }
-            ?>
-            
                 <div class="item">
-                        <label>Valor do frete</label><br />
-                        <input type="text" name="valorFrete" id="valorFrete" value="<?= $row->valorFrete ?>" class="inputSmall"/>
+                    <label>Nome produto</label><br />
+                    <?
+                    if (count($produtos)) {
+                        foreach ($produtos as $produto) {
+                            ?>
+                            <select name='idProduto' id='idProduto' class="select" onchange="carregaDadosProduto(this.value)">
+                                <option value=""> Selecione </option>
+
+                                <?
+                                if ($produto->idProduto == $row->idProduto)
+                                    echo "<option value='" . $produto->idProduto . "' selected>" . $produto->categoria . " - " . $produto->nome . "</option>";
+                                else
+                                    echo "<option value='" . $produto->idProduto . "'>" . $produto->categoria . " - " . $produto->nome . "</option>";
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="item">
+                            <label>Valor do produto</label><br />
+                            <input type="text" name="valorProduto" id="valorProduto" value="<?= $row->valorProduto ?>" class="inputSmall"/>
+                        </div>
+
+                        <?
+                    }
+                }
+                ?>
+
+                <div class="item">
+                    <label>Valor do frete</label><br />
+                    <input type="text" name="valorFrete" id="valorFrete" value="<?= $row->valorFrete ?>" class="inputSmall"/>
                 </div>
 
-            <br/>
+                <br/>
             </form>
-<? } ?>
+        <? } ?>
     </div>
 </div>
 <?

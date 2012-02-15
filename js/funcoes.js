@@ -110,13 +110,15 @@ function fechaPopup()
     $('.window').hide();
 }
 
-        
-function recomendar(cupom) {
-    document.getElementById("itemFrame").src = "/revistafalaserio/_principal/recomendar.php?cupom="+cupom+"&recomendar=1";
-    abrePopoup();
+
+function carregaDadosProduto(produto){
+    alert(produto);
+    
+    var params = "idProduto="+produto;
+    dhtmlxAjax.get("/otimolance/produtoController/buscarDadosProdutoAjax/",params,responseDadosProdutoAjax);
+    
 }
-            
-function print(cupom) {
-    document.getElementById("itemFrame").src = "/revistafalaserio/_principal/imprimirCupom.php?cupom="+cupom+"&imprimir=1";
-    abrePopoup();
+
+function responseDadosProdutoAjax (loader){
+    alert(loader.xmlDoc.responseText);
 }

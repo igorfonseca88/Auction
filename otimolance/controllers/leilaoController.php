@@ -169,6 +169,20 @@ class LeilaoController extends CI_Controller {
         }
         return NULL;
     }
+    
+    /* metodos para o site*/
+    
+    function detalheLeilao($param){
+        echo "to aqui".$param;
+        
+        $dados = explode("-", $param);
+        
+        $id = $dados[0];
+        
+        echo $id;
+        
+        exit;
+    }
 
 }
 
