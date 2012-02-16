@@ -26,7 +26,7 @@ class LeilaoController extends CI_Controller {
             "dataInicio" => $dateInicio->format('Y-m-d H:i:s'),
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
-            "idConta" => 1,
+            "idConta" => $this->session->userdata("idConta"),
             "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao")
         );
 
@@ -151,7 +151,24 @@ class LeilaoController extends CI_Controller {
         $this->load->vars($leilao);
         $this->load->view("priv/leilao/leilaoList");
     }
+    
+    function publicarLeilao($idLeilao){
+        $this->load->model("Leilao_model", "leilao");
+        
+        $data = array(
+            "publicado" => 1
+        );
 
+        $result = $this->leilao->alterar($data, $idLeilao);
+        $mensagem = array();
+        if ($result > 0) {
+            $msg = "Salvo com sucesso.";
+        }
+        $mensagem["sucesso"] = $msg;
+        $this->editarLeilaoAction($idLeilao, $mensagem);
+        
+    }
+    
     function getCategoriasLeilao() {
         $this->load->model("CategoriaLeilao_model", "categoria");
         return $this->categoria->getAll();

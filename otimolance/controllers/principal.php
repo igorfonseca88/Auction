@@ -7,6 +7,11 @@ class Principal extends CI_Controller {
     }
 
     public function index() {
+        
+    }
+    
+    
+    public function home(){
         $leiloes["leiloes"] = $this->getLeiloes();
         $this->load->vars($leiloes);
         $this->load->view('index');
@@ -32,7 +37,7 @@ class Principal extends CI_Controller {
 
     public function getLeiloes() {
         $this->load->model('Leilao_model', 'leilao');
-        return $this->leilao->getAll();
+        return $this->leilao->listarLeiloesPublicados();
     }
 
 }

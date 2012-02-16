@@ -15,6 +15,7 @@
             if ($this->session->userdata("login") != "") { ?>
                 <div class="titulo">
                     <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
+                    <li><a href="<?= BASE_URL(); ?>clientes/minha-conta"><span>Minha conta</span></a></li>
                     <li><a href="<?= BASE_URL(); ?>clientes/sair"><span>Sair</span></a></li>
                 </div>
             <? } else { ?>

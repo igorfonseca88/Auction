@@ -9,7 +9,10 @@ $route['area-restrita'] = 'login/login';
 $route['clientes/login'] = 'login/login/autenticarClientes';
 $route['clientes/sair'] =  'login/login/logoffClientes';
 $route['clientes/autenticar'] =  'principal/redirecionaLoginClientes';
-$route['home'] =  'principal/index';
+$route['clientes/minha-conta'] =  'principal/redirecionaLoginClientes';
+
+
+$route['home'] =  'principal/home';
 $route['leiloes/(:any)'] = "leilaoController/detalheLeilao/$1";
 
 
