@@ -31,14 +31,17 @@
 	#conteudo .titulo p span {margin-left:10px}
 	#conteudo .titulo p span span {font-size:10px;margin-left:0px}
 	#conteudo .acoes {text-align:right;margin:30px 0 30px 0;background:#f4f4f4}
-	#conteudo .formulario h2 {margin: 5px 0 0 0;font-size:14px;height:30px;line-height:30px;border-bottom:1px solid #666}
-	#conteudo .formulario form {margin: 15px 0 0 0}
+	#conteudo .formulario h2 {margin: 5px 0 0 0;font-size:14px;height:30px;line-height:30px;border-bottom:1px solid #666;width: 100%;float: left;clear: both}
+	#conteudo .formulario form {width: 100%;float: left}
 	#conteudo .formulario div.item {width:455px;}
-	#conteudo .formulario div.acao {width:455px;text-align:right}
+        #conteudo .formulario div.itemDireita {float: right;width:400px;}
+        #conteudo .formulario div.itemEsquerda {float: left;width:400px;}
+	#conteudo .formulario div.acao {width:100%;text-align:right}
 	#conteudo .formulario .input {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:450px;margin: 5px 0 15px 0}
         #conteudo .formulario .inputSmall {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:250px;margin: 5px 0 15px 0}
 	#conteudo .formulario .textarea {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:450px;margin: 5px 0 15px 0;font-family:Verdana, Geneva, sans-serif;font-size:12px;}
 	#conteudo .formulario .select {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:455px;margin: 5px 0 15px 0}
+        #conteudo .formulario .selectSmall {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:250px;margin: 5px 0 15px 0}
 	#conteudo .formulario .input:hover, #conteudo .formulario .textarea:hover, #conteudo .formulario .select:hover {border: 1px solid #999;}
 	#conteudo .button {border: 1px solid #CCC;padding:4px;margin: 5px 0 15px 0;cursor:pointer}
 	#conteudo .button:hover {border: 1px solid #999;}
