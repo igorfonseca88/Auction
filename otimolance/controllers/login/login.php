@@ -8,7 +8,7 @@ class Login extends CI_Controller {
 
     function index() {
 
-        if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuario(Conta_model::TU_ADMIN)) {
+        if ($this->Conta_model->logged() == TRUE && ($this->Conta_model->validaTipoUsuario(Conta_model::TU_ADMIN) || $this->Conta_model->validaTipoUsuario(Conta_model::TU_INTERNO))) {
             redirect('principal/arearestrita');
         }
 
@@ -18,7 +18,7 @@ class Login extends CI_Controller {
     function autenticarClientes() {
 
         // se um usu�rio do tipo administrador estiver na sess�o n�o deixa logar aqui
-        if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuario(Conta_model::TU_ADMIN)) {
+        if ($this->Conta_model->logged() == TRUE && ($this->Conta_model->validaTipoUsuario(Conta_model::TU_ADMIN) || $this->Conta_model->validaTipoUsuario(Conta_model::TU_INTERNO))) {
             redirect('principal/redirecionaLogin');
         }
         // MODELO USUARIO

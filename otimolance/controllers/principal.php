@@ -39,6 +39,10 @@ class Principal extends CI_Controller {
         $this->load->model('Leilao_model', 'leilao');
         return $this->leilao->listarLeiloesPublicados();
     }
+    
+    public function carregarConta(){
+        $this->load->view('conta/conta');
+    }
 
 }
 

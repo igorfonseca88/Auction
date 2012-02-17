@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-$route['default_controller'] = "principal";
+$route['default_controller'] = "principal/home";
 $route['404_override'] = '';
 $route['area-restrita'] = 'login/login';
 
@@ -9,7 +9,7 @@ $route['area-restrita'] = 'login/login';
 $route['clientes/login'] = 'login/login/autenticarClientes';
 $route['clientes/sair'] =  'login/login/logoffClientes';
 $route['clientes/autenticar'] =  'principal/redirecionaLoginClientes';
-$route['clientes/minha-conta'] =  'principal/redirecionaLoginClientes';
+$route['minha-conta'] =  'principal/carregarConta';
 
 
 $route['home'] =  'principal/home';

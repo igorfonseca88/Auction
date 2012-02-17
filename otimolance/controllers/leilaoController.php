@@ -16,7 +16,7 @@ class LeilaoController extends CI_Controller {
     function salvarNovoLeilao() {
         $this->load->model("Leilao_model", "leilao");
 
-        $dataInicio = $this->ajustaDataSql($this->input->post("dataInicio")) . " " . $this->input->post("horaInicio") . ":00";
+        $dataInicio = $this->ajustaDataSql($this->input->post("dataInicio")) . " " . $this->input->post("horaInicio");
         $format = 'Y-m-d H:i:s';
         $dateInicio = DateTime::createFromFormat($format, $dataInicio);
 

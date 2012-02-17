@@ -4,6 +4,7 @@ class Conta_model extends CI_Model {
 
     const TU_ADMIN = 1;
     const TU_CLIENTE = 2;
+    const TU_INTERNO = 3;
     
     private $login;
     private $senha;
