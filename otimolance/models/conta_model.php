@@ -107,7 +107,42 @@ class Conta_model extends CI_Model {
         $this->db->insert('tb_usuario', $options);
         return $this->db->affected_rows();
     }
+	
+    function salvar($data = array()) {
+        $this->db->insert('tb_conta', $data);
+        return $this->db->insert_id();
+    }
+    
+    function alterar($data = array(), $id) {
+        $this->db->where('idConta', $id);
+        $this->db->update('tb_conta', $data);
+        return $this->db->affected_rows();
+    }
 
+    function getAll() {
+        $where = "";
+            
+        if($this->idTipoUsuario != ""){
+            $where != "" ? $where .= " AND " : $where = " WHERE ";
+            $where.= " c.idTipoUsuario = " . $this->idTipoUsuario;
+        }
+        
+        $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
+            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo,
+            t.idTipoUsuario, t.tipoUsuario
+                   from tb_conta c 
+                   join tb_tipousuario t on t.idTipoUsuario = c.idTipoUsuario $where ");
+        return $query->result();
+    }
+    
+    function buscarContaPorId($id) {
+
+        $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
+            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario
+               FROM tb_conta c 
+               where c.idConta = $id ");
+        return $query->result();
+    }
 }
 
 ?>
