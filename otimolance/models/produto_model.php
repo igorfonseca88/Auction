@@ -10,7 +10,7 @@ class Produto_model extends CI_Model {
 
     function add_record($options = array()) {
         $this->db->insert('tb_produto', $options);
-        return $this->db->affected_rows();
+        return $this->db->insert_id();
     }
     
     function update_record($options = array(), $id) {
