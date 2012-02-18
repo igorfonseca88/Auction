@@ -114,12 +114,10 @@ function fechaPopup()
 
 
 function carregaDadosProduto(produto){
-    alert(produto);
     if(produto != ""){
         var params = "idProduto="+produto;
         dhtmlxAjax.post("/otimolance/produtoController/buscarDadosProdutoAjax/",params,responseDadosProdutoAjax);
     }
-    
 }
 
 function responseDadosProdutoAjax (loader){
@@ -130,5 +128,4 @@ function responseDadosProdutoAjax (loader){
         alert(resposta[0]);
         document.getElementById("valorProduto").value= resposta[0];
     }
-
 }

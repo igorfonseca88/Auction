@@ -43,6 +43,12 @@ class Principal extends CI_Controller {
     public function carregarConta(){
         $this->load->view('conta/conta');
     }
+    
+    public function retornaHoraAtual(){
+        $date = date('H:i:s');
+        echo $date;
+        
+    }
 
 }
 

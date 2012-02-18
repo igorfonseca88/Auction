@@ -27,7 +27,8 @@ class LeilaoController extends CI_Controller {
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idConta" => $this->session->userdata("idConta"),
-            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao")
+            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
+            "freteGratis" => $this->input->post("freteGratis")
         );
 
 
@@ -60,7 +61,8 @@ class LeilaoController extends CI_Controller {
             "dataInicio" => $dateInicio->format('Y-m-d H:i:s'),
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
-            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao")
+            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
+            "freteGratis" => $this->input->post("freteGratis")
         );
 
         $result = $this->leilao->alterar($data, $idLeilao);

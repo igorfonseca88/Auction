@@ -87,26 +87,22 @@ class Conta_model extends CI_Model {
 // acesso a banco
 
     function get_all() {
-        $query = $this->db->query("select * from tb_usuario");
+        $query = $this->db->query("select * from tb_conta");
         return $query->result();
     }
 
     function get_nome($login) {
         $this->db->where('login', $login);
-        $query = $this->db->get("tb_usuario");
+        $query = $this->db->get("tb_conta");
         return $query->result();
     }
     
     function buscarUsuarioPorId($id) {
-        $this->db->where('idUsuario', $id);
-        $query = $this->db->get("tb_usuario");
+        $this->db->where('idConta', $id);
+        $query = $this->db->get("tb_conta");
         return $query->result();
     }
 
-    function add_record($options = array()) {
-        $this->db->insert('tb_usuario', $options);
-        return $this->db->affected_rows();
-    }
 	
     function salvar($data = array()) {
         $this->db->insert('tb_conta', $data);
