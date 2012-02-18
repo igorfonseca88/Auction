@@ -26,14 +26,29 @@ class Clance extends CI_Controller {
 
         $id = $this->lance->salvarLance($data);
         
-        // [0] => login
-        // [1] => valor
+        // atualiza o saldo de lances da conta
         
-        if($id>0){
+        echo $id;
+    }
+    
+    function buscarUltimoLance(){
+       
+        $this->load->model("Lance_model", "lance");
+        $login = "";
+        $valor= 0.00;
+       
+        $idLeilao = $this->input->post("leilao");
+        
+        $result = $this->lance->buscarUltimoLance($idLeilao);
+        if($result){
             
-            $dados = $this->getConta($idConta)."@".$valor;
-            
+            foreach ($result as $dados) {
+                $valor = $dados->valor;
+                $login = $dados->login;
+            }
         }
+        
+        $dados = $login."@".$valor;
         
         echo $dados;
     }
@@ -47,14 +62,11 @@ class Clance extends CI_Controller {
         $this->load->model("leilao_model", "leilao");
         return $this->leilao->buscarValorLeilao($idLeilao);
     }
-
-    private function getConta($idConta) {
-        $retorno = $this->Conta_model->buscarContaPorId($idConta);
-        $login= "";
-        foreach ($retorno as $row) {
-            $login = $row->login;
-        }
-        return $login;
+    
+    function getTime(){
+        $this->load->model("leilao_model", "leilao");
+        $idLeilao = $this->input->post("leilao");
+        echo $this->leilao->buscarData($idLeilao);
     }
 
     function ajustaDataSql($data) {

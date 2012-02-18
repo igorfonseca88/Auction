@@ -1,4 +1,4 @@
-<?
+<?php
 $this->load->view('_padrao/topo');
 ?>
 
@@ -9,7 +9,8 @@ $this->load->view('_padrao/topo');
 
     <? foreach ($leiloes as $leilao) { ?>
 
-        <div class="galeria_lista" id="produto<?= $leilao->idLeilao ?>">
+        <div class="galeria_lista" id="leilao<?= $leilao->idLeilao ?>">
+            <input type="hidden" name="painel" id="leilao<?= $leilao->idLeilao ?>" value="<?= $leilao->idLeilao ?>"/>
             <p>Produto: <?= $leilao->nome ?></p>
             <p>Leilão nº <?= $leilao->idLeilao ?> - Início <?= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?></p>
             <div class="galeria_img">

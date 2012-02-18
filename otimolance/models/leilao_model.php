@@ -74,6 +74,21 @@ class Leilao_model extends CI_Model {
         }
         return $valor;
     }
+    
+    function buscarData($idLeilao) {
+
+        $query = $this->db->query("select dataInicio 
+               FROM tb_leilao
+               where idLeilao = $idLeilao ");
+        
+        $valor = 0;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $valor = $row->dataInicio;
+            }
+        }
+        return $valor;
+    }
 
     function buscarLeilaoPorId($id) {
 

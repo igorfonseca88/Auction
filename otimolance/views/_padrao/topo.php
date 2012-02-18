@@ -28,13 +28,15 @@
                 setTimeout(atualizaRelogioTopo, 1000);
             }
             
-            function atualizarPainel(){
-                
-            }
+            $(document).ready(function(){
+                //iniciaCronometro('');
+                atualizarPainel();
+            });
+            
         </script>
 
     </head>
-    <body onload="atualizaRelogioTopo()">
+    <body onload="atualizaRelogioTopo();">
         <div id="conteudo">
 
             <p id="relogioTopo"></p>
