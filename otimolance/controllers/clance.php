@@ -13,9 +13,20 @@ class Clance extends CI_Controller {
     function darLance() {
         $this->load->model("Lance_model", "lance");
         
+        // valida se o leilao ainda está ativo e tem tempo
+        // RETORNO 1 = FINALIZADA
+        
+        // valida o saldo da conta para o lance
+        // RETORNO 2 = SEM SALDO
+        $idConta = $this->input->post("id");
+        if($this->Conta_model->existeSaldoNaConta($idConta) == FALSE){
+            echo 2;
+            exit;
+        }
+        
         $valor = 0.00 ;
         $valor = $this->getValorUltimoLance($this->input->post("leilao")) + $this->getValorLeilao($this->input->post("leilao"));
-        $idConta = $this->input->post("id");
+        
         
         $data = array(
             "data" => date('Y-m-d H:i:s'),

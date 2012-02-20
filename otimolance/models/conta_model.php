@@ -139,6 +139,22 @@ class Conta_model extends CI_Model {
                where c.idConta = $id ");
         return $query->result();
     }
+    
+    function existeSaldoNaConta($idConta){
+        $query = $this->db->query("select saldo
+               FROM tb_conta c 
+               where c.idConta = $idConta ");
+        $saldo = 0;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $saldo = $row->saldo;
+            }
+        }
+        if($saldo > 0)
+            return TRUE;
+        else
+            return FALSE;
+    }
 }
 
 ?>

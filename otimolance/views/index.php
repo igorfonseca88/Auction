@@ -11,6 +11,8 @@ $this->load->view('_padrao/topo');
 
         <div class="galeria_lista" id="leilao<?= $leilao->idLeilao ?>">
             <input type="hidden" name="painel" id="leilao<?= $leilao->idLeilao ?>" value="<?= $leilao->idLeilao ?>"/>
+            <input type="hidden" id="leilaoinfo<?= $leilao->idLeilao ?>" value="<?= $leilao->tempoCronometro ?>"/>
+            <input type="hidden" id="leilaotipo<?= $leilao->idLeilao ?>" value="<?= $leilao->tempoCronometro ?>"/>
             <p>Produto: <?= $leilao->nome ?></p>
             <p>Leilão nº <?= $leilao->idLeilao ?> - Início <?= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?></p>
             <div class="galeria_img">

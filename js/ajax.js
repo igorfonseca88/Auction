@@ -20,9 +20,14 @@ function lance(idLeilao, conta){
     var retorno = dhtmlxAjax.postSync("/otimolance/clance/darLance/",params);
     
     retorno = retorno.xmlDoc.responseText;
+    if(retorno == '2'){
+        alert('Saldo insuficiente para lance.');
+    }
+    
 }
 
 function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places  
     var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);  
     return newnumber;
 }
+

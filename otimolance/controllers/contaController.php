@@ -18,8 +18,6 @@ class ContaController extends CI_Controller {
     }
    
     function salvarNovaConta() {
-        echo "chegoy";
-        exit;
         $this->load->model("Conta_model", "conta");
         $nome = $this->input->post("txtNome");
         $sobrenome = $this->input->post("txtSobrenome");
