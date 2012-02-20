@@ -25,7 +25,7 @@ $this->load->view('priv/_inc/superior');
                     <td><?=$produto->idProduto?></td>
                     <td><?=$produto->nome?></td>
                     <td>
-                        <a href="<?= base_url() ?>conta/produtoController/editarProdutoAction/<?= $produto->idProduto ?>">Editar</a>
+                        <a href="<?= base_url() ?>produtoController/editarProdutoAction/<?= $produto->idProduto ?>">Editar</a>
                     </td>
                 </tr>
               <?}?>
