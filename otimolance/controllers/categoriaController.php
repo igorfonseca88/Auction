@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] ."/otimolance/sisadmin/models/Categoria.php";
+
 class CategoriaController extends CI_Controller {
 
     function __construct() {
@@ -10,101 +10,60 @@ class CategoriaController extends CI_Controller {
         
         $this->load->model('CategoriaDAO', 'categoriaDAO');
         $data["categorias"] = $this->categoriaDAO->getAll();
-        $this->load->view("categoria/categoriaList",$data);
+        $this->load->view("priv/categoria/categoriaList",$data);
     }
     
-    function addCategoria(){
-        $this->load->model("CategoriaDAO", "categoriaDAO");
-		$categoria = new Categoria();
-		$categoria->setCategoria("txtCategoria");
-		echo $categoria->getCategoria();
-		exit;
-    }
-    
-    function editCliente(){
-        $this->load->model("Cliente_model", "cliente");
-        $id = $this->input->post("idClienteh");
-        
+ function salvarNovaCategoria() {
+        $this->load->model("Categoria_model", "categoria");
+
         $data = array(
-            "cnpj_cpf" => $this->input->post("txtCPF_CNPJ"),
-            "razaoSocial" => $this->input->post("txtRazaoSocial"),
-            "nomeFantasia" => $this->input->post("txtNomeFantasia"),
-            "logradouro" => $this->input->post("txtLogradouro"),
-            "nro" => $this->input->post("txtNumero"),
-            "bairro" => $this->input->post("txtBairro"),
-            "complemento" => $this->input->post("txtComplemento"),
-            "cep" => $this->input->post("txtCEP"),
-            "telefone" => $this->input->post("txtTelefone"),
-            "email" => $this->input->post("txtEmail"),
-            "site" => $this->input->post("txtSite"), 
-            "institucional" => $this->input->post("txtInstitucional"),
-            "video" => $this->input->post("video")
+            "nome" => $this->input->post("txtNome")
         );
 
-        if ($this->cliente->update_record($data,$id) > 0) {
+        $id = $this->categoria->save($data);
+
+        if ($id > 0) {
+            $categoria["categoria"] = $this->categoria->buscarPorId($id);
+
+            if (!is_null($categoria)) {
+                $categoria["sucesso"] = "Salvo com sucesso.";
+                $this->load->vars($categoria);
+                $this->load->view("priv/categoria/categoriaEdit");
+            }
+        }
+    }
+    
+    function editarCategoria(){
+        $this->load->model("Categoria_model", "categoria");
+        $id = $this->input->post("idCategoriah");
+        
+        $data = array(
+            "nome" => $this->input->post("txtNome")
+        );
+
+        if ($this->categoria->update($data,$id) > 0) {
             $this->session->set_flashdata('sucesso','Cadastro salvo com sucesso.');
             
-            redirect("clienteController");
+            redirect("categoriaController");
         }
 	else 
-	    redirect("clienteController");
+	    redirect("categoriaController");
     }
-    
-    function uploadImagem($id) {
-
-        //parametriza as preferências
-        $config["upload_path"] = "./upload/clientes/";
-        $config["allowed_types"] = "gif|jpg|png";
-        $config["file_name"] = "logomarca_".$id;
-        $config["overwrite"] = TRUE;
-        $config["remove_spaces"] = TRUE;
-        $this->load->library("upload", $config);
-        //em caso de sucesso no upload
-        if ($this->upload->do_upload()) {
-           
-            $this->load->model('Cliente_model', 'cliente');
-            $this->load->model('Comentario_model', 'comentario');
-            $this->load->helper('url');
-            
-            $update = array(
-                "logomarca" => $this->upload->file_name);
-
-            $this->cliente->update_record($update,$id);
-
-
-
-            $cliente["cliente"] = $this->cliente->buscarPorId($id);
-            $cliente["comentarios"] = $this->comentario->buscarComentarioPorTipoEId("CLIENTE",$id);
-            
-            
-
-            if (!is_null($cliente)) {
-                $cliente["sucesso"] = "Logomarca cadastrada com sucesso";
-                $this->load->vars($cliente);
-                $this->load->view("cliente/editCliente");
-            }
-        } else {
-            echo $this->upload->display_errors();
-        }
-    }
-    
+  
     /* Actions */
     
-    function editarClienteAction($id){
-        $this->load->model('Cliente_model', 'cliente');
-        $this->load->model('Comentario_model', 'comentario');
-        $cliente["cliente"] = $this->cliente->buscarPorId($id);
-        //$cliente["comentarios"] = $this->comentario->buscarComentarioPorTipoEId("CLIENTE", $id);
-        
-        if(!is_null($cliente)){
-            $this->load->vars($cliente);
-            $this->load->view("cliente/editCliente");
+    function editarCategoriaAction($id){
+        $this->load->model('Categoria_model', 'categoria');
+        $categoria["categoria"] = $this->categoria->buscarPorId($id);
+
+        if(!is_null($categoria)){
+            $this->load->vars($categoria);
+            $this->load->view("priv/categoria/categoriaEdit");
         }
     }
-    
        
-    function novoClienteAction(){
-        $this->load->view("cliente/addCliente");
+    function novaCategoriaAction(){
+        $this->load->view("priv/categoria/categoriaAdd");
     }
     
 }

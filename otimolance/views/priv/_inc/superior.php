@@ -64,7 +64,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
                 <li><a href=""><span>Empresa</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>contaController/"><span>Usuários do sistema</span></a></li>
                 <li><a href=""><span>Contas dos clientes</span></a></li>
-                <li><a href=""><span>Categorias</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>categoriaController/"><span>Categorias</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>produtoController/"><span>Produtos</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>leilaoController/"><span>Painel de leilões</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>cparametro/"><span>Parâmetros do sistema</span></a></li>

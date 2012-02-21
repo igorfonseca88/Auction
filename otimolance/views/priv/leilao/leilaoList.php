@@ -5,7 +5,7 @@ $this->load->view('priv/_inc/superior');
 
     <div class="titulo">
         <h1>Minha Conta / Bem-Vindo <? //= $this->session->userdata("login")      ?> !</h1>
-        <p><span><span>Você está em:</span> <a href="<?= base_url() ?>">Principal</a> &raquo; Listagem de leilões</span>
+        <p><span><span>Você está em:</span> <a href="<?= base_url() ?>">Principal</a> &raquo; Listagem de Leilões</span>
     </div>
 
     <div class="formulario">
