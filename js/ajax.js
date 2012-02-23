@@ -10,6 +10,7 @@ function atualizarPainel(){
       
         document.getElementById('valorLance'+painel[i].value).innerHTML = roundNumber(retorno[1],3);
         document.getElementById('usuLance'+painel[i].value).innerHTML = retorno[0];            
+        
     }
    
     setTimeout(atualizarPainel, 50);
@@ -23,6 +24,14 @@ function lance(idLeilao, conta){
     if(retorno == '2'){
         alert('Saldo insuficiente para lance.');
     }
+    
+    params = "leilao="+idLeilao;
+    retorno = dhtmlxAjax.postSync("/otimolance/clance/buscarUltimoLance/",params);
+    retorno = retorno.xmlDoc.responseText;
+    retorno = retorno.split("@");
+      
+    document.getElementById('hcronometro'+idLeilao).value = retorno[2];         
+    document.getElementById('cronometro'+idLeilao).innerHTML = retorno[2];         
     
 }
 

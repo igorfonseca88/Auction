@@ -73,7 +73,7 @@ $this->load->view('priv/_inc/superior');
 
                     <div class="item">
                         <label>Frete grátis ?</label><br />
-                        <input type="checkbox" value="1" name="freteGratis" id="freteGratis" <?= $row->freteGratis == 1 ? "checked" : ""?>/>
+                        <input type="checkbox" value="1" name="freteGratis" id="freteGratis" <?= $row->freteGratis == 1 ? "checked" : "" ?>/>
                     </div>
                 </div>
             </form>
@@ -123,6 +123,29 @@ $this->load->view('priv/_inc/superior');
 
                 <br/>
             </form>
+            <? if ($lances != "") { ?>
+                <br/>
+                <h2>Histórico de lances </h2>
+                <br/>
+                <table class="tabela">
+                    <thead>
+                    <td>Data</td>
+                    <td>Nome</td>
+                    <td>Valor</td>
+                    </thead>
+
+                    <? foreach ($lances as $lance) { ?>
+
+                        <tr class="linha">
+                            <td> <?= date('d/m/Y', strtotime($lance->data)) ?> </td>
+                            <td> <?= $lance->nome ?> </td>
+                            <td> <?= $lance->valor ?> </td>
+                        </tr>
+
+                    <? } ?>
+                </table>
+            <? } ?>
+<br/><br/>
         <? } ?>
     </div>
 </div>

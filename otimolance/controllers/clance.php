@@ -56,14 +56,15 @@ class Clance extends CI_Controller {
             foreach ($result as $dados) {
                 $valor = $dados->valor;
                 $login = $dados->login;
+                $cronometro = $dados->tempoCronometro;
             }
         }
         
-        $dados = $login."@".$valor;
+        $dados = $login."@".$valor."@".$cronometro;
         
         echo $dados;
     }
-
+ 
     private function getValorUltimoLance($idLeilao) {
         $this->load->model("lance_model", "lance");
         return $this->lance->buscarValorUltimoLance($idLeilao);
@@ -78,6 +79,48 @@ class Clance extends CI_Controller {
         $this->load->model("leilao_model", "leilao");
         $idLeilao = $this->input->post("leilao");
         echo $this->leilao->buscarData($idLeilao);
+    }
+    
+    function  getDadosLeilao(){
+        $this->load->model("leilao_model", "leilao");
+        //$leiloes = $this->input->post("leiloes");
+        $dados = $this->leilao->buscarDadosLeilao(2);
+        
+        $ret = array();
+        $i=0;
+        foreach ($dados as $value) {
+            
+            $dataCalcular = ($value->dataUltLance == 0)  ? $value->dataInicio : $value->dataUltLance;
+            // tem que acrescentar o valor do cronometro no time
+            $data = str_replace(" ", "-",str_replace(":", "-", $dataCalcular));
+            $data = explode("-", $data);
+            $time = mktime($data[3], $data[4], $data[5]+16, $data[1], $data[2], $data[0]);
+            
+            $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
+            $status = '2';
+            if( ($time - $time2) <= 0 ){
+                $status = 'F';
+            }
+            
+                $ret[$i] = array(
+                "idLeilao"=> $value->idLeilao,
+                "login"=>$value->login,
+                "valor" =>$value->valor,
+                "MicroTimeFim" => $time,//($value->dataUltLance == 0  ? time($value->dataInicio) : time($value->dataUltLance)),
+                "tempoCronometro" =>   $value->tempoCronometro,
+                "status"   => $status 
+            );
+                $i++;
+        }
+
+        
+        echo json_encode($ret);
+        
+    }
+
+
+    function retHorario(){
+        echo json_encode(array("time"=> time(date('Y-m-d H:i:s'))));
     }
 
     function ajustaDataSql($data) {

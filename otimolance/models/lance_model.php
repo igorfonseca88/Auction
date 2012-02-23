@@ -6,6 +6,16 @@ class Lance_model extends CI_Model {
         $this->db->insert('tb_lance', $data);
         return $this->db->insert_id();
     }
+    
+    function buscarLancesPorIdLeilao($idLeilao) {
+
+        $query = $this->db->query("select l.*, c.nome 
+               FROM tb_lance l join tb_conta c on l.idConta = c.idConta
+               where idLeilao = $idLeilao order by idLance desc");
+
+        
+         return $query->result();
+    }
 
     function buscarValorUltimoLance($idLeilao) {
 
@@ -24,10 +34,11 @@ class Lance_model extends CI_Model {
 
     function buscarUltimoLance($idLeilao) {
 
-        $query = $this->db->query("SELECT idLance AS idLance, valor, login
+        $query = $this->db->query("SELECT idLance AS idLance, valor, login, tempoCronometro
                                     FROM tb_lance l
                                     JOIN tb_conta c ON l.idConta = c.idConta
-                                    WHERE idLeilao = $idLeilao
+                                    JOIN tb_leilao le ON l.idLeilao = le.idLeilao
+                                    WHERE l.idLeilao = $idLeilao
                                     ORDER BY idLance DESC 
                                     LIMIT 0 , 1  ");
 

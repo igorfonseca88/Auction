@@ -89,6 +89,32 @@ class Leilao_model extends CI_Model {
         }
         return $valor;
     }
+    
+    function buscarDadosLeilao($id) {
+
+        $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
+               tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
+               il.valorProduto, il.valorFrete, il.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis,
+               (select ifnull(max(valor),0) 
+               FROM tb_lance
+               where idLeilao = $id) as valor,
+               
+                (SELECT login
+                                    FROM tb_lance l
+                                    JOIN tb_conta c ON l.idConta = c.idConta
+                                    WHERE l.idLeilao = $id
+                                    ORDER BY idLance DESC 
+                                    LIMIT 0 , 1 ) as login,
+                
+                (SELECT ifnull(max(data),0)
+                                    FROM tb_lance
+               where idLeilao = $id) as dataUltLance 
+                
+               FROM tb_leilao l 
+               JOIN tb_itemleilao il on l.idLeilao = il.idLeilao 
+               where l.idLeilao = $id ");
+        return $query->result();
+    }
 
     function buscarLeilaoPorId($id) {
 
