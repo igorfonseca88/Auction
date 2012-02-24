@@ -46,7 +46,7 @@
 	#conteudo .button {border: 1px solid #CCC;padding:4px;margin: 5px 0 15px 0;cursor:pointer}
 	#conteudo .button:hover {border: 1px solid #999;}
 	#conteudo .tabela {width:100%;border-collapse:collapse}
-	#conteudo .tabela tr td {border:1px solid #CCC;padding:10px}
+	#conteudo .tabela tr td {border:1px solid #CCC;padding:10px;font-size:11px;}
 	#conteudo .tabela thead {font-weight:bold;background:#f4f4f4}
 	#conteudo .tabela .linha:hover {background:#f4f4f4;border:1px solid #999}
 	#conteudo .paginas {margin: 15px 0 25px 0;color:#333333;word-spacing:5px}

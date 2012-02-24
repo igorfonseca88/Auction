@@ -17,7 +17,7 @@ class Produto_model extends CI_Model {
         
         $this->db->where('idProduto', $id);
         $this->db->update('tb_produto', $options);
-        return $this->db->affected_rows();
+        return $this->db->insert_id();
     }
     
     function buscarPorId($id) {

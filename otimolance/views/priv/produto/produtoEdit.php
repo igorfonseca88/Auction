@@ -5,7 +5,7 @@ $this->load->view('priv/_inc/superior');
 
     <div class="titulo">
         <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
-        <p><span><span>Você está em:</span> <a href="/otimolance/">Principal</a> &raquo; 
+        <p><span><span>Você está em:</span> <a href="<?= BASE_URL(); ?>/area-restrita">Principal</a> &raquo; 
                 <a href="<?= BASE_URL(); ?>produtoController">Listagem de Produtos</a> &raquo; Editar cadastro de produtos</span>
     </div>
 
@@ -56,36 +56,31 @@ $this->load->view('priv/_inc/superior');
             <? } ?>
         </form>
 
-        <h2>Imagens</h2>
-        
-         <form id="upload" action="<?= base_url() ?>produtoController/uploadImagem/<?= $row->idProduto ?>" method="post" enctype="multipart/form-data">
-            <label>Arquivo: </label> <span id="status" style="display: none;"><img src="<?= base_url(); ?>img/loader.gif" alt="Enviando..." /></span> <br />
-            <input type="file" name="userfile" id="userfile" />
-            <input type="submit" name="enviar" class="button" value="Enviar" />
+            <h2>Imagens Produto</h2>
+            <form id="upload" action="<?= base_url() ?>produtoController/uploadImagem" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="idProdutoUpload" id="idProdutoUpload" value="<?= $idProduto?>" />
 
-        </form>
-        
-        <div id="frameAnexos">
-            
-            <ul id="anexos">
+                <label>Arquivo: </label> 
+                <input type="file" class="input" name="userfile" id="userfile" />
+                <input type="submit" class="button" name="enviar" value="Enviar" />
 
-                <? if (isset($row->logomarca)) { ?>
-                    <li lang="<?php echo $row->logomarca ?>">
-                        <?php echo $row->logomarca ?> <a href="<?= base_url() ?>upload/clientes/<?= $row->logomarca ?>" target="_blank"><img src="<?= base_url() ?>img/file.png"/></a> 
-                        <a href="<?= base_url() ?>clienteController/removerImagem/<?= $row->idCliente ?>"><img src="<?= base_url() ?>img/remove.png" alt="Remover" class="remover"/></a>
-                    </li>
-                <? } ?>
+            </form>
+            <br/>
 
-            </ul>
-        </div>
 
-       
+            <div id="frameAnexos">
+                <p>Imagens Produto em anexo</p>
+                <ul id="anexos">
 
+                    <? if (isset($row->imagemProduto)) { ?>
+                        <li lang="<?php echo $row->imagemProduto ?>">
+                            <?php echo $row->imagemProduto ?> <a href="<?= base_url() ?>upload/<?= $row->cupom ?>" target="_blank"><img src="<?= base_url() ?>img/file.png"/></a> 
+                            <a href="<?= base_url() ?>produtoController/removerImagem/<?= $idProduto ?>"><img src="<?= base_url() ?>img/remove.png" alt="Remover" class="remover"/></a>
+                        </li>
+                    <? } ?>
+                </ul>
+            </div>
         <br/>
-
-
-
-       
     </div>
 </div>
 <?

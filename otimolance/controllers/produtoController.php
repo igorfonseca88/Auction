@@ -44,13 +44,13 @@ class ProdutoController extends CI_Controller {
             "preco" => $this->input->post("txtPreco")
         );
 
-        if ($this->produto->update($data,$id) > 0) {
+        if ($this->produto->update_record($data,$id) > 0) {
             $this->session->set_flashdata('sucesso','Produto salvo com sucesso.');
             
-            redirect("conta/produtoController");
+            redirect("produtoController");
         }
 	else 
-	    redirect("conta/produtoController");
+	    redirect("produtoController");
     }
     
     function uploadImagem($id) {

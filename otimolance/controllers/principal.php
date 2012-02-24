@@ -11,7 +11,7 @@ class Principal extends CI_Controller {
     }
     
     
-    public function home(){
+    function home(){
         $leiloes["leiloes"] = $this->getLeiloes();
         $this->load->vars($leiloes);
         $this->load->view('index');
@@ -42,6 +42,12 @@ class Principal extends CI_Controller {
     
     public function carregarConta(){
         $this->load->view('conta/conta');
+    }
+    
+    public function retornaHoraAtual(){
+        $date = date('H:i:s');
+        echo $date;
+        
     }
 
 }

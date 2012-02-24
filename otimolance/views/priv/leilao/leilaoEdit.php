@@ -17,31 +17,31 @@ $this->load->view('priv/_inc/superior');
         <? foreach ($leilao as $row) { ?>
             <form method="post" action="<?= BASE_URL(); ?>leilaoController/editarLeilao/<?= $row->idLeilao ?>">
                 <div class="acao">
-                    <input type="reset" value="Cancelar" class="button"<?= $row->publicado == 1 ? "disabled" : ""?> />
-                    <input type="submit" class="button" name="btSalvarLeilao" value="Salvar leilão" <?= $row->publicado == 1 ? "disabled" : ""?> />
-                    <input type="button" class="button" onclick="location.href='<?= BASE_URL(); ?>leilaoController/publicarLeilao/<?= $row->idLeilao ?>'" name="btPublicarLeilao" value="Publicar leilão" <?= ($row->publicado == 1) ? "disabled" : ""?> />
+                    <input type="reset" value="Cancelar" class="button"<?= $row->publicado == 1 ? "disabled" : "" ?> />
+                    <input type="submit" class="button" name="btSalvarLeilao" value="Salvar leilão" <?= $row->publicado == 1 ? "disabled" : "" ?> />
+                    <input type="button" class="button" onclick="location.href='<?= BASE_URL(); ?>leilaoController/publicarLeilao/<?= $row->idLeilao ?>'" name="btPublicarLeilao" value="Publicar leilão" <?= ($row->publicado == 1) ? "disabled" : "" ?> />
                 </div>	
                 <div class="itemEsquerda">
-                <div class="item">
-                    <label>Data início</label><br />
-                    <input type="text" name="dataInicio" id="dataInicio" value="<?= date('d/m/Y', strtotime($row->dataInicio)) ?>" class="inputSmall"/>
-                </div>
+                    <div class="item">
+                        <label>Data início</label><br />
+                        <input type="text" name="dataInicio" id="dataInicio" value="<?= date('d/m/Y', strtotime($row->dataInicio)) ?>" class="inputSmall"/>
+                    </div>
 
-                <div class="item">
-                    <label>Hora início</label><br />
-                    <input type="text" name="horaInicio" id="horaInicio" value="<?= date('H:i:s', strtotime($row->dataInicio)) ?>" class="inputSmall"/>
-                </div>
+                    <div class="item">
+                        <label>Hora início</label><br />
+                        <input type="text" name="horaInicio" id="horaInicio" value="<?= date('H:i:s', strtotime($row->dataInicio)) ?>" class="inputSmall"/>
+                    </div>
 
-                <div class="item">
-                    <label>Tempo cronômetro</label><br />
-                    <select name='tempoCronometro' id='tempoCronometro' class="selectSmall">
-                        <option value=""> Selecione </option>
-                        <option value="15" <?= $row->tempoCronometro == '15' ? "selected" : "" ?>> 15 segundos</option>
-                        <option value="20" <?= $row->tempoCronometro == '20' ? "selected" : "" ?>> 20 segundos</option>
-                        <option value="25" <?= $row->tempoCronometro == '25' ? "selected" : "" ?>> 25 segundos</option>
-                        <option value="30" <?= $row->tempoCronometro == '30' ? "selected" : "" ?>> 30 segundos</option>
-                    </select>
-                </div>
+                    <div class="item">
+                        <label>Tempo cronômetro</label><br />
+                        <select name='tempoCronometro' id='tempoCronometro' class="selectSmall">
+                            <option value=""> Selecione </option>
+                            <option value="15" <?= $row->tempoCronometro == '15' ? "selected" : "" ?>> 15 segundos</option>
+                            <option value="20" <?= $row->tempoCronometro == '20' ? "selected" : "" ?>> 20 segundos</option>
+                            <option value="25" <?= $row->tempoCronometro == '25' ? "selected" : "" ?>> 25 segundos</option>
+                            <option value="30" <?= $row->tempoCronometro == '30' ? "selected" : "" ?>> 30 segundos</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="itemDireita">
                     <div class="item">
@@ -70,6 +70,11 @@ $this->load->view('priv/_inc/superior');
                             ?>
                         </select>
                     </div>
+
+                    <div class="item">
+                        <label>Frete grátis ?</label><br />
+                        <input type="checkbox" value="1" name="freteGratis" id="freteGratis" <?= $row->freteGratis == 1 ? "checked" : "" ?>/>
+                    </div>
                 </div>
             </form>
             <br/>
@@ -78,7 +83,7 @@ $this->load->view('priv/_inc/superior');
             <form method="post" action="<?= BASE_URL(); ?>leilaoController/salvarItemLeilao/<?= $row->idLeilao ?>">
 
                 <div class="acao">
-                    <input type="submit" class="button" name="btIncluir" value="Salvar produto" <?= $row->publicado == 1 ? "disabled" : ""?> />
+                    <input type="submit" class="button" name="btIncluir" value="Salvar produto" <?= $row->publicado == 1 ? "disabled" : "" ?> />
                 </div>		
 
                 <input type="hidden" name="hItemLeilao" id="hItemLeilao" value="<?= $row->idItemLeilao ?>" />    
@@ -118,6 +123,29 @@ $this->load->view('priv/_inc/superior');
 
                 <br/>
             </form>
+            <? if ($lances != "") { ?>
+                <br/>
+                <h2>Histórico de lances </h2>
+                <br/>
+                <table class="tabela">
+                    <thead>
+                    <td>Data</td>
+                    <td>Nome</td>
+                    <td>Valor</td>
+                    </thead>
+
+                    <? foreach ($lances as $lance) { ?>
+
+                        <tr class="linha">
+                            <td> <?= date('d/m/Y', strtotime($lance->data)) ?> </td>
+                            <td> <?= $lance->nome ?> </td>
+                            <td> <?= $lance->valor ?> </td>
+                        </tr>
+
+                    <? } ?>
+                </table>
+            <? } ?>
+<br/><br/>
         <? } ?>
     </div>
 </div>

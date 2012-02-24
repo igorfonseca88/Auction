@@ -27,7 +27,8 @@ class LeilaoController extends CI_Controller {
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idConta" => $this->session->userdata("idConta"),
-            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao")
+            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
+            "freteGratis" => $this->input->post("freteGratis")
         );
 
 
@@ -60,7 +61,8 @@ class LeilaoController extends CI_Controller {
             "dataInicio" => $dateInicio->format('Y-m-d H:i:s'),
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
-            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao")
+            "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
+            "freteGratis" => $this->input->post("freteGratis")
         );
 
         $result = $this->leilao->alterar($data, $idLeilao);
@@ -122,6 +124,7 @@ class LeilaoController extends CI_Controller {
         $leilao["leilao"] = $this->leilao->buscarLeilaoPorId($id);
         $leilao["categorias"] = $this->getCategoriasLeilao();
         $leilao["produtos"] = $this->getProdutos();
+        $leilao["lances"] = $this->getLances($id);
         $leilao["sucesso"] = $mensagem["sucesso"];
         $leilao["erro"] = $mensagem["erro"];
         //$leilao["itemLeilao"] = $this->getItemLeilao($id);
@@ -177,6 +180,11 @@ class LeilaoController extends CI_Controller {
     function getProdutos() {
         $this->load->model("Produto_model", "produto");
         return $this->produto->getAll();
+    }
+    
+    function getLances($idLeilao) {
+        $this->load->model("lance_model", "lance");
+        return $this->lance->buscarLancesPorIdLeilao($idLeilao);
     }
 
     function ajustaDataSql($data) {

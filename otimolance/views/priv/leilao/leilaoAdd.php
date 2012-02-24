@@ -62,6 +62,13 @@ $this->load->view('priv/_inc/superior');
                         ?>
                     </select>
                 </div>
+                
+                <div class="item">
+                    <label>Frete grátis ?</label><br />
+                    <input type="checkbox" value="1" name="freteGratis" id="freteGratis"/>
+                        
+                </div>
+                
             </div>
          
 
