@@ -7,7 +7,9 @@ class ContaController extends CI_Controller {
     }
 
     function index() {
-        
+        $this->load->model('Conta_model', 'contaDAO');
+        $conta["contas"] = $this->contaDAO->getAll();
+        $this->load->view("priv/conta/contaList",$conta);
     }
     
     function cadastroClienteSite(){
@@ -18,8 +20,6 @@ class ContaController extends CI_Controller {
     }
    
     function salvarNovaConta() {
-        echo "chegoy";
-        exit;
         $this->load->model("Conta_model", "conta");
         $nome = $this->input->post("txtNome");
         $sobrenome = $this->input->post("txtSobrenome");
