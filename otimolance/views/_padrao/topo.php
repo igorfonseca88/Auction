@@ -13,86 +13,22 @@
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/ajax.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/js.js"></script>
-        <script>
-            function atualizaRelogioTopo(){
-                
-                var hoje = new Date();
-                var hora = hoje.getHours();
-                var minuto = hoje.getMinutes();
-                var segundos = hoje.getSeconds();
-                
-                if(hora < 10){hora = "0" + hora}
-                if(minuto < 10){minuto = "0" + minuto}
-                if(segundos < 10){segundos = "0" + segundos}
-                
-                document.getElementById("relogioTopo").innerHTML = hora + ":" +minuto +":"+segundos;
-                setTimeout(atualizaRelogioTopo, 1000);
-            }
-            
-            $(document).ready(function(){
-                //atualizarPainel();
-                
-                var t561;
-
-                function cronometro561(){
-                    var retorno = "";
-                    var time = document.getElementById('hcronometro'+2).value; 
-                    
-                    if(time != '0'){
-                        retorno = time -1;
-                        document.getElementById('hcronometro'+2).value = retorno;
-                        document.getElementById('cronometro'+2).innerHTML = retorno;
-                        t561 = setTimeout(cronometro561,1000);
-                    }
-                    else{
-                        clearTimeout(t561);
-                        alert('encerrou');
-                    }
-
-                }
-
-                // CANCELA O CRONOMETRO
-                function stopCronometro561(){
-                    clearTimeout(t561);
-                }
-
-	
-                var cro561;
-                function verificaCronometro561(){
-                    cronometroVer = document.getElementById("crono561").value;
-		
-                    // EXECUTA DE SEGUNDO EM SEGUNDO
-                    cro561 = setTimeout("verificaCronometro561();",1000);
-
-                    if(cronometroVer == "S"){
-                        cronometro561();
-                        stopVerificaCronometro561();
-                    }
-                }
-	
-                // CANCELA O CRONOMETRO
-                function stopVerificaCronometro561(){
-                    clearTimeout(cro561);
-                }
-
-               // verificaCronometro561();
-
-                
-                
-            });
-            
-        </script>
+        
 
     </head>
-    <body onload="//atualizaRelogioTopo();">
+    <body>
         <div id="conteudo">
 
             <p id="relogioTopo"></p>
             <? if ($this->session->userdata("login") != "") { ?>
+            <script>
+                carregaLances(<?=$this->session->userdata("idConta")?>);
+            </script>
                 <div class="titulo">
                     <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
                     <li><a href="<?= BASE_URL(); ?>minha-conta"><span>Minha conta</span></a></li>
                     <li><a href="<?= BASE_URL(); ?>clientes/sair"><span>Sair</span></a></li>
+                    <li>Seus lances :<span id="usu_lances"></span></li>
                 </div>
             <? } else { ?>
                 <div class="formulario">

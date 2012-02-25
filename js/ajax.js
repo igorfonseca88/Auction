@@ -30,9 +30,17 @@ function lance(idLeilao, conta){
     retorno = retorno.xmlDoc.responseText;
     retorno = retorno.split("@");
       
-    document.getElementById('hcronometro'+idLeilao).value = retorno[2];         
-    document.getElementById('cronometro'+idLeilao).innerHTML = retorno[2];         
+    //document.getElementById('hcronometro'+idLeilao).value = retorno[2];         
+    //document.getElementById('cronometro'+idLeilao).innerHTML = retorno[2];         
     
+}
+
+function carregaLances(id){
+    $.post("/otimolance/clance/retLances", {"id": id},
+        function(data){
+            $("#usu_lances").html(data.lances);
+
+        }, "json");
 }
 
 function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places  

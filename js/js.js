@@ -280,14 +280,14 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
             if(parseInt(Tempo)==0)
             {
 				
-                $("#L_Tempo_" + CodigoLeilao).html("<span class='TempoVermelho'>00:00:00</span>");
+                $("#L_Tempo_" + CodigoLeilao).html("<span style='color:red'>00:00:00</span>");
 				
             }else{
 				
                 if(parseInt(Tempo)<10)
                 {
 					
-                    $("#L_Tempo_" + CodigoLeilao).html("<span class='TempoVermelho'>00:00:0" + Tempo + "</span>")
+                    $("#L_Tempo_" + CodigoLeilao).html("<span style='color:red'>00:00:0" + Tempo + "</span>")
 					
                 }else{
 					
@@ -512,22 +512,7 @@ function date ( format, timestamp ) {
 
         // Timezone
         e: function () {
-            // The following works, but requires inclusion of the very large timezone_abbreviations_list() function
-            /*                var abbr='', i=0;
-				if (that.php_js && that.php_js.default_timezone) {
-					return that.php_js.default_timezone;
-				}
-				if (!tal.length) {
-					tal = that.timezone_abbreviations_list();
-				}
-				for (abbr in tal) {
-					for (i=0; i < tal[abbr].length; i++) {
-						if (tal[abbr][i].offset === -jsdate.getTimezoneOffset()*60) {
-							return tal[abbr][i].timezone_id;
-						}
-					}
-				}
-*/
+            
             return 'UTC';
         },
         I: function () {
@@ -545,28 +530,6 @@ function date ( format, timestamp ) {
         },
         T: function () {
 
-            // The following works, but requires inclusion of the very large timezone_abbreviations_list() function
-            /*                var abbr='', i=0;
-				if (!tal.length) {
-					tal = that.timezone_abbreviations_list();
-				}
-				if (that.php_js && that.php_js.default_timezone) {
-					for (abbr in tal) {
-						for (i=0; i < tal[abbr].length; i++) {
-							if (tal[abbr][i].timezone_id === that.php_js.default_timezone) {
-								return abbr.toUpperCase();
-							}
-						}
-					}
-				}
-				for (abbr in tal) {
-					for (i=0; i < tal[abbr].length; i++) {
-						if (tal[abbr][i].offset === -jsdate.getTimezoneOffset()*60) {
-							return abbr.toUpperCase();
-						}
-					}
-				}
-*/
             return 'UTC';
         },
         Z: function () {
@@ -586,15 +549,7 @@ function date ( format, timestamp ) {
     };
     return format.replace(formatChr, formatChrCb);
 }
-function Trim(str)
-{
-    if(str != undefined)
-    {
-				   
-        return str.replace(/^\s+|\s+$/g,"");
-	
-    }
-}
+
 function mktime() 
 {
 	
@@ -755,9 +710,9 @@ function ProcuraFalhaTempo()
             //alert(data.time);
             msg = data.time;
             TempoB 		= mktime();
-            TempoAB		= TempoB - msg;//TempoA;
+            TempoAB		= TempoB - TempoA;
 			
-            FalhaTempo 	= parseInt(msg) - parseInt(TempoAB);
+            FalhaTempo 	= parseInt(msg) - parseInt(TempoB);
 			
             var req = null
             delete req
@@ -768,29 +723,6 @@ function ProcuraFalhaTempo()
     
     var req = null
     delete req
-	
-/*var req = $.ajax({
-			
-		type: "POST",
-		url: "/otimolance/clance/retHorario",
-		cache: false,
-		timeout: 10000,
-		data: "TimeCliente=" + TempoCliente() + "&Rand=" + encodeURI(Math.random()),
-		success: function(msg)
-		{
-			
-			
-	
-		},error: function( objRequest ){
-		
-			window.setTimeout("ProcuraFalhaTempo()", 500);
-		 
-		}
-			
-	});	
-	*/
-	
-	
 }
 
 function MontaListaLeiloes()
@@ -965,21 +897,21 @@ function RequisitacaoLeiloes()
 			
                         }
 					
-                        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 300);
+                        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 500);
 
                     }
                     }
                 }, "json");           
 			
            
-    var req = null
-    delete req
-			
-}catch(err){
-			
-    Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 300);
-			
-}	
+        var req = null
+        delete req
+
+    }catch(err){
+
+        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 500);
+
+    }	
 	
 }
 	
@@ -1015,9 +947,8 @@ function ContDowLeiloes()
             Status			= Trim(VarBoxSepara[2]);
 			
             //Calcula os segundos restantes para acabar o leil�o
-            Diferenca		= TimeProduto - TimeAtual - GmtSegundo /*- FalhaTempo - 1*/;
+            Diferenca		= TimeProduto - TimeAtual /*- GmtSegundo*/ - FalhaTempo  - 1;
 		//alert(Diferenca);	
-            //$("#LeilaoOnline_Debug_" + CodigoLeilao).html("Falta: " + $("#L_FaltaSegundos_"+Cod).html() + "<br>Tempo Leil�o: " + TimeProduto + "<br>Tempo Atual: " + TimeAtual + "<br>Fixador: " + Fixador + "<br>GMT: " + GmtSegundo + "<br>Diferen�a: " + Diferenca + "<br>Controle de Lag: " + FalhaTempo);
 			
             if(Status=="2")
             {
@@ -1446,17 +1377,7 @@ function ExecutarLance(CodigoLeilao)
     delete req
 	
 }
-function Necessariologin()
-{
-	
-    if(confirm("� preciso efetuar login para particpar!"))
-    {
-		
-        window.location = "Login.php";
-	
-    }
-	
-}
+
 function LanceMulti_Detalhar( Codigo )
 {
 	
@@ -1513,15 +1434,10 @@ var MicroTime = 0;
 function MicroTimeServidor()
 {
 	
-    var req = $.ajax({
-			
-        type: 		"GET",
-        url: 		"Ret_MicroTimeServidor.php",
-        timeout: 	10000,
-        data: 		"Rand=" + encodeURI(Math.random()),
-        cache: 		false,
-        success: 	function(msg)
-        {
+        
+   var req =  $.post("/otimolance/clance/retHorario", {},
+     function(msg){
+               
 			
             DataTmp 		= new Date();
             GtmCliente 		= DataTmp.getTimezoneOffset()/60;
@@ -1531,24 +1447,14 @@ function MicroTimeServidor()
 			
             GmtSegundo		= GmtDiferenca * 60 * 60;
 			
-            MicroTime 		= msg - GmtSegundo;
+            MicroTime 		= msg.time - GmtSegundo;
 			
             RelogioTopo();
 			
             var req = null
             delete req
 	
-        },
-        beforeSend: function()
-
-        {
-			
-            var req = null
-            delete req
-			
-        }
-			
-    });
+        },"json");
 	
     var req = null
     delete req

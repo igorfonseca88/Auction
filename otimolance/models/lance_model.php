@@ -7,6 +7,12 @@ class Lance_model extends CI_Model {
         return $this->db->insert_id();
     }
     
+    function atualizaSaldoConta($idConta) {
+        // dispara o procedimento para atualizar o saldo da conta
+        $query = $this->db->query(" call sp_atualizasaldo($idConta)  ");
+
+    }
+    
     function buscarLancesPorIdLeilao($idLeilao) {
 
         $query = $this->db->query("select l.*, c.nome 
