@@ -8,16 +8,20 @@ class Produto_model extends CI_Model {
         return $query->result();
     }
 
-    function add_record($options = array()) {
+    function add($options = array()) {
         $this->db->insert('tb_produto', $options);
         return $this->db->insert_id();
     }
     
-    function update_record($options = array(), $id) {
+    function update($options = array(), $id) {
         
         $this->db->where('idProduto', $id);
         $this->db->update('tb_produto', $options);
         return $this->db->insert_id();
+    }
+    
+    function excluirProduto($options = array()){
+        $this->db->delete('tb_produto', $options);
     }
     
     function buscarPorId($id) {

@@ -10,8 +10,10 @@ $this->load->view('priv/_inc/superior');
     </div>
 
     <div class="formulario">
+        <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
+        <?= $alerta != "" ? '<div class="warning"> ' . $alerta . ' </div>' : "" ?>
         <h2>Editar cadastro de produtos</h2>
-        <p><? echo $this->session->flashdata('sucesso'); ?></p>
         <form method="post" action="<?= BASE_URL(); ?>produtoController/editarProduto">
 
             <? foreach ($produto as $row) { ?>
@@ -56,31 +58,65 @@ $this->load->view('priv/_inc/superior');
             <? } ?>
         </form>
 
-            <h2>Imagens Produto</h2>
-            <form id="upload" action="<?= base_url() ?>produtoController/uploadImagem" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="idProdutoUpload" id="idProdutoUpload" value="<?= $idProduto?>" />
-
+      <!-- Galeria de imagens -->
+            
+            <h2>Galeria de imagens</h2>
+            <form id="upload" action="<?= base_url() ?>produtoController/uploadImagem/<?=$row->idProduto?>" method="post" enctype="multipart/form-data">
+                
+                Imagem principal: 
+                <select id="isPrincipal" name="isPrincipal" style="width: 100px" class="select">
+                    <option value="0"> Não</option>
+                    <option value="1"> Sim</option>
+                </select>
+                <br/>
                 <label>Arquivo: </label> 
                 <input type="file" class="input" name="userfile" id="userfile" />
-                <input type="submit" class="button" name="enviar" value="Enviar" />
+                <input class="button" type="submit" name="enviar" value="Enviar" />
 
             </form>
             <br/>
+ 
+             <? 
+             if($galeria != null) {
+             foreach ($galeria as $img) { ?>
+                    <div class="galeria_lista">
+                        <img style="float: right; margin-top: -20px" src="<?= base_url() ?>img/fechar.png" onclick="location.href='<?= base_url() ?>produtoController/excluirImagem/<?= $img->idGaleria; ?>'"/></a>
+                        <div class="galeria_img">
+                            <img src="<?= base_url() ?>upload/produtos/<?=$img->caminho?>" width="250px" height="200px"/></a>
+                        </div>
+                    </div>
+               <? }
+             }?>
+            <br/>  <br/>
+            <!-- Fim galeria  -->
+            
+            <!-- Galeria de videos -->
+            
+            <h2>Galeria videos</h2>
+            <form id="uploadVideo" action="<?= base_url() ?>produtoController/uploadVideo/<?=$row->idProduto?>" method="post">
+                
+                
+                <br/>
+                <label>Embed: </label> 
+                <input type="text" class="input" name="video" id="video" />
+                <input class="button" type="submit" name="enviar" value="Enviar" />
 
-
-            <div id="frameAnexos">
-                <p>Imagens Produto em anexo</p>
-                <ul id="anexos">
-
-                    <? if (isset($row->imagemProduto)) { ?>
-                        <li lang="<?php echo $row->imagemProduto ?>">
-                            <?php echo $row->imagemProduto ?> <a href="<?= base_url() ?>upload/<?= $row->cupom ?>" target="_blank"><img src="<?= base_url() ?>img/file.png"/></a> 
-                            <a href="<?= base_url() ?>produtoController/removerImagem/<?= $idProduto ?>"><img src="<?= base_url() ?>img/remove.png" alt="Remover" class="remover"/></a>
-                        </li>
-                    <? } ?>
-                </ul>
-            </div>
-        <br/>
+            </form>
+            <br/>
+ 
+             <? 
+             if($galeriaVideo != null) {
+             foreach ($galeriaVideo as $video) { ?>
+                    <div class="galeria_lista">
+                        <img style="float: right; margin-top: -20px" src="<?= base_url() ?>img/fechar.png" onclick="location.href='<?= base_url() ?>produtoController/excluirVideo/<?= $video->idGaleria; ?>'"/></a>
+                        <div class="galeria_img">
+                            <?=$video->embed;?>
+                        </div>
+                    </div>
+               <? }
+             }?>
+            <br/>  
+            <!-- Fim galeria  -->
     </div>
 </div>
 <?

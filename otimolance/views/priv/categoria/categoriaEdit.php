@@ -10,6 +10,8 @@ $this->load->view('priv/_inc/superior');
     </div>
 
     <div class="formulario">
+        <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
         <h2>Editar cadastro de categoria</h2>
         <p><? echo $this->session->flashdata('sucesso'); ?></p>
         <form method="post" action="<?= BASE_URL(); ?>categoriaController/editarCategoria">

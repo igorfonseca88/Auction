@@ -25,6 +25,7 @@ $this->load->view('priv/_inc/superior');
                     <td><?=$categoria->nome?></td>
                     <td>
                         <a href="<?= base_url() ?>categoriaController/editarCategoriaAction/<?= $categoria->idCategoria ?>">Editar</a>
+                        <a href="<?= base_url() ?>categoriaController/excluirCategoriaAction/<?= $categoria->idCategoria ?>">Excluir</a>
                     </td>
                 </tr>
               <?}?>

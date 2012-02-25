@@ -19,6 +19,10 @@ class Categoria_model extends CI_Model {
         return $this->db->insert_id();
     }
     
+    function excluirCategoria($options = array()){
+        $this->db->delete('tb_categoria', $options);
+    }
+    
     function buscarPorId($id) {
         $this->db->where('idCategoria', $id);
         $query = $this->db->get("tb_categoria");

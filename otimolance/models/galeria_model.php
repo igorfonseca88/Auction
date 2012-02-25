@@ -2,39 +2,33 @@
 
 class Galeria_model extends CI_Model {
     
-    function getAll() {
+    function buscarTodos() {
         $query = $this->db->query("select * from tb_galeria ");
         return $query->result();
     }
     
-    function buscarGaleriaPorIdConteudo($id){
-        $query = $this->db->query("select * from tb_galeria 
-                                    where idConteudo = ".$id." and tipoGaleria = 'imagem'
-                                    order by idGaleria desc ");
+    function buscarGaleriaPorIdProdutoETipo($id, $tipo){
+        $query = $this->db->query("select * from tb_galeria
+                                   where idProduto = $id 
+                                   and tipoGaleria = '$tipo'
+                                   order by idGaleria desc ");
         return $query->result();
     }
     
-    function buscarGaleriaPorIdConteudoETipoVideo($id){
-        $query = $this->db->query("select * from tb_galeria 
-                                    where idConteudo = ".$id." and tipoGaleria = 'video'
-                                    order by idGaleria desc ");
-        return $query->result();
-    }
-    
-    function buscarGaleriaPorIdArtigo($id){
-        $query = $this->db->query("select * from tb_galeria 
-                                    where idMateria = ".$id."
-                                    order by idGaleria desc ");
+    function buscarGaleriaPorIdProduto($id){
+        $query = $this->db->query("select * from tb_galeria
+                                   where idProduto = $id 
+                                   order by idGaleria desc ");
         return $query->result();
     }
     
     // adiciona um anuncio
-    function add_record($options = array()) {
+    function salvarGaleria($options = array()) {
         $this->db->insert('tb_galeria', $options);
         return $this->db->insert_id();
     }
     
-    function delete($options = array()){
+    function excluirGaleria($options = array()){
         $this->db->delete('tb_galeria', $options);
     }
     

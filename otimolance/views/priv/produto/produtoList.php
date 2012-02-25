@@ -9,6 +9,9 @@ $this->load->view('priv/_inc/superior');
     </div>
 
     <div class="formulario">
+        <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
+        <?= $alerta != "" ? '<div class="warning"> ' . $alerta . ' </div>' : "" ?>
         <h2>Listagem de Produtos</h2>
         <input type="button" class="button" type="button" name="btNovoProduto" onclick="location.href='<?= base_url() ?>produtoController/novoProdutoAction'" value="Novo Produto" />
         <p><? //echo $this->session->flashdata('sucesso'); ?></p>
@@ -26,6 +29,7 @@ $this->load->view('priv/_inc/superior');
                     <td><?=$produto->nome?></td>
                     <td>
                         <a href="<?= base_url() ?>produtoController/editarProdutoAction/<?= $produto->idProduto ?>">Editar</a>
+                        <a href="<?= base_url() ?>produtoController/excluirProdutoAction/<?= $produto->idProduto ?>">Excluir</a>
                     </td>
                 </tr>
               <?}?>
