@@ -18,8 +18,8 @@ class ContaController extends CI_Controller {
         $conta["tiposUsuario"] = $this->getTiposUsuario();
         $this->load->view("conta/contaAdd", $conta);
     }
-   
-    function salvarNovaConta() {
+    
+    function salvarClienteSite(){
         $this->load->model("Conta_model", "conta");
         $nome = $this->input->post("txtNome");
         $sobrenome = $this->input->post("txtSobrenome");
@@ -97,7 +97,7 @@ class ContaController extends CI_Controller {
                 "senha" => $senha,
                 "receberEmail" => $receberEmail,
                 "aceitarTermo" => $aceitarTermo,
-                "idTipoUsuario" => $idTipoUsuario
+                "idTipoUsuario" => 2
             );
             $id = $this->conta->salvar($data);
             
@@ -110,8 +110,9 @@ class ContaController extends CI_Controller {
                     $conta["sucesso"] = "Salvo com sucesso.";
                     $conta["tituloSucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
+       
                     $this->load->vars($conta);
-                    $this->load->view("priv/conta/contaEdit");
+                    $this->load->view("priv/conta/contaMsg");
                 }
             }
         }
@@ -121,7 +122,115 @@ class ContaController extends CI_Controller {
             $conta["erro"] = $msg;
             $conta["tituloErro"] = "Cadastro não realizado.";
             $this->load->vars($conta);
-            $this->load->view("priv/conta/contaAdd"); 
+            $this->load->view("priv/conta/contaMsg"); 
+        }
+    }
+   
+    function salvarNovaConta() {
+        $this->load->model("Conta_model", "conta");
+        $nome = $this->input->post("txtNome");
+        $sobrenome = $this->input->post("txtSobrenome");
+        $cpf = $this->input->post("txtCpf");
+        $login = $this->input->post("txtLogin");
+        $email = $this->input->post("txtEmail");
+        $repetirEmail = $this->input->post("txtRepetirEmail");
+        $senha = $this->input->post("txtSenha");
+        $repetirSenha = $this->input->post("txtRepetirSenha");
+        $receberEmail = $this->input->post("checkReceberEmail");
+        $aceitarTermo = $this->input->post("checkAceitarTermo");
+        $idTipoUsuario = $this->input->post("idTipoUsuario");
+        
+        $mensagem = array();
+        $msg = "";
+        $erro = false;
+        
+        if ($nome == "") {
+            $erro = true;
+            $msg .= "O campo Nome é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($sobrenome == "") {
+            $erro = true;
+            $msg .= "O campo Sobrenome é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($cpf == "") {
+            $erro = true;
+            $msg .= "O campo Cpf é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($login == "") {
+            $erro = true;
+            $msg .= "O campo Login é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($email == "") {
+            $erro = true;
+            $msg .= "O campo E-mail é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($senha == "") {
+            $erro = true;
+            $msg .= "O campo Senha obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($this->validaCPF($cpf) == false){
+            $erro = true;
+            $msg .= "Cpf inválido." . "<br/>";
+        }
+        
+        if ($this->validaEMAIL($email) == false){
+            $erro = true;
+            $msg .= "E-mail inválido." . "<br/>";
+        }
+        
+        if ($email != $repetirEmail){
+            $erro = true;
+            $msg .= "O e-mail e a confirmação de e-mail não conferem." . "<br/>";
+        }
+        
+        if ($senha != $repetirSenha){
+            $erro = true;
+            $msg .= "A senha e a confirmação de senha não conferem." . "<br/>";
+        }
+
+        if ($erro == false) {
+            $data = array(
+                "nome" => $nome,
+                "sobrenome" => $sobrenome,
+                "cpf" => $cpf,
+                "login" => $login,
+                "email" => $email,
+                "senha" => $senha,
+                "receberEmail" => 0,
+                "aceitarTermo" => 1,
+                "idTipoUsuario" => $idTipoUsuario
+            );
+            $id = $this->conta->salvar($data);
+            
+            if ($id > 0) {
+                $this->load->model('Conta_model', 'conta');
+                $conta["conta"] = $this->conta->buscarContaPorId($id);
+
+                if (!is_null($conta)) {
+                    //$this->enviarEMAIL($email);
+                    $conta["sucesso"] = "Salvo com sucesso.";
+                    $conta["tituloSucesso"] = "Cadastro realizado com sucesso.";
+                    $conta["tiposUsuario"] = $this->getTiposUsuario();
+                    
+                    $this->load->model('Conta_model', 'contaDAO');
+                    $conta["contas"] = $this->contaDAO->getAll();
+                    $this->load->view("priv/conta/contaList",$conta);
+                }
+            }
+        }
+        else {
+            $this->load->model('Conta_model', 'conta');
+            $conta["tiposUsuario"] = $this->getTiposUsuario();
+            $conta["erro"] = $msg;
+            $conta["tituloErro"] = "Cadastro não realizado.";
+            $this->load->vars($conta);
+            $this->load->view("priv/conta/contaEdit"); 
         }
     }
     
@@ -217,12 +326,10 @@ class ContaController extends CI_Controller {
 
      /* Actions */
 
-    function editarContaAction($id, $mensagem = array()) {
+    function editarContaAction($id) {
         $this->load->model('Conta_model', 'conta');
         $conta["conta"] = $this->conta->buscarContaPorId($id);
         $conta["tiposUsuario"] = $this->getTiposUsuario();
-        $conta["sucesso"] = $mensagem["sucesso"];
-        $conta["erro"] = $mensagem["erro"];
 
         if (!is_null($conta)) {
             $this->load->vars($conta);
