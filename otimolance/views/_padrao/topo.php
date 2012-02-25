@@ -32,6 +32,7 @@
                 </div>
             <? } else { ?>
                 <div class="formulario">
+                    <li><a href="<?= base_url(); ?>contaController/cadastroClienteSite"><span>Cadastre-se</span></a></li>
                     <form action="<?= base_url() ?>clientes/login" method="post">
 
                         <input type="text" name="login" id="login" class="inputSmall" value=""/>
