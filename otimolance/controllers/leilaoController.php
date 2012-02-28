@@ -140,38 +140,43 @@ class LeilaoController extends CI_Controller {
         $this->load->vars($leilao);
         $this->load->view("priv/leilao/leilaoAdd");
     }
-    
-    function pesquisarAction(){
+
+    function pesquisarAction() {
         $this->load->model('Leilao_model', 'leilao');
         $situacao = $this->input->post("situacao");
         $categoriaLeilao = $this->input->post("idCategoriaLeilao");
-        
+
         $this->leilao->situacao = $situacao;
         $this->leilao->idCategoriaLeilao = $categoriaLeilao;
-        
+
         $leilao["leiloes"] = $this->leilao->getAll();
         $leilao["categorias"] = $this->getCategoriasLeilao();
         $this->load->vars($leilao);
         $this->load->view("priv/leilao/leilaoList");
     }
-    
-    function publicarLeilao($idLeilao){
-        $this->load->model("Leilao_model", "leilao");
-        
-        $data = array(
-            "publicado" => 1
-        );
 
-        $result = $this->leilao->alterar($data, $idLeilao);
-        $mensagem = array();
-        if ($result > 0) {
-            $msg = "Salvo com sucesso.";
+    function publicarLeilao($idLeilao) {
+        $this->load->model("Leilao_model", "leilao");
+
+        if ($this->leilao->leilaoProntoParaPublicar($idLeilao) == true) {
+
+            $data = array(
+                "publicado" => 1
+            );
+
+            $result = $this->leilao->alterar($data, $idLeilao);
+            $mensagem = array();
+            if ($result > 0) {
+                $msg = "Salvo com sucesso.";
+            }
+            $mensagem["sucesso"] = $msg;
         }
-        $mensagem["sucesso"] = $msg;
+        else{
+            $mensagem["erro"] = 'Adicione um produto a ser leiloado.';
+        }
         $this->editarLeilaoAction($idLeilao, $mensagem);
-        
     }
-    
+
     function getCategoriasLeilao() {
         $this->load->model("CategoriaLeilao_model", "categoria");
         return $this->categoria->getAll();
@@ -181,7 +186,7 @@ class LeilaoController extends CI_Controller {
         $this->load->model("Produto_model", "produto");
         return $this->produto->getAll();
     }
-    
+
     function getLances($idLeilao) {
         $this->load->model("lance_model", "lance");
         return $this->lance->buscarLancesPorIdLeilao($idLeilao);
@@ -194,18 +199,18 @@ class LeilaoController extends CI_Controller {
         }
         return NULL;
     }
-    
-    /* metodos para o site*/
-    
-    function detalheLeilao($param){
-        echo "to aqui".$param;
-        
+
+    /* metodos para o site */
+
+    function detalheLeilao($param) {
+        echo "to aqui" . $param;
+
         $dados = explode("-", $param);
-        
+
         $id = $dados[0];
-        
+
         echo $id;
-        
+
         exit;
     }
 

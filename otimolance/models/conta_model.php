@@ -155,6 +155,19 @@ class Conta_model extends CI_Model {
         else
             return FALSE;
     }
+    
+    function buscarSaldoConta($idConta){
+        $query = $this->db->query("select ifnull(saldo,0) as saldo
+               FROM tb_conta c 
+               where c.idConta = $idConta ");
+        $saldo = 0;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $saldo = $row->saldo;
+            }
+        }
+        return $saldo;
+    }
 }
 
 ?>

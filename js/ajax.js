@@ -21,25 +21,20 @@ function lance(idLeilao, conta){
     var retorno = dhtmlxAjax.postSync("/otimolance/clance/darLance/",params);
     
     retorno = retorno.xmlDoc.responseText;
-    if(retorno == '2'){
+    retorno = retorno.split("@");
+    if(retorno[0] == 'SALDO_INSUFICIENTE'){
         alert('Saldo insuficiente para lance.');
     }
-    
-    params = "leilao="+idLeilao;
-    retorno = dhtmlxAjax.postSync("/otimolance/clance/buscarUltimoLance/",params);
-    retorno = retorno.xmlDoc.responseText;
-    retorno = retorno.split("@");
-      
-    //document.getElementById('hcronometro'+idLeilao).value = retorno[2];         
-    //document.getElementById('cronometro'+idLeilao).innerHTML = retorno[2];         
-    
+    else if(retorno[0] == 'SUCESSO'){
+        document.getElementById('usu_lances').innerHTML = retorno[1];         
+    }
 }
 
 function carregaLances(id){
     $.post("/otimolance/clance/retLances", {"id": id},
         function(data){
-            $("#usu_lances").html(data.lances);
-
+            if(data != "")
+                $("#usu_lances").html(data.saldo);
         }, "json");
 }
 

@@ -15,6 +15,17 @@ class Leilao_model extends CI_Model {
         $this->db->update('tb_leilao', $data);
         return $this->db->affected_rows();
     }
+    
+    function leilaoProntoParaPublicar($id) {
+        $query = $this->db->query("select l.idLeilao
+               FROM tb_leilao l join tb_itemleilao il on il.idLeilao = l.idLeilao
+               where l.idLeilao = $id ");
+        
+        if ($query->num_rows() > 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
 
     /*
      * Método para salvar o item do leilão
@@ -132,11 +143,13 @@ class Leilao_model extends CI_Model {
     function listarLeiloesPublicados() {
         
         $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
-            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome
+            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, caminho
                    from tb_leilao l 
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
-                   left join tb_produto p on il.idProduto = p.idProduto where l.publicado = 1 ";
+                   left join tb_produto p on il.idProduto = p.idProduto 
+                   left join tb_galeria g on g.idProduto = il.idProduto
+                   where l.publicado = 1 and l.dataInicio >= now() ";
         
         
         $query = $this->db->query($sql);

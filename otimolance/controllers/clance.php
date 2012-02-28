@@ -19,7 +19,7 @@ class Clance extends CI_Controller {
         // RETORNO 2 = SEM SALDO
         $idConta = $this->input->post("id");
         if ($this->Conta_model->existeSaldoNaConta($idConta) == FALSE) {
-            echo 2;
+            echo "SALDO_INSUFICIENTE@";
             exit;
         }
 
@@ -37,12 +37,16 @@ class Clance extends CI_Controller {
         $id = $this->lance->salvarLance($data);
 
         if ($id > 0) {
+              // chama um procedimento no banco de dados pra debitar do saldo do cliente
               $this->lance->atualizaSaldoConta($idConta);
         }
 
+        
         // atualiza o saldo de lances da conta
+        
+        $saldoConta = $this->retLances($idConta);
 
-        echo $id;
+        echo "SUCESSO@".$saldoConta;
     }
 
     function buscarUltimoLance() {
@@ -107,7 +111,7 @@ class Clance extends CI_Controller {
                 "idLeilao" => $value->idLeilao,
                 "login" => $value->login,
                 "valor" => $value->valor,
-                "MicroTimeFim" => $time, //($value->dataUltLance == 0  ? time($value->dataInicio) : time($value->dataUltLance)),
+                "MicroTimeFim" => $time, 
                 "tempoCronometro" => $value->tempoCronometro,
                 "status" => $status
             );
@@ -122,8 +126,20 @@ class Clance extends CI_Controller {
         echo json_encode(array("time" => mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'))));
     }
     
-    function retLances($idConta) {
-        return $this->Conta_model->buscarSaldoConta($idConta);
+    function retLances($id = "") {
+        $idConta = $this->input->post("id") != "" ? $this->input->post("id") : $id;
+        
+        if($idConta != ""){
+            $saldo =  $this->Conta_model->buscarSaldoConta($idConta);
+            if($id == "")
+                echo json_encode(array("saldo" => $saldo));
+            else 
+                return $saldo;
+        }
+         else {
+            echo '';
+        }
+        
     }
 
     function ajustaDataSql($data) {

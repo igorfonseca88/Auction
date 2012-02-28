@@ -512,7 +512,22 @@ function date ( format, timestamp ) {
 
         // Timezone
         e: function () {
-            
+            // The following works, but requires inclusion of the very large timezone_abbreviations_list() function
+            /*                var abbr='', i=0;
+				if (that.php_js && that.php_js.default_timezone) {
+					return that.php_js.default_timezone;
+				}
+				if (!tal.length) {
+					tal = that.timezone_abbreviations_list();
+				}
+				for (abbr in tal) {
+					for (i=0; i < tal[abbr].length; i++) {
+						if (tal[abbr][i].offset === -jsdate.getTimezoneOffset()*60) {
+							return tal[abbr][i].timezone_id;
+						}
+					}
+				}
+*/
             return 'UTC';
         },
         I: function () {
@@ -549,7 +564,15 @@ function date ( format, timestamp ) {
     };
     return format.replace(formatChr, formatChrCb);
 }
-
+function Trim(str)
+{
+    if(str != undefined)
+    {
+				   
+        return str.replace(/^\s+|\s+$/g,"");
+	
+    }
+}
 function mktime() 
 {
 	
@@ -692,7 +715,7 @@ function CalculaGMT()
     DataTmp 		= new Date();
     GtmCliente 		= DataTmp.getTimezoneOffset()/60;
 	
-    GmtServidor 	= 3; //GMT -3 Horas
+    GmtServidor 	= 4; //GMT -3 Horas
     GmtDiferenca	= GmtServidor - GtmCliente;
 	
     GmtSegundo		= GmtDiferenca * 60 * 60;
@@ -938,6 +961,7 @@ function ContDowLeiloes()
 			
             //MkTime Atual
             TimeAtual		= mktime();
+            //alert(new Date());
 
             //MkTime do Produto
             TimeProduto		= Trim(VarBoxSepara[0]);
@@ -947,7 +971,7 @@ function ContDowLeiloes()
             Status			= Trim(VarBoxSepara[2]);
 			
             //Calcula os segundos restantes para acabar o leil�o
-            Diferenca		= TimeProduto - TimeAtual /*- GmtSegundo*/ - FalhaTempo  - 1;
+            Diferenca		= TimeProduto - TimeAtual - GmtSegundo - FalhaTempo  - 1;
 		//alert(Diferenca);	
 			
             if(Status=="2")
@@ -1378,58 +1402,6 @@ function ExecutarLance(CodigoLeilao)
 	
 }
 
-function LanceMulti_Detalhar( Codigo )
-{
-	
-    $.colorbox(	{ 
-        href: 			"Ajax.php?Acao=LanceMulti_Detalhar&Codigo=" + Codigo, 
-        width: 			"500px", 
-        height: 		"450px",
-        onComplete: 	function() {
-						
-            LanceMulti_Detalhar_P( Codigo, "0" );
-												
-        }
-    });
-	
-}
-function LanceMulti_Detalhar_P( Codigo, Pagina )
-{
-	
-    $("#BoxHAjax").html("Carregando listagem...");
-	
-    var req = $.ajax({
-			
-        type: 		"GET",
-        url: 		"Ajax.php",
-        timeout: 	10000,
-        data: 		"Acao=LanceMulti_DetalharP&Codigo=" + Codigo + "&Pagina=" + Pagina + "&Rand=" + encodeURI(Math.random()),
-        cache: 		false,
-        success: 	function(msg)
-        {
-			
-            $("#BoxHAjax").html(msg);
-						
-            var req = null
-            delete req
-	
-        },
-        beforeSend: function()
-
-        {
-			
-            var req = null
-            delete req
-			
-        }
-			
-    });
-	
-    var req = null
-    delete req
-	
-}
-
 var MicroTime = 0;
 function MicroTimeServidor()
 {
@@ -1442,7 +1414,7 @@ function MicroTimeServidor()
             DataTmp 		= new Date();
             GtmCliente 		= DataTmp.getTimezoneOffset()/60;
 			
-            GmtServidor 	= 3; //GMT -3 Horas
+            GmtServidor 	= 4; //GMT -3 Horas
             GmtDiferenca	= GmtServidor - GtmCliente;
 			
             GmtSegundo		= GmtDiferenca * 60 * 60;

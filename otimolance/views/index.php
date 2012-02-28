@@ -13,13 +13,17 @@ $this->load->view('_padrao/topo');
             <input type="hidden" name="painel" class="LeilaoOnline" id="leilao<?= $leilao->idLeilao ?>" value="<?= $leilao->idLeilao ?>"/>
             <input type="hidden" id="leilaoinfo_<?= $leilao->idLeilao ?>" value=""/>
             <input type="hidden" id="leilaotipo_<?= $leilao->idLeilao ?>" value="S"/>
-            <input type="hidden" id="crono561" value="N"/>
              
             <p>Produto: <?= $leilao->nome ?></p>
             <p>Leilão nº <?= $leilao->idLeilao ?> - Início <?= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?></p>
             <div class="galeria_img">
                 <a href="<?= base_url() ?>leiloes/<?= $leilao->idLeilao ?>-<?= $leilao->nome ?>.html">
+                    <? 
+                    if ($leilao->caminho != "") {?>
+                    <img width="130px" height="180px" src="<?= base_url() ?>upload/produtos/<?=$leilao->caminho?>"/>
+                    <?}else{?>
                     <img width="130px" height="180px" src="<?= base_url() ?>img/imagem_nao_cadastrada.jpg"/>
+                    <?}?>
                 </a> 
             </div>
             
