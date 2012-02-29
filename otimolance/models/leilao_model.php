@@ -26,6 +26,17 @@ class Leilao_model extends CI_Model {
         }
         return FALSE;
     }
+    
+    function leilaoAtivo($id) {
+        $query = $this->db->query("select l.idLeilao
+               FROM tb_leilao l
+               where l.idLeilao = $id  and l.dataFim is null ");
+        
+        if ($query->num_rows() > 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
 
     /*
      * Método para salvar o item do leilão
@@ -105,7 +116,7 @@ class Leilao_model extends CI_Model {
 
         $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
                tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
-               il.valorProduto, il.valorFrete, il.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis,
+               il.valorProduto, il.valorFrete, l.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis,
                (select ifnull(max(valor),0) 
                FROM tb_lance
                where idLeilao = l.idLeilao) as valor,
@@ -116,6 +127,12 @@ class Leilao_model extends CI_Model {
                                     WHERE la.idLeilao = l.idLeilao
                                     ORDER BY idLance DESC 
                                     LIMIT 0 , 1 ) as login,
+                (SELECT la.idConta
+                                    FROM tb_lance la
+                                    JOIN tb_conta c ON la.idConta = c.idConta
+                                    WHERE la.idLeilao = l.idLeilao
+                                    ORDER BY idLance DESC 
+                                    LIMIT 0 , 1 ) as idContaArremate,
                 
                 (SELECT ifnull(max(data),0)
                                     FROM tb_lance

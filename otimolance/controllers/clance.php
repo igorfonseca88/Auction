@@ -6,12 +6,10 @@ class Clance extends CI_Controller {
         parent::__construct();
     }
 
-    function index() {
-        
-    }
 
     function darLance() {
         $this->load->model("Lance_model", "lance");
+        $this->load->model("Leilao_model", "leilao");
 
         // valida se o leilao ainda está ativo e tem tempo
         // RETORNO 1 = FINALIZADA
@@ -20,6 +18,11 @@ class Clance extends CI_Controller {
         $idConta = $this->input->post("id");
         if ($this->Conta_model->existeSaldoNaConta($idConta) == FALSE) {
             echo "SALDO_INSUFICIENTE@";
+            exit;
+        }
+        
+        if ($this->leilao->leilaoAtivo($this->input->post("leilao")) == FALSE) {
+            echo "LEILAO_INATIVO@";
             exit;
         }
 
@@ -95,7 +98,21 @@ class Clance extends CI_Controller {
         $i = 0;
         foreach ($dados as $value) {
 
-            $dataCalcular = ($value->dataUltLance == 0) ? $value->dataInicio : $value->dataUltLance;
+            // verifica se existe um lance dado para o item leilão
+            // caso esse lance tenha a data maior que a data do agendamento do leilão
+            // utiliza-se essa data para o cálculo de tempo do leilão
+            // senão continua com a data do agendamento
+            if($value->dataUltLance == 0){
+                $dataCalcular = $value->dataInicio;
+            }
+            else{
+                if($value->dataInicio > $value->dataUltLance){
+                    $dataCalcular = $value->dataInicio;
+                }
+                else{
+                    $dataCalcular = $value->dataUltLance;
+                }
+            }
             // tem que acrescentar o valor do cronometro no time
             $data = str_replace(" ", "-", str_replace(":", "-", $dataCalcular));
             $data = explode("-", $data);
@@ -105,6 +122,8 @@ class Clance extends CI_Controller {
             $status = '2';
             if (($time - $time2) <= 0) {
                 $status = 'F';
+                // chama o arremate
+                $this->arrematar($value->idLeilao,$value->valor, $value->idContaArremate );
             }
 
             $ret[$i] = array(
@@ -121,7 +140,20 @@ class Clance extends CI_Controller {
 
         echo json_encode($ret);
     }
+    
+    private function arrematar($idLeilao, $valor, $idContaArremate){
+        $this->load->model("leilao_model", "leilao");
+        $data = array(
+            "dataFim" => date('Y-m-d H:i:s'),
+            "valorArremate" => $valor,
+            "idContaArremate" => $idContaArremate
+        );
+        $this->leilao->alterar($data,$idLeilao);
+    }
 
+    /**
+     * retora o horário em microsegundos para utilização no js
+     */
     function retHorario() {
         echo json_encode(array("time" => mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'))));
     }

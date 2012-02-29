@@ -48,8 +48,8 @@ $this->load->view('priv/_inc/superior');
                         <label>Valor leilão</label><br />
                         <select name='valorLeilao' id='valorLeilao' class="selectSmall">
                             <option value=""> Selecione </option>
-                            <option value="1" <?= $row->valorLeilao == '1' ? "selected" : "" ?>> 1 centavo</option>
-                            <option value="2" <?= $row->valorLeilao == '2' ? "selected" : "" ?>> 2 centavos</option>
+                            <option value="1" <?= $row->valorLeilao == '0.01' ? "selected" : "" ?>> 1 centavo</option>
+                            <option value="2" <?= $row->valorLeilao == '0.02' ? "selected" : "" ?>> 2 centavos</option>
                         </select>
                     </div>
 

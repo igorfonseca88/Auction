@@ -25,6 +25,9 @@ function lance(idLeilao, conta){
     if(retorno[0] == 'SALDO_INSUFICIENTE'){
         alert('Saldo insuficiente para lance.');
     }
+    if(retorno[0] == 'LEILAO_INATIVO'){
+        alert('Leilão finalizado.');
+    }
     else if(retorno[0] == 'SUCESSO'){
         document.getElementById('usu_lances').innerHTML = retorno[1];         
     }
