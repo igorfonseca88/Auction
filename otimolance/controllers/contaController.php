@@ -5,6 +5,8 @@ class ContaController extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
+    
+    private $msgPadrao = "";
 
     function index() {
         $this->load->model('Conta_model', 'contaDAO');
@@ -290,18 +292,26 @@ class ContaController extends CI_Controller {
     }
     
     function enviarEMAIL($email){
-        // enviar um email      
+        $this->load->model('Parametro_model', 'parametro');
+        $servidor["servidor"] = $this->parametro->buscarParametros();
         $this->load->library('email');
+        
+        $this->email->smtp_host = $servidor["servidor"][0]->smtp_host;
+        $this->email->smtp_port = $servidor["servidor"][0]->smtp_port;
+        $this->email->smtp_user = $servidor["servidor"][0]->smtp_user;
+        $this->email->smtp_pass = $servidor["servidor"][0]->smtp_pass;
+        
         $this->email->from('otimolance@gmail.com','Team OtimoLance');
         $this->email->to($email);
-        $this->email->subject('Um email teste do OtimoLance usando Gmail');
-        $this->email->message("Eu posso agora enviar email do OtimoLance usando o Gmail como meu servidor!");
+        $this->email->subject('[OtimoLance] Ative sua conta no OtimoLance');
+        $this->email->message($servidor["servidor"][0]->padraoEmailConfirmarCadastro);
         $this->email->send();
         //echo $this->email->print_debugger();
     }
 
-    function editarConta($idConta) {
+    function editarConta() {
         $this->load->model("Conta_model", "conta");
+        $id = $this->input->post("idContah");
 
         $data = array(
             "nome" => $this->input->post("txtNome"),
@@ -315,13 +325,9 @@ class ContaController extends CI_Controller {
             "idTipoUsuario" => $this->input->post("idTipoUsuario")
         );
         
-        $result = $this->conta->alterar($data, $idConta);
-        $mensagem = array();
-        if ($result > 0) {
-            $msg = "Salvo com sucesso.";
-        }
-        $mensagem["sucesso"] = $msg;
-        $this->editarContaAction($idConta, $mensagem);
+        $this->conta->update($data, $id);
+        $this->msgPadrao = "Conta salva com sucesso.";
+        $this->editarContaAction($id);
     }
 
      /* Actions */
@@ -331,16 +337,25 @@ class ContaController extends CI_Controller {
         $conta["conta"] = $this->conta->buscarContaPorId($id);
         $conta["tiposUsuario"] = $this->getTiposUsuario();
 
-        if (!is_null($conta)) {
-            $this->load->vars($conta);
-            $this->load->view("priv/conta/contaEdit");
-        }
+        $conta["sucesso"] = $this->msgPadrao;
+        $this->load->vars($conta);
+        $this->load->view("priv/conta/contaEdit");
     }
 
     function novaContaAction() {
         $conta["tiposUsuario"] = $this->getTiposUsuario();
         $this->load->vars($conta);
         $this->load->view("priv/conta/contaAdd");
+    }
+    
+    function excluirContaAction($idConta){
+        $this->load->model('Conta_model', 'conta');
+        
+        $delete = array("idConta" => $idConta);
+         
+        $this->conta->excluirConta($delete);
+        $this->session->set_flashdata('sucesso','Conta excluída com sucesso.');
+        redirect("contaController");
     }
     
     function getTiposUsuario() {

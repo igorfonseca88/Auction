@@ -29,5 +29,13 @@ class Produto_model extends CI_Model {
         $query = $this->db->get("tb_produto");
         return $query->result();
     }
+    
+    function buscarProdutosPorIdCategoria($idCategoria) {
+        $query = $this->db->query("SELECT p.nome, g.caminho FROM TB_PRODUTO p INNER JOIN TB_GALERIA g (p.idProduto = g.idProduto)
+                                   WHERE p.idCategoria = $idCategoria
+                                   AND g.tipoGaleria = 'imagem' 
+                                   AND g.isPrincipal = 1 ");
+        return $query->result();
+    }
 }
 ?>

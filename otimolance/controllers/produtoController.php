@@ -23,6 +23,7 @@ class ProdutoController extends CI_Controller {
             "descricao" => $this->input->post("txtDescricao"),
             "idCategoria" => $this->input->post("idCategoria"),
             "preco" => $this->input->post("txtPreco")
+             
         );
         
            $id = $this->produto->add($data);
@@ -93,6 +94,7 @@ class ProdutoController extends CI_Controller {
         $galeria["galeria"] = $this->galeriaDAO->buscarGaleriaPorId($id);
         
         foreach ($galeria as $row) {
+            $caminho =  $row[0]->caminho;
             $idProduto = $row[0]->idProduto;
         }
         
@@ -102,6 +104,7 @@ class ProdutoController extends CI_Controller {
             $delete = array(
                 "idGaleria" => $id
              );
+             print_r($delete);
             $this->galeriaDAO->excluirGaleria($delete);
         }
         
