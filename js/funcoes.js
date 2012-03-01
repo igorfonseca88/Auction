@@ -128,3 +128,8 @@ function responseDadosProdutoAjax (loader){
         document.getElementById("valorProduto").value= resposta[0];
     }
 }
+
+function showHideCategoria(){
+ var valor = $("#tipoLance").is(":checked");
+ $("#idCategoria").attr("disabled", valor);
+}
