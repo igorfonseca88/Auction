@@ -337,50 +337,7 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
 }
 
 function date ( format, timestamp ) {
-    // http://kevin.vanzonneveld.net
-    // +   original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
-    // +      parts by: Peter-Paul Koch (http://www.quirksmode.org/js/beat.html)
-    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   improved by: MeEtc (http://yass.meetcweb.com)
-    // +   improved by: Brad Touesnard
-    // +   improved by: Tim Wiel
-    // +   improved by: Bryan Elliott
-    // +   improved by: Brett Zamir (http://brett-zamir.me)
-    // +   improved by: David Randall
-    // +      input by: Brett Zamir (http://brett-zamir.me)
-    // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   improved by: Brett Zamir (http://brett-zamir.me)
-    // +   improved by: Brett Zamir (http://brett-zamir.me)
-    // +   improved by: Theriault
-    // +  derived from: gettimeofday
-    // +      input by: majak
-    // +   bugfixed by: majak
-    // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +      input by: Alex
-    // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
-    // +   improved by: Theriault
-    // +   improved by: Brett Zamir (http://brett-zamir.me)
-    // +   improved by: Theriault
-    // %        note 1: Uses global: php_js to store the default timezone
-    // *     example 1: date('H:m:s \\m \\i\\s \\m\\o\\n\\t\\h', 1062402400);
-    // *     returns 1: '09:09:40 m is month'
-    // *     example 2: date('F j, Y, g:i a', 1062462400);
-    // *     returns 2: 'September 2, 2003, 2:26 am'
-    // *     example 3: date('Y W o', 1062462400);
-    // *     returns 3: '2003 36 2003'
-    // *     example 4: x = date('Y m d', (new Date()).getTime()/1000); // 2009 01 09
-    // *     example 4: (x+'').length == 10
-    // *     returns 4: true
-    // *     example 5: date('W', 1104534000);
-    // *     returns 5: '53'
-    // *     example 6: date('B t', 1104534000);
-    // *     returns 6: '999 31'
-    // *     example 7: date('W', 1293750000); // 2010-12-31
-    // *     returns 7: '52'
-    // *     example 8: date('W', 1293836400); // 2011-01-01
-    // *     returns 8: '52'
-    // *     example 9: date('W Y-m-d', 1293974054); // 2011-01-02
-    // *     returns 9: '52 2011-01-02'
+   
 
     var that = this,
     jsdate = (
@@ -765,23 +722,18 @@ function MontaListaLeiloes()
 function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
 {
 	
-    TipoLeilao	= $("#TipoLeilao_" + CodigoLeilao).val();
-	
-    switch(TipoLeilao)
-    {
+    
 		
-        case "S":
-		
-            ListaHistorico = ListaHistorico.split("####");
+            ListaHistorico = ListaHistorico.split("@");
 			
             TextoH = 	'';
             TextoH = 	'<table width="100%" cellpadding="2" cellspacing="0">'+
             '<tr>'+
-            '<td colspan="2" align="center" bgcolor="#36322f" height="25" class="h2" style="font-weight:bold;">Hist�rico de Lances</td>'+
+            '<td colspan="2" align="center" bgcolor="#36322f" height="25" class="h2" style="font-weight:bold;">Histórico de Lances</td>'+
             '</tr>'+
             '<tr>'+
             '<td align="center" class="h1" style="font-weight:bold;">Lance</td>'+
-            '<td align="center" class="h1" style="font-weight:bold;">Usu�rio</td>'+
+            '<td align="center" class="h1" style="font-weight:bold;">Usuário</td>'+
             '</tr>';
 						
             if(ListaHistorico.length>0)
@@ -793,10 +745,10 @@ function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
                     if(ix<=12)
                     {
 						
-                        LanceValorSepara = ListaHistorico[ix].split("##");
+                        LanceValorSepara = ListaHistorico[ix].split("#");
                         TextoH = TextoH +	'<tr>'+
-                        '<td align="center" class="h5">R$ '+number_format(LanceValorSepara[0], 2, ',', '.')+'</td>'+
-                        '<td align="center" class="h5">'+LanceValorSepara[1]+'</td>'+
+                        '<td align="center" class="h5">R$ '+number_format(LanceValorSepara[1], 2, ',', '.')+'</td>'+
+                        '<td align="center" class="h5">'+LanceValorSepara[2]+'</td>'+
                         '</tr>';
 									
                     }
@@ -809,56 +761,12 @@ function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
 		
             $("#L_LancesHistorico_" + CodigoLeilao).html(TextoH);	
 		
-            break;
-		
-        case "U":
-		
-            ListaHistorico = ListaHistorico.split("####");
-			
-            TextoH = 	'';
-            TextoH = 	'<table width="100%" cellpadding="2" cellspacing="0">'+
-            '<tr>'+
-            '<td colspan="2" align="center" bgcolor="#36322f" height="25" class="h2" style="font-weight:bold;">Hist�rico de Lances</td>'+
-            '</tr>'+
-            '<tr>'+
-            '<td align="center" class="h1" style="font-weight:bold;">Usu�rio</td>'+
-            '<td align="center" class="h1" style="font-weight:bold;">Data</td>'+
-            '</tr>';
-						
-            if(ListaHistorico.length>0)
-            {
-				
-                for (ix=0; ix<=ListaHistorico.length-2;ix++)
-                {
-					
-                    if(ix<=12)
-                    {
-						
-                        LanceValorSepara = ListaHistorico[ix].split("##");
-                        TextoH = TextoH +	'<tr>'+
-                        '<td align="center" class="h5">'+LanceValorSepara[2]+'</td>'+
-                        '<td align="center" class="h5" style="font-size:10px;">'+LanceValorSepara[0]+' '+LanceValorSepara[1]+'</td>'+
-                        '</tr>';
-									
-                    }
-					
-                }
-				
-            }
-			
-            TextoH = TextoH +	'</table>';
-		
-            $("#L_LancesHistorico_" + CodigoLeilao).html(TextoH);
-		
-            break;
-		
-    }
-	
-	
 }
 
 var TempoUltimaReq		= 0;
 var QtdReqLeiloes		= 0;
+var DetalheProduto = "";
+DetalheProduto = detalhe;
 
 function RequisitacaoLeiloes()
 {
@@ -918,6 +826,10 @@ function RequisitacaoLeiloes()
 						
                             ContDowLeiloes();
 			
+                        }
+                        
+                        if(DetalheProduto == "sim"){
+                            MontaHistoricoLeilao(Cod, Ret.listaLances);
                         }
 					
                         Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 500);

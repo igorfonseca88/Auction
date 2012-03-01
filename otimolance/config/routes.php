@@ -13,7 +13,7 @@ $route['minha-conta'] =  'principal/carregarConta';
 
 
 $route['home'] =  'principal/home';
-$route['leiloes/(:any)'] = "leilaoController/detalheLeilao/$1";
+$route['leiloes/(:any)'] = "clance/detalheLeilao/$1";
 
 
 /* End of file routes.php */

@@ -148,13 +148,13 @@ class Leilao_model extends CI_Model {
 
         $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
                tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
-               il.valorProduto, il.valorFrete, il.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis
+               il.valorProduto, il.valorFrete, l.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis
                FROM tb_leilao l 
                left join tb_itemleilao il on l.idLeilao = il.idLeilao 
                where l.idLeilao = $id ");
         return $query->result();
     }
-
+    
     /* site */
     
     function listarLeiloesPublicados() {
