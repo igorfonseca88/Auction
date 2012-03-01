@@ -6,7 +6,6 @@ class Clance extends CI_Controller {
         parent::__construct();
     }
 
-
     function darLance() {
         $this->load->model("Lance_model", "lance");
         $this->load->model("Leilao_model", "leilao");
@@ -20,7 +19,7 @@ class Clance extends CI_Controller {
             echo "SALDO_INSUFICIENTE@";
             exit;
         }
-        
+
         if ($this->leilao->leilaoAtivo($this->input->post("leilao")) == FALSE) {
             echo "LEILAO_INATIVO@";
             exit;
@@ -40,16 +39,16 @@ class Clance extends CI_Controller {
         $id = $this->lance->salvarLance($data);
 
         if ($id > 0) {
-              // chama um procedimento no banco de dados pra debitar do saldo do cliente
-              $this->lance->atualizaSaldoConta($idConta);
+            // chama um procedimento no banco de dados pra debitar do saldo do cliente
+            $this->lance->atualizaSaldoConta($idConta);
         }
 
-        
+
         // atualiza o saldo de lances da conta
-        
+
         $saldoConta = $this->retLances($idConta);
 
-        echo "SUCESSO@".$saldoConta;
+        echo "SUCESSO@" . $saldoConta;
     }
 
     function buscarUltimoLance() {
@@ -102,14 +101,12 @@ class Clance extends CI_Controller {
             // caso esse lance tenha a data maior que a data do agendamento do leilão
             // utiliza-se essa data para o cálculo de tempo do leilão
             // senão continua com a data do agendamento
-            if($value->dataUltLance == 0){
+            if ($value->dataUltLance == 0) {
                 $dataCalcular = $value->dataInicio;
-            }
-            else{
-                if($value->dataInicio > $value->dataUltLance){
+            } else {
+                if ($value->dataInicio > $value->dataUltLance) {
                     $dataCalcular = $value->dataInicio;
-                }
-                else{
+                } else {
                     $dataCalcular = $value->dataUltLance;
                 }
             }
@@ -123,16 +120,17 @@ class Clance extends CI_Controller {
             if (($time - $time2) <= 0) {
                 $status = 'F';
                 // chama o arremate
-                $this->arrematar($value->idLeilao,$value->valor, $value->idContaArremate );
+                $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate);
             }
 
             $ret[$i] = array(
                 "idLeilao" => $value->idLeilao,
                 "login" => $value->login,
                 "valor" => $value->valor,
-                "MicroTimeFim" => $time, 
+                "MicroTimeFim" => $time,
                 "tempoCronometro" => $value->tempoCronometro,
-                "status" => $status
+                "status" => $status,
+                "listaLances" => $this->getListaLances($value->idLeilao)
             );
             $i++;
         }
@@ -140,15 +138,27 @@ class Clance extends CI_Controller {
 
         echo json_encode($ret);
     }
-    
-    private function arrematar($idLeilao, $valor, $idContaArremate){
+
+    private function arrematar($idLeilao, $valor, $idContaArremate) {
         $this->load->model("leilao_model", "leilao");
         $data = array(
             "dataFim" => date('Y-m-d H:i:s'),
             "valorArremate" => $valor,
             "idContaArremate" => $idContaArremate
         );
-        $this->leilao->alterar($data,$idLeilao);
+        $this->leilao->alterar($data, $idLeilao);
+    }
+
+    private function getListaLances($idLeilao) {
+        $this->load->model("lance_model", "lance");
+        $lista = $this->lance->buscarListaLancePorIdLeilao($idLeilao);
+        $retorno = "";
+        if ($lista != "") {
+            foreach ($lista as $row) {
+                $retorno = $retorno. $row->data."#".$row->valor."#".$row->login."@";
+            }
+        }
+        return $retorno;
     }
 
     /**
@@ -157,21 +167,20 @@ class Clance extends CI_Controller {
     function retHorario() {
         echo json_encode(array("time" => mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'))));
     }
-    
+
     function retLances($id = "") {
         $idConta = $this->input->post("id") != "" ? $this->input->post("id") : $id;
-        
-        if($idConta != ""){
-            $saldo =  $this->Conta_model->buscarSaldoConta($idConta);
-            if($id == "")
+
+        if ($idConta != "") {
+            $saldo = $this->Conta_model->buscarSaldoConta($idConta);
+            if ($id == "")
                 echo json_encode(array("saldo" => $saldo));
-            else 
+            else
                 return $saldo;
         }
-         else {
+        else {
             echo '';
         }
-        
     }
 
     function ajustaDataSql($data) {
@@ -185,15 +194,17 @@ class Clance extends CI_Controller {
     /* metodos para o site */
 
     function detalheLeilao($param) {
-        echo "to aqui" . $param;
+        $this->load->model("leilao_model", "leilao");
 
         $dados = explode("-", $param);
 
         $id = $dados[0];
 
-        echo $id;
+        if ($id != "") {
+            $leilaoArray["leilaoArray"] = $this->leilao->buscarLeilaoPorId($id);
+        }
 
-        exit;
+        $this->load->view("_paginas/detalhe_produto", $leilaoArray);
     }
 
 }

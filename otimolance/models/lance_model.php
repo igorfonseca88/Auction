@@ -50,6 +50,15 @@ class Lance_model extends CI_Model {
 
         return $query->result();
     }
+    
+    function buscarListaLancePorIdLeilao($id) {
+
+        $query = $this->db->query("select data, valor, login
+               FROM tb_lance l 
+               join tb_conta c on c.idConta = l.idConta
+               where l.idLeilao = $id order by idLance desc ");
+        return $query->result();
+    }
 
 }
 
