@@ -26,7 +26,11 @@ $this->load->view('priv/_inc/superior');
                 <label>Preço</label><br />
                 R$ <input type="text" name="txtPreco" id="txtPreco" value="" class="input"/>
             </div>
-            
+            <div>
+                <input type="checkbox" name="tipoLance[]" id="tipoLance" onchange="showHideCategoria()"> 
+                <label>Produto do tipo lance</label>
+            </div>
+            <br>
              <div class="item">
                 <label>Categoria do Produto</label><br />
                 <select name='idCategoria' id='idCategoria' class="select">

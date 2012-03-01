@@ -9,7 +9,7 @@ class CategoriaController extends CI_Controller {
     
     function index(){
         
-        $this->load->model('CategoriaDAO', 'categoriaDAO');
+        $this->load->model('Categoria_model', 'categoriaDAO');
         $data["categorias"] = $this->categoriaDAO->getAll();
         $this->load->view("priv/categoria/categoriaList",$data);
     }
