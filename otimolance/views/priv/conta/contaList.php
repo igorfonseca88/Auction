@@ -17,6 +17,8 @@ $this->load->view('priv/_inc/superior');
                 <td>Código</td>
                 <td>Nome</td>
                 <td>Sobrenome</td>
+                <td>Cpf</td>
+                <td>E-mail</td>
                 <td>Login</td>
                 <td>Ações</td>
             </thead>
@@ -26,9 +28,12 @@ $this->load->view('priv/_inc/superior');
                     <td><?=$conta->idConta?></td>
                     <td><?=$conta->nome?></td>
                     <td><?=$conta->sobrenome?></td>
+                    <td><?=$conta->cpf?></td>
+                    <td><?=$conta->email?></td>
                     <td><?=$conta->login?></td>
                     <td>
                         <a href="<?= base_url() ?>contaController/editarContaAction/<?= $conta->idConta ?>">Editar</a>
+                        <a href="<?= base_url() ?>contaController/excluirContaAction/<?= $conta->idConta ?>">Excluir</a>
                     </td>
                 </tr>
               <?}?>

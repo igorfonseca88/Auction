@@ -52,8 +52,6 @@ class Conta_model extends CI_Model {
         $this->tipoUsuario = $tipoUsuario;
     }
 
-       
-
     function validate() {
 
         $sql = "select idConta, login, senha, c.idTipoUsuario, tipoUsuario from tb_conta c 
@@ -103,16 +101,19 @@ class Conta_model extends CI_Model {
         return $query->result();
     }
 
-	
     function salvar($data = array()) {
         $this->db->insert('tb_conta', $data);
         return $this->db->insert_id();
     }
-    
-    function alterar($data = array(), $id) {
+       
+    function update($data = array(), $id) {
         $this->db->where('idConta', $id);
         $this->db->update('tb_conta', $data);
         return $this->db->affected_rows();
+    }
+    
+    function excluirConta($data = array()){
+        $this->db->delete('tb_conta', $data);
     }
 
     function getAll() {
@@ -132,7 +133,6 @@ class Conta_model extends CI_Model {
     }
     
     function buscarContaPorId($id) {
-
         $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
             c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario
                FROM tb_conta c 

@@ -11,10 +11,8 @@ $this->load->view('priv/_inc/superior');
     </div>
 
     <div class="formulario">
-        <h2>    
-            <?=$tituloSucesso != "" ? '<h2> '.$tituloSucesso.' </h2>': ""?>
-            <?=$tituloErro != "" ? '<h2> '.$tituloErro.' </h2>': ""?>
-        </h2>
+        <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
     </div>
 </div>
 <?

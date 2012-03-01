@@ -10,12 +10,14 @@ $this->load->view('priv/_inc/superior');
     </div>
 
     <div class="formulario">
+        <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
         <h2>Editar usuário do sistema</h2>
         <p><? echo $this->session->flashdata('sucesso'); ?></p>
         <form method="post" action="<?= BASE_URL(); ?>contaController/editarConta">
 
             <? foreach ($conta as $row) { ?>
-            <input type="hidden" name="idConta" id="idConta" value="<?= $row->idConta?>"/>
+            <input type="hidden" name="idContah" id="idContah" value="<?= $row->idConta?>"/>
                 <div class="item">
                    <label>Nome</label><br />
                    <input type="text" name="txtNome" id="txtNome" value="<?= $row->nome ?>" class="input"/>
