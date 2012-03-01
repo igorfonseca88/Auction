@@ -140,6 +140,26 @@ class Conta_model extends CI_Model {
         return $query->result();
     }
     
+    function buscarLoginCadastrado($login) {
+        $query = $this->db->query("select c.login FROM tb_conta c where c.login LIKE '$login' ");
+        return $query->result();
+    }
+    
+    function buscarCpfCadastrado($cpf) {
+        $query = $this->db->query("select c.cpf FROM tb_conta c where c.cpf LIKE '$cpf' ");
+        return $query->result();
+    }
+    
+    function buscarEmailCadastrado($email) {
+        $query = $this->db->query("select c.email FROM tb_conta c where c.email LIKE '$email' ");
+        return $query->result();
+    }
+    
+    function buscarIpCadastrado($ip) {
+        $query = $this->db->query("select c.ip FROM tb_conta c where c.ip LIKE '$ip' ");
+        return $query->result();
+    }
+    
     function existeSaldoNaConta($idConta){
         $query = $this->db->query("select saldo
                FROM tb_conta c 

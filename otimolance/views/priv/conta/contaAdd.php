@@ -9,37 +9,38 @@ $this->load->view('priv/_inc/superior');
                 <a href="<?= BASE_URL(); ?>contaController/">Listagem de Usuários do Sistema</a> &raquo; Nova conta</span>
     </div>
     <div class="formulario">
+        <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
+        <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
         <h2>Novo cadastro de usuários do sistema</h2>
-        <p><? echo $this->session->flashdata('sucesso'); ?></p>
         <form method="post" action="salvarNovaConta">
                 <div class="item">
                     <label>Nome</label><br />
-                    <input type="text" name="txtNome" id="txtNome" value="" class="input"/>
+                    <input type="text" name="txtNome" id="txtNome" value="<?echo $_POST['txtNome']; ?>" class="input"/>
                 </div>
             
                 <div class="item">
                     <label>Sobrenome</label><br />
-                    <input type="text" name="txtSobrenome" id="txtSobrenome" value="" class="input"/>
+                    <input type="text" name="txtSobrenome" id="txtSobrenome" value="<?echo $_POST['txtSobrenome']; ?>" class="input"/>
                 </div>
 
                 <div class="item">
                     <label>Cpf</label><br />
-                    <input type="text" name="txtCpf" id="txtCpf" value="" class="input"/>
+                    <input type="text" name="txtCpf" id="txtCpf" value="<?echo $_POST['txtCpf']; ?>" class="input"/>
                 </div>
 
                 <div class="item">
                     <label>Login</label><br />
-                    <input type="text" name="txtLogin" id="txtLogin" value="" class="input"/>
+                    <input type="text" name="txtLogin" id="txtLogin" value="<?echo $_POST['txtLogin']; ?>" class="input"/>
                 </div>
 
                 <div class="item">
                     <label>E-Mail</label><br />
-                    <input type="text" name="txtEmail" id="txtEmail" value="" class="input"/>
+                    <input type="text" name="txtEmail" id="txtEmail" value="<?echo $_POST['txtEmail']; ?>" class="input"/>
                 </div>
 
                 <div class="item">
                     <label>Repetir E-Mail</label><br />
-                    <input type="text" name="txtRepetirEmail" id="txtRepetirEmail" value="" class="input"/>
+                    <input type="text" name="txtRepetirEmail" id="txtRepetirEmail" value="<?echo $_POST['txtRepetirEmail']; ?>" class="input"/>
                 </div>
 
                 <div class="item">
@@ -55,7 +56,7 @@ $this->load->view('priv/_inc/superior');
                 <div class="item">
                     <label>Tipo de Conta</label><br />
                     <select name='idTipoUsuario' id='idTipoUsuario' class="select">
-                        <option value=""> Selecione </option>
+                        <option value="<?echo $_POST['idTipoUsuario']; ?>"> Selecione </option>
                         <?
                         if (count($tiposUsuario)) {
                             foreach ($tiposUsuario as $key) {

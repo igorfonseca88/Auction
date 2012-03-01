@@ -34,11 +34,72 @@ class ContaController extends CI_Controller {
         $receberEmail = $this->input->post("checkReceberEmail");
         $aceitarTermo = $this->input->post("checkAceitarTermo");
         $idTipoUsuario = $this->input->post("idTipoUsuario");
-        
+               
         $mensagem = array();
         $msg = "";
         $erro = false;
         
+        // Verificar se login já foi cadastrado
+        $this->load->model('Conta_model', 'conta');
+        $listaLogin["$listaLogin"] = $this->conta->buscarLoginCadastrado($login);
+           
+        foreach ($listaLogin as $row) {
+            $loginExistente =  $row[0]->login;
+        }
+
+        if (!is_null($loginExistente)){
+            $erro = true;
+            $msg .= "Login já cadastrado." . "<br/>";
+        }
+        
+        // Verificar de cpf já foi cadastrado
+        $listaCpf["$listaCpf"] = $this->conta->buscarCpfCadastrado($cpf);
+           
+        foreach ($listaCpf as $row) {
+            $cpfExistente =  $row[0]->cpf;
+        }
+
+        if (!is_null($cpfExistente)){
+            $erro = true;
+            $msg .= "Cpf já cadastrado." . "<br/>";
+        }
+        
+        // Verificar de email já foi cadastrado
+        $listaEmail["$listaEmail"] = $this->conta->buscarEmailCadastrado($email);
+           
+        foreach ($listaEmail as $row) {
+            $emailExistente =  $row[0]->email;
+        }
+
+        if (!is_null($emailExistente)){
+            $erro = true;
+            $msg .= "E-mail já cadastrado." . "<br/>";
+        }
+        
+        // Verificar se ip já foi utilizado
+        $this->load->model('Parametro_model', 'parametro');
+        $listaParametro["$listaParametro"] = $this->parametro->buscarParametros();
+        
+        foreach ($listaParametro as $row) {
+            $maxIp = $row[0]->maxIp;
+        }
+        
+        $ip = getenv("REMOTE_ADDR");
+        $listaIp["$listaIp"] = $this->conta->buscarIpCadastrado($ip);
+
+        $cont = 0;
+        
+        foreach ($listaIp as $row) {
+            $ipExistente =  $row[0]->ip;
+            $cont++;
+        }
+        
+        if ($cont > $maxIp){
+            $erro = true;
+            $msg .= "Limite máximo de cadastro por ip atingido." . "<br/>";
+        }
+        
+        // Validações de campos nulos
         if ($nome == "") {
             $erro = true;
             $msg .= "O campo Nome é obrigatório. Favor preenche-lo corretamente." . "<br/>";
@@ -99,7 +160,8 @@ class ContaController extends CI_Controller {
                 "senha" => $senha,
                 "receberEmail" => $receberEmail,
                 "aceitarTermo" => $aceitarTermo,
-                "idTipoUsuario" => 2
+                "idTipoUsuario" => 2,
+                "ip" => $ip
             );
             $id = $this->conta->salvar($data);
             
@@ -113,7 +175,7 @@ class ContaController extends CI_Controller {
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
        
                     $this->load->vars($conta);
-                    $this->load->view("conta/contaAdd");
+                    $this->load->view("conta/contaMsg");
                 }
             }
         }
@@ -144,6 +206,44 @@ class ContaController extends CI_Controller {
         $msg = "";
         $erro = false;
         
+        // Verificar se login já foi cadastrado
+        $this->load->model('Conta_model', 'conta');
+        $listaLogin["$listaLogin"] = $this->conta->buscarLoginCadastrado($login);
+           
+        foreach ($listaLogin as $row) {
+            $loginExistente =  $row[0]->login;
+        }
+
+        if (!is_null($loginExistente)){
+            $erro = true;
+            $msg .= "Login já cadastrado." . "<br/>";
+        }
+        
+        // Verificar de cpf já foi cadastrado
+        $listaCpf["$listaCpf"] = $this->conta->buscarCpfCadastrado($cpf);
+           
+        foreach ($listaCpf as $row) {
+            $cpfExistente =  $row[0]->cpf;
+        }
+
+        if (!is_null($cpfExistente)){
+            $erro = true;
+            $msg .= "Cpf já cadastrado." . "<br/>";
+        }
+        
+        // Verificar de email já foi cadastrado
+        $listaEmail["$listaEmail"] = $this->conta->buscarEmailCadastrado($email);
+           
+        foreach ($listaEmail as $row) {
+            $emailExistente =  $row[0]->email;
+        }
+
+        if (!is_null($emailExistente)){
+            $erro = true;
+            $msg .= "E-mail já cadastrado." . "<br/>";
+        }
+        
+        // Validações de campos nulos
         if ($nome == "") {
             $erro = true;
             $msg .= "O campo Nome é obrigatório. Favor preenche-lo corretamente." . "<br/>";
@@ -219,7 +319,7 @@ class ContaController extends CI_Controller {
                     
                     $this->load->model('Conta_model', 'contaDAO');
                     $conta["contas"] = $this->contaDAO->getAll();
-                    $this->load->view("priv/conta/contaList",$conta);
+                    $this->load->view("priv/conta/contaEdit",$conta);
                 }
             }
         }
@@ -228,7 +328,7 @@ class ContaController extends CI_Controller {
             $conta["tiposUsuario"] = $this->getTiposUsuario();
             $conta["erro"] = $msg;
             $this->load->vars($conta);
-            $this->load->view("priv/conta/contaEdit"); 
+            $this->load->view("priv/conta/contaAdd"); 
         }
     }
     
@@ -350,7 +450,6 @@ class ContaController extends CI_Controller {
                 "sobrenome" => $sobrenome,
                 "cpf" => $cpf,
                 "login" => $login,
-                "email" => $email,
                 "idTipoUsuario" => $idTipoUsuario
             );
         
