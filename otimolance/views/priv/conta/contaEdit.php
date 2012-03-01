@@ -39,26 +39,6 @@ $this->load->view('priv/_inc/superior');
                 </div>
 
                 <div class="item">
-                    <label>E-Mail</label><br />
-                    <input type="text" name="txtEmail" id="txtEmail" value="<?= $row->email ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Repetir E-Mail</label><br />
-                    <input type="text" name="txtRepetirEmail" id="txtRepetirEmail" value="" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Senha</label><br />
-                    <input type="password" name="txtSenha" id="txtSenha" value="<?= $row->senha ?>" class="input"/>
-                </div>
-
-                <div class="item">
-                    <label>Repetir Senha</label><br />
-                    <input type="password" name="txtRepetirSenha" id="txtRepetirSenha" value="" class="input"/>
-                </div>
-
-                <div class="item">
                     <label>Tipo de Conta</label><br />
                     <select name='idTipoUsuario' id='idTipoUsuario' class="select">
                         <option value=""> Selecione </option>

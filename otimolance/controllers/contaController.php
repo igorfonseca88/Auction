@@ -109,12 +109,11 @@ class ContaController extends CI_Controller {
 
                 if (!is_null($conta)) {
                     $this->enviarEMAIL($email);
-                    $conta["sucesso"] = "Salvo com sucesso.";
-                    $conta["tituloSucesso"] = "Cadastro realizado com sucesso.";
+                    $conta["sucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
        
                     $this->load->vars($conta);
-                    $this->load->view("priv/conta/contaMsg");
+                    $this->load->view("conta/contaAdd");
                 }
             }
         }
@@ -122,9 +121,8 @@ class ContaController extends CI_Controller {
             $this->load->model('Conta_model', 'conta');
             $conta["tiposUsuario"] = $this->getTiposUsuario();
             $conta["erro"] = $msg;
-            $conta["tituloErro"] = "Cadastro não realizado.";
             $this->load->vars($conta);
-            $this->load->view("priv/conta/contaMsg"); 
+            $this->load->view("conta/contaAdd"); 
         }
     }
    
@@ -217,7 +215,6 @@ class ContaController extends CI_Controller {
                 if (!is_null($conta)) {
                     //$this->enviarEMAIL($email);
                     $conta["sucesso"] = "Salvo com sucesso.";
-                    $conta["tituloSucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
                     
                     $this->load->model('Conta_model', 'contaDAO');
@@ -230,7 +227,6 @@ class ContaController extends CI_Controller {
             $this->load->model('Conta_model', 'conta');
             $conta["tiposUsuario"] = $this->getTiposUsuario();
             $conta["erro"] = $msg;
-            $conta["tituloErro"] = "Cadastro não realizado.";
             $this->load->vars($conta);
             $this->load->view("priv/conta/contaEdit"); 
         }
@@ -312,22 +308,67 @@ class ContaController extends CI_Controller {
     function editarConta() {
         $this->load->model("Conta_model", "conta");
         $id = $this->input->post("idContah");
-
-        $data = array(
-            "nome" => $this->input->post("txtNome"),
-            "sobrenome" => $this->input->post("txtSobrenome"),
-            "cpf" => $this->input->post("txtCpf"),
-            "login" => $this->input->post("txtLogin"),
-            "email" => $this->input->post("txtEmail"),
-            "senha" => $this->input->post("txtSenha"),
-            "receberEmail" => $this->input->post("checkReceberEmail"),
-            "aceitarTermo" => $this->input->post("checkAceitarTermo"),
-            "idTipoUsuario" => $this->input->post("idTipoUsuario")
-        );
         
-        $this->conta->update($data, $id);
-        $this->msgPadrao = "Conta salva com sucesso.";
-        $this->editarContaAction($id);
+        $nome = $this->input->post("txtNome");
+        $sobrenome = $this->input->post("txtSobrenome");
+        $cpf = $this->input->post("txtCpf");
+        $login = $this->input->post("txtLogin");
+        $idTipoUsuario = $this->input->post("idTipoUsuario");
+        
+        $mensagem = array();
+        $msg = "";
+        $erro = false;
+        
+        if ($nome == "") {
+            $erro = true;
+            $msg .= "O campo Nome não pode ser nulo." . "<br/>";
+        }
+        
+        if ($sobrenome == "") {
+            $erro = true;
+            $msg .= "O campo Sobrenome não pode ser nulo." . "<br/>";
+        }
+        
+        if ($cpf == "") {
+            $erro = true;
+            $msg .= "O campo Cpf não pode ser nulo." . "<br/>";
+        }
+        
+        if ($login == "") {
+            $erro = true;
+            $msg .= "O campo Login não pode ser nulo." . "<br/>";
+        }
+        
+        if ($this->validaCPF($cpf) == false){
+            $erro = true;
+            $msg .= "Cpf inválido." . "<br/>";
+        }
+
+        if ($erro == false) {
+            $data = array(
+                "nome" => $nome,
+                "sobrenome" => $sobrenome,
+                "cpf" => $cpf,
+                "login" => $login,
+                "email" => $email,
+                "idTipoUsuario" => $idTipoUsuario
+            );
+        
+            $this->conta->update($data, $id);
+            $this->msgPadrao = "Conta salva com sucesso.";
+            $this->editarContaAction($id);
+        }
+        else {           
+            $this->msgPadrao = $msg;
+            
+            $this->load->model('Conta_model', 'conta');
+            $conta["conta"] = $this->conta->buscarContaPorId($id);
+            $conta["tiposUsuario"] = $this->getTiposUsuario();
+
+            $conta["erro"] = $this->msgPadrao;
+            $this->load->vars($conta);
+            $this->load->view("priv/conta/contaEdit");
+        }
     }
 
      /* Actions */
@@ -362,7 +403,6 @@ class ContaController extends CI_Controller {
         $this->load->model("TipoUsuario_model", "tipoUsuario");
         return $this->tipoUsuario->getAll();
     }
-    
 }
 
 ?>
