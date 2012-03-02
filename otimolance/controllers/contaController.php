@@ -161,7 +161,8 @@ class ContaController extends CI_Controller {
                 "receberEmail" => $receberEmail,
                 "aceitarTermo" => $aceitarTermo,
                 "idTipoUsuario" => 2,
-                "ip" => $ip
+                "ip" => $ip,
+                "status" => "bloqueado"
             );
             $id = $this->conta->salvar($data);
             
@@ -170,7 +171,7 @@ class ContaController extends CI_Controller {
                 $conta["conta"] = $this->conta->buscarContaPorId($id);
 
                 if (!is_null($conta)) {
-                    $this->enviarEMAIL($email);
+                    $this->enviarEMAIL($email, $id);
                     $conta["sucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
        
@@ -304,7 +305,8 @@ class ContaController extends CI_Controller {
                 "senha" => $senha,
                 "receberEmail" => 0,
                 "aceitarTermo" => 1,
-                "idTipoUsuario" => $idTipoUsuario
+                "idTipoUsuario" => $idTipoUsuario,
+                "status" => "liberado"
             );
             $id = $this->conta->salvar($data);
             
@@ -313,7 +315,7 @@ class ContaController extends CI_Controller {
                 $conta["conta"] = $this->conta->buscarContaPorId($id);
 
                 if (!is_null($conta)) {
-                    //$this->enviarEMAIL($email);
+                    //$this->enviarEMAIL($email, $id);
                     $conta["sucesso"] = "Salvo com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
                     
@@ -387,7 +389,7 @@ class ContaController extends CI_Controller {
             return false; 
     }
     
-    function enviarEMAIL($email){
+    function enviarEMAIL($email, $id){
         $this->load->model('Parametro_model', 'parametro');
         $servidor["servidor"] = $this->parametro->buscarParametros();
         $this->load->library('email');
@@ -400,9 +402,26 @@ class ContaController extends CI_Controller {
         $this->email->from('otimolance@gmail.com','Team OtimoLance');
         $this->email->to($email);
         $this->email->subject('[OtimoLance] Ative sua conta no OtimoLance');
-        $this->email->message($servidor["servidor"][0]->padraoEmailConfirmarCadastro);
+        
+        $string = "http://localhost/otimolance/contaController/liberarConta?id=$id";
+        $mensagem = $servidor["servidor"][0]->padraoEmailConfirmarCadastro;
+        $msg = SPrintF($mensagem, $string);
+        
+        $this->email->message($msg);
         $this->email->send();
         //echo $this->email->print_debugger();
+    }
+    
+    function liberarConta() {
+        $id = $_GET['id'];
+        $this->load->model("Conta_model", "conta");
+
+        $data = array(
+            "status" => "liberado"
+        );
+
+        $this->conta->update($data, $id);
+        $this->load->view("conta/contaRelease");
     }
 
     function editarConta() {

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: Mar 01, 2012 as 08:52 
+-- Tempo de Geração: Mar 02, 2012 as 02:52 
 -- Versão do Servidor: 5.5.8
 -- Versão do PHP: 5.3.5
 
@@ -37,14 +37,16 @@ CREATE TABLE IF NOT EXISTS `tb_conta` (
   `receberEmail` bit(1) NOT NULL,
   `aceitarTermo` bit(1) NOT NULL,
   `ip` varchar(50) DEFAULT NULL,
+  `status` varchar(10) NOT NULL,
   PRIMARY KEY (`idConta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Extraindo dados da tabela `tb_conta`
 --
 
-INSERT INTO `tb_conta` (`idConta`, `nome`, `sobrenome`, `cpf`, `email`, `login`, `idTipoUsuario`, `senha`, `receberEmail`, `aceitarTermo`, `ip`) VALUES
-(2, 'Willian', 'Witter', '00628813104', 'wwwitter@gmail.com', 'wsilva', 1, '1', '1', '1', NULL),
-(13, 'Igor', 'Fonseca', '00628813104', 'igorfonseca88@gmail.com', 'igor', 1, '1', '1', '1', NULL),
-(16, 'Thiago', 'Berbet', '00628813104', 'thiago.berbet@gmail.com', 'thiago', 1, '1', '1', '1', NULL);
+INSERT INTO `tb_conta` (`idConta`, `nome`, `sobrenome`, `cpf`, `email`, `login`, `idTipoUsuario`, `senha`, `receberEmail`, `aceitarTermo`, `ip`, `status`) VALUES
+(2, 'Willian', 'Witter', '00628813104', 'wwwitter@gmail.com', 'wsilva', 1, '1', '1', '1', '', 'liberado'),
+(13, 'Igor', 'Fonseca', '00628813104', 'igorfonseca88@gmail.com', 'igor', 1, '1', '1', '1', '', 'liberado'),
+(16, 'Thiago', 'Berbet', '00628813104', 'thiago.berbet@gmai.com', 'thiago', 1, '1', '1', '1', '', 'liberado'),
+(27, 'Teste', 'Teste', '22923024036', 'thiago.berbet@hotmail.com', 'teste', 2, '1', '1', '1', '127.0.0.1', 'liberado');
