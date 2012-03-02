@@ -171,7 +171,7 @@ class ContaController extends CI_Controller {
                 $conta["conta"] = $this->conta->buscarContaPorId($id);
 
                 if (!is_null($conta)) {
-                    $this->enviarEMAIL($email, $id);
+                    $this->enviarEmailAtivacao($email, $id);
                     $conta["sucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
        
@@ -315,7 +315,7 @@ class ContaController extends CI_Controller {
                 $conta["conta"] = $this->conta->buscarContaPorId($id);
 
                 if (!is_null($conta)) {
-                    //$this->enviarEMAIL($email, $id);
+                    //$this->enviarEmailAtivacao($email, $id);
                     $conta["sucesso"] = "Salvo com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
                     
@@ -389,7 +389,7 @@ class ContaController extends CI_Controller {
             return false; 
     }
     
-    function enviarEMAIL($email, $id){
+    function enviarEmailAtivacao($email, $id){
         $this->load->model('Parametro_model', 'parametro');
         $servidor["servidor"] = $this->parametro->buscarParametros();
         $this->load->library('email');
@@ -412,6 +412,29 @@ class ContaController extends CI_Controller {
         //echo $this->email->print_debugger();
     }
     
+    function enviarEmailConfirmacao($email, $id, $login){
+        $this->load->model('Parametro_model', 'parametro');
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $this->load->library('email');
+        
+        $this->email->smtp_host = $servidor["servidor"][0]->smtp_host;
+        $this->email->smtp_port = $servidor["servidor"][0]->smtp_port;
+        $this->email->smtp_user = $servidor["servidor"][0]->smtp_user;
+        $this->email->smtp_pass = $servidor["servidor"][0]->smtp_pass;
+        
+        $this->email->from('otimolance@gmail.com','Team OtimoLance');
+        $this->email->to($email);
+        $this->email->subject('[OtimoLance] Sua conta foi ativada com sucesso!');
+        
+        $string = "Usuário: $login";
+        $mensagem = $servidor["servidor"][0]->padraoEmailCadastroConfirmado;      
+        $msg = SPrintF($mensagem, "$string");     
+        
+        $this->email->message($msg);
+        $this->email->send();
+        //echo $this->email->print_debugger();
+    }
+    
     function liberarConta() {
         $id = $_GET['id'];
         $this->load->model("Conta_model", "conta");
@@ -421,7 +444,18 @@ class ContaController extends CI_Controller {
         );
 
         $this->conta->update($data, $id);
-        $this->load->view("conta/contaRelease");
+        
+        $conta["conta"] = $this->conta->buscarContaPorId($id);
+         
+        foreach ($conta as $row) {
+            $email=  $row[0]->email;
+            $login=  $row[0]->login;
+        }
+        
+        $this->enviarEmailConfirmacao($email, $id, $login);
+               
+        $conta["sucesso"] = "Ativação realizada com sucesso.";
+        $this->load->view("conta/contaRelease",$conta);     
     }
 
     function editarConta() {
