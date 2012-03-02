@@ -23,7 +23,7 @@ $this->load->view('priv/_inc/superior');
                 <td>Ações</td>
             </thead>
             
-            <? foreach ($contas as $conta) { ?>
+            <? foreach ($conta as $conta) { ?>
                 <tr class="linha">
                     <td><?=$conta->idConta?></td>
                     <td><?=$conta->nome?></td>
