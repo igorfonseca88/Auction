@@ -99,6 +99,8 @@ class ContaController extends CI_Controller {
             $msg .= "Limite máximo de cadastro por ip atingido." . "<br/>";
         }
         
+        //$mac = $this->pegaMac();
+        
         // Validações de campos nulos
         if ($nome == "") {
             $erro = true;
@@ -334,6 +336,20 @@ class ContaController extends CI_Controller {
         }
     }
     
+    // Função que busca endereço MAC do usuário
+    function pegaMac(){
+        exec("ipconfig /all", $output);
+        foreach($output as $line){
+                if (preg_match("/(.*)Endereço físico(.*)/", $line)){
+                        $mac = $line;
+                        $mac = str_replace("Endereço físico . . . . . . . . . . :","",$mac);
+                }
+        }
+        //$ip = $_SERVER['REMOTE_ADDR'];
+        //$saida = trim(shell_exec("sudo arp -n | grep $ip | awk '{print $3}'"));
+        return $mac;
+    }
+
     // Função que valida o CPF
     function validaCPF($cpf){	
         //// Verifiva se o número digitado contém todos os digitos
