@@ -1,5 +1,5 @@
 <div>
-        <form method="post" action="salvarNovaCategoria">
+        <form>
             <ul>
                 <?
                   foreach ($produtos as $key) {

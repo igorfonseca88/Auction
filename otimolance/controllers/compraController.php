@@ -8,14 +8,23 @@ class CompraController extends CI_Controller {
     
     function comprarLances(){
         $this->load->model('Produto_model', 'produtoDAO');
-        $data["produtos"] = $this->produtoDAO->buscarProdutosPorNomeCategoria("Lance");
+        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria("Lance");
         $this->load->view("compra/comprarLances",$data);
     
      }
      
      function carrinho($idProduto){
-         echo $idProduto;
+        $this->load->model('Produto_model', 'produtoDAO');
+        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto);
+        $this->load->view("compra/carrinhoCompra",$data);
     
+     }
+     
+     function pagamento(){
+        $this->load->model("Produto_model", "produtoDAO");
+        $idProduto = $this->input->post("idProdutoHidden");
+        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto);
+        $this->load->view("compra/pagamento",$data);
      }
 }
 
