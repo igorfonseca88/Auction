@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `tb_conta` (
   `receberEmail` bit(1) NOT NULL,
   `aceitarTermo` bit(1) NOT NULL,
   `ip` varchar(50) DEFAULT NULL,
+  saldo	decimal(14,2) NOT NULL DEFAULT 0.00	
   PRIMARY KEY (`idConta`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
