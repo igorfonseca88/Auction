@@ -10,19 +10,19 @@ class ContaController extends CI_Controller {
 
     function index() {
         $this->load->model('Conta_model', 'contaDAO');
-        $conta["contas"] = $this->contaDAO->getAll();
+        $conta["conta"] = $this->contaDAO->getAll();
         $this->load->view("priv/conta/contaList",$conta);
     }
     
     function cadastroClienteSite(){
         $this->load->model('Conta_model', 'contaDAO');
-        $conta["contas"] = $this->contaDAO->getAll();
+        $conta["conta"] = $this->contaDAO->getAll();
         $conta["tiposUsuario"] = $this->getTiposUsuario();
         $this->load->view("conta/contaAdd", $conta);
     }
     
     function salvarClienteSite(){
-        $this->load->model("Conta_model", "conta");
+        $this->load->model("Conta_model", "contaDAO");
         $nome = $this->input->post("txtNome");
         $sobrenome = $this->input->post("txtSobrenome");
         $cpf = $this->input->post("txtCpf");
@@ -40,8 +40,7 @@ class ContaController extends CI_Controller {
         $erro = false;
         
         // Verificar se login já foi cadastrado
-        $this->load->model('Conta_model', 'conta');
-        $listaLogin["$listaLogin"] = $this->conta->buscarLoginCadastrado($login);
+        $listaLogin["$listaLogin"] = $this->contaDAO->buscarLoginCadastrado($login);
            
         foreach ($listaLogin as $row) {
             $loginExistente =  $row[0]->login;
@@ -53,7 +52,7 @@ class ContaController extends CI_Controller {
         }
         
         // Verificar de cpf já foi cadastrado
-        $listaCpf["$listaCpf"] = $this->conta->buscarCpfCadastrado($cpf);
+        $listaCpf["$listaCpf"] = $this->contaDAO->buscarCpfCadastrado($cpf);
            
         foreach ($listaCpf as $row) {
             $cpfExistente =  $row[0]->cpf;
@@ -65,7 +64,7 @@ class ContaController extends CI_Controller {
         }
         
         // Verificar de email já foi cadastrado
-        $listaEmail["$listaEmail"] = $this->conta->buscarEmailCadastrado($email);
+        $listaEmail["$listaEmail"] = $this->contaDAO->buscarEmailCadastrado($email);
            
         foreach ($listaEmail as $row) {
             $emailExistente =  $row[0]->email;
@@ -85,7 +84,7 @@ class ContaController extends CI_Controller {
         }
         
         $ip = getenv("REMOTE_ADDR");
-        $listaIp["$listaIp"] = $this->conta->buscarIpCadastrado($ip);
+        $listaIp["$listaIp"] = $this->contaDAO->buscarIpCadastrado($ip);
 
         $cont = 0;
         
@@ -98,6 +97,8 @@ class ContaController extends CI_Controller {
             $erro = true;
             $msg .= "Limite máximo de cadastro por ip atingido." . "<br/>";
         }
+        
+        //$mac = $this->pegaMac();
         
         // Validações de campos nulos
         if ($nome == "") {
@@ -161,16 +162,16 @@ class ContaController extends CI_Controller {
                 "receberEmail" => $receberEmail,
                 "aceitarTermo" => $aceitarTermo,
                 "idTipoUsuario" => 2,
-                "ip" => $ip
+                "ip" => $ip,
+                "status" => "bloqueado"
             );
-            $id = $this->conta->salvar($data);
+            $id = $this->contaDAO->salvar($data);
             
             if ($id > 0) {
-                $this->load->model('Conta_model', 'conta');
-                $conta["conta"] = $this->conta->buscarContaPorId($id);
+                $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
 
                 if (!is_null($conta)) {
-                    $this->enviarEMAIL($email);
+                    $this->enviarEmailAtivacao($email, $id);
                     $conta["sucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
        
@@ -180,7 +181,6 @@ class ContaController extends CI_Controller {
             }
         }
         else {
-            $this->load->model('Conta_model', 'conta');
             $conta["tiposUsuario"] = $this->getTiposUsuario();
             $conta["erro"] = $msg;
             $this->load->vars($conta);
@@ -189,7 +189,7 @@ class ContaController extends CI_Controller {
     }
    
     function salvarNovaConta() {
-        $this->load->model("Conta_model", "conta");
+        $this->load->model("Conta_model", "contaDAO");
         $nome = $this->input->post("txtNome");
         $sobrenome = $this->input->post("txtSobrenome");
         $cpf = $this->input->post("txtCpf");
@@ -207,8 +207,7 @@ class ContaController extends CI_Controller {
         $erro = false;
         
         // Verificar se login já foi cadastrado
-        $this->load->model('Conta_model', 'conta');
-        $listaLogin["$listaLogin"] = $this->conta->buscarLoginCadastrado($login);
+        $listaLogin["$listaLogin"] = $this->contaDAO->buscarLoginCadastrado($login);
            
         foreach ($listaLogin as $row) {
             $loginExistente =  $row[0]->login;
@@ -220,7 +219,7 @@ class ContaController extends CI_Controller {
         }
         
         // Verificar de cpf já foi cadastrado
-        $listaCpf["$listaCpf"] = $this->conta->buscarCpfCadastrado($cpf);
+        $listaCpf["$listaCpf"] = $this->contaDAO->buscarCpfCadastrado($cpf);
            
         foreach ($listaCpf as $row) {
             $cpfExistente =  $row[0]->cpf;
@@ -232,7 +231,7 @@ class ContaController extends CI_Controller {
         }
         
         // Verificar de email já foi cadastrado
-        $listaEmail["$listaEmail"] = $this->conta->buscarEmailCadastrado($email);
+        $listaEmail["$listaEmail"] = $this->contaDAO->buscarEmailCadastrado($email);
            
         foreach ($listaEmail as $row) {
             $emailExistente =  $row[0]->email;
@@ -304,27 +303,18 @@ class ContaController extends CI_Controller {
                 "senha" => $senha,
                 "receberEmail" => 0,
                 "aceitarTermo" => 1,
-                "idTipoUsuario" => $idTipoUsuario
+                "idTipoUsuario" => $idTipoUsuario,
+                "status" => "liberado"
             );
-            $id = $this->conta->salvar($data);
+            
+            $id = $this->contaDAO->salvar($data);
             
             if ($id > 0) {
-                $this->load->model('Conta_model', 'conta');
-                $conta["conta"] = $this->conta->buscarContaPorId($id);
-
-                if (!is_null($conta)) {
-                    //$this->enviarEMAIL($email);
-                    $conta["sucesso"] = "Salvo com sucesso.";
-                    $conta["tiposUsuario"] = $this->getTiposUsuario();
-                    
-                    $this->load->model('Conta_model', 'contaDAO');
-                    $conta["contas"] = $this->contaDAO->getAll();
-                    $this->load->view("priv/conta/contaEdit",$conta);
-                }
+                $this->msgPadrao = "Salvo com sucesso.";
+                $this->editarContaAction($id);
             }
         }
         else {
-            $this->load->model('Conta_model', 'conta');
             $conta["tiposUsuario"] = $this->getTiposUsuario();
             $conta["erro"] = $msg;
             $this->load->vars($conta);
@@ -332,6 +322,20 @@ class ContaController extends CI_Controller {
         }
     }
     
+    // Função que busca endereço MAC do usuário
+    function pegaMac(){
+        exec("ipconfig /all", $output);
+        foreach($output as $line){
+                if (preg_match("/(.*)Endereço físico(.*)/", $line)){
+                        $mac = $line;
+                        $mac = str_replace("Endereço físico . . . . . . . . . . :","",$mac);
+                }
+        }
+        //$ip = $_SERVER['REMOTE_ADDR'];
+        //$saida = trim(shell_exec("sudo arp -n | grep $ip | awk '{print $3}'"));
+        return $mac;
+    }
+
     // Função que valida o CPF
     function validaCPF($cpf){	
         //// Verifiva se o número digitado contém todos os digitos
@@ -387,7 +391,7 @@ class ContaController extends CI_Controller {
             return false; 
     }
     
-    function enviarEMAIL($email){
+    function enviarEmailAtivacao($email, $id){
         $this->load->model('Parametro_model', 'parametro');
         $servidor["servidor"] = $this->parametro->buscarParametros();
         $this->load->library('email');
@@ -400,13 +404,64 @@ class ContaController extends CI_Controller {
         $this->email->from('otimolance@gmail.com','Team OtimoLance');
         $this->email->to($email);
         $this->email->subject('[OtimoLance] Ative sua conta no OtimoLance');
-        $this->email->message($servidor["servidor"][0]->padraoEmailConfirmarCadastro);
+        
+        $string = "http://localhost/otimolance/contaController/liberarConta?id=$id";
+        $mensagem = $servidor["servidor"][0]->padraoEmailConfirmarCadastro;
+        $msg = SPrintF($mensagem, $string);
+        
+        $this->email->message($msg);
         $this->email->send();
         echo $this->email->print_debugger();
     }
+    
+    function enviarEmailConfirmacao($email, $id, $login){
+        $this->load->model('Parametro_model', 'parametro');
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $this->load->library('email');
+        
+        $this->email->smtp_host = $servidor["servidor"][0]->smtp_host;
+        $this->email->smtp_port = $servidor["servidor"][0]->smtp_port;
+        $this->email->smtp_user = $servidor["servidor"][0]->smtp_user;
+        $this->email->smtp_pass = $servidor["servidor"][0]->smtp_pass;
+        
+        $this->email->from('otimolance@gmail.com','Team OtimoLance');
+        $this->email->to($email);
+        $this->email->subject('[OtimoLance] Sua conta foi ativada com sucesso!');
+        
+        $string = "Usuário: $login";
+        $mensagem = $servidor["servidor"][0]->padraoEmailCadastroConfirmado;      
+        $msg = SPrintF($mensagem, "$string");     
+        
+        $this->email->message($msg);
+        $this->email->send();
+        //echo $this->email->print_debugger();
+    }
+    
+    function liberarConta() {
+        $id = $_GET['id'];
+        $this->load->model("Conta_model", "contaDAO");
+
+        $data = array(
+            "status" => "liberado"
+        );
+
+        $this->contaDAO->update($data, $id);
+        
+        $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+         
+        foreach ($conta as $row) {
+            $email=  $row[0]->email;
+            $login=  $row[0]->login;
+        }
+        
+        $this->enviarEmailConfirmacao($email, $id, $login);
+               
+        $conta["sucesso"] = "Ativação realizada com sucesso.";
+        $this->load->view("conta/contaRelease",$conta);     
+    }
 
     function editarConta() {
-        $this->load->model("Conta_model", "conta");
+        $this->load->model("Conta_model", "contaDAO");
         $id = $this->input->post("idContah");
         
         $nome = $this->input->post("txtNome");
@@ -453,15 +508,14 @@ class ContaController extends CI_Controller {
                 "idTipoUsuario" => $idTipoUsuario
             );
         
-            $this->conta->update($data, $id);
+            $this->contaDAO->update($data, $id);
             $this->msgPadrao = "Conta salva com sucesso.";
             $this->editarContaAction($id);
         }
         else {           
             $this->msgPadrao = $msg;
             
-            $this->load->model('Conta_model', 'conta');
-            $conta["conta"] = $this->conta->buscarContaPorId($id);
+            $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
             $conta["tiposUsuario"] = $this->getTiposUsuario();
 
             $conta["erro"] = $this->msgPadrao;
@@ -473,8 +527,8 @@ class ContaController extends CI_Controller {
      /* Actions */
 
     function editarContaAction($id) {
-        $this->load->model('Conta_model', 'conta');
-        $conta["conta"] = $this->conta->buscarContaPorId($id);
+        $this->load->model('Conta_model', 'contaDAO');
+        $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
         $conta["tiposUsuario"] = $this->getTiposUsuario();
 
         $conta["sucesso"] = $this->msgPadrao;
@@ -489,11 +543,11 @@ class ContaController extends CI_Controller {
     }
     
     function excluirContaAction($idConta){
-        $this->load->model('Conta_model', 'conta');
+        $this->load->model('Conta_model', 'contaDAO');
         
         $delete = array("idConta" => $idConta);
          
-        $this->conta->excluirConta($delete);
+        $this->contaDAO->excluirConta($delete);
         $this->session->set_flashdata('sucesso','Conta excluída com sucesso.');
         redirect("contaController");
     }

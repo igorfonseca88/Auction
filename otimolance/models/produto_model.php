@@ -30,9 +30,19 @@ class Produto_model extends CI_Model {
         return $query->result();
     }
     
-    function buscarProdutosPorIdCategoria($idCategoria) {
-        $query = $this->db->query("SELECT p.nome, g.caminho FROM TB_PRODUTO p INNER JOIN TB_GALERIA g (p.idProduto = g.idProduto)
-                                   WHERE p.idCategoria = $idCategoria
+    function buscarProdutosGaleriaPorNomeCategoria($nomeCategoria) {
+        $query = $this->db->query("SELECT p.nome, g.caminho, p.preco, p.idProduto FROM TB_PRODUTO p JOIN TB_GALERIA g 
+                                   ON (p.idProduto = g.idProduto) JOIN TB_CATEGORIA c ON (p.idCategoria = c.idCategoria)
+                                   WHERE c.nome LIKE '$nomeCategoria'
+                                   AND g.tipoGaleria = 'imagem' 
+                                   AND g.isPrincipal = 1 ");
+        return $query->result();
+    }
+    
+    function buscarProdutosGaleriaPorIdProduto($idProduto) {
+        $query = $this->db->query("SELECT p.nome, g.caminho, p.preco, p.idProduto FROM TB_PRODUTO p JOIN TB_GALERIA g 
+                                   ON (p.idProduto = g.idProduto)
+                                   WHERE p.idProduto = $idProduto
                                    AND g.tipoGaleria = 'imagem' 
                                    AND g.isPrincipal = 1 ");
         return $query->result();
