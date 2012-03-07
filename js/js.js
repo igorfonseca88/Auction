@@ -1013,306 +1013,7 @@ function LayerSucesso(CodigoLeilao, Mensagem)
     $("#Layer_Ok_Msg_" + CodigoLeilao).html(Mensagem);
 	
 }
-function ExecutarLance(CodigoLeilao)
-{
-	
-    $("#L_BotaoA_" + CodigoLeilao).hide();
-    $("#L_BotaoB_" + CodigoLeilao).show();
-	
-    ValorLanceC				= $("#ValorLanceInformado_" + CodigoLeilao).val();
-    MultilanceC				= $("#MultiLanceInformado_" + CodigoLeilao + " option:selected").val();
-	
-    var req = $.ajax({
-			
-        type: 		"GET",
-        url: 		"Req_ExecutaLance.php",
-        cache: 		false,
-        timeout: 	60000,
-        data: 		"CodigoLeilao=" + CodigoLeilao + "&ValorLance=" + ValorLanceC + "&Rand=" + encodeURI(Math.random()) + "&Multilance=" + MultilanceC,
-        success: 	function(msg)
-        {
-			
-            $("#ValorLanceInformado_" + CodigoLeilao).val("0")
-            $("#MultiLanceInformado_" + CodigoLeilao).val("0");
-			
-            Tmpa = msg.split("##");
-			
-            switch(Tmpa[0])
-            {
-				
-                case "NAOLOCALIZADO":
-				
-                    DisparaFinalizadoLeilao(CodigoLeilao);
-                    alert("Leil�o j� Finalizado!");
-					
-                    break;
-				
-                case "LO_SE":
-				
-                    alert("J� existe um lance seu sendo executado!");
-				
-                    break;
-				
-                case "MESMOIP":
-					
-                    alert("Apenas � permitido um Usu�rio Por IP em um mesmo leil�o!");
-					
-                    break;
-				
-                case "TIPO_COMPRADOR":
-					
-                    alert("Este leil�o � apenas para clientes que ja compraram algum pacote de lances!");
-					
-                    break;
-				
-                case "TIPO_BONUS":
-					
-                    alert("Este leil�o � apenas para quem ainda n�o comprou nenhum pacote de lances!");
-					
-                    break;
-				
-                case "SEMLANCES":
-					
-                    if(confirm("Recarregue seus lances!"))
-                    {
-						
-                        window.location = "MinhaConta_ComprarLances.php";
-					
-                    }
-				
-                    break;
-				
-                case "NAOLOGADO":
-				
-                    if(confirm("Efetue seu Login!"))
-                    {
-						
-                        window.location = "Login.php";
-					
-                    }
-				
-                    break;
-				
-                case "PAUSADO":
-				
-                    alert("Este leil�o esta Pausado!");
-					
-                    break;
-				
-				
-				
-                case "LANCEREPETIDO":
-				
-                    //alert("O �ltimo lance j� � seu!");
-				
-                    break;
-				
-                case "LANCESENDOCOMPUTADO":
-				
-                    //alert("J� existe um lance seu sendo computado!");
-				
-                    break;
-				
-                case "SUCESSO":
-				
-                    //
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-					
-                    break;
-				
-                case "SEMLIMITE":
-				
-                    alert("Seu Limite mensal foi alcan�ado!");
-					
-                    break;
-				
-                case "QtdLancesMaximosExedida":
-				
-                    alert("O Limite de lances, por usu�rio, neste leil�o foi alcan�ado!");					
-					
-                    break;
-				
-                case "LANCE_MAIORQUEZERO":
-					
-                    LayerErro(CodigoLeilao, "Voc� n�o preencheu o seu lance.");
-				
-                    break;
-				
-                case "LANCE_NUMERICO":
-					
-                    LayerErro(CodigoLeilao, "Seu lance deve ser n�merico.");
-					
-                    break;
-				
-                case "MULTI_N_ENCONTRADO":
-				
-                    LayerErro(CodigoLeilao, "Problema com encontrar o kit de lances");
-				
-                    break;
-				
-                case "VALORLANCE_JA_EFETIVADO":
-					
-                    LayerErro(CodigoLeilao, "Voc� j� deu o lance de (" + Tmpa[2] + ") para esse leil�o, tente novamente com outro valor.");
-					
-                    break;
-				
-				
-				
-				
-                case "M_SUCESSO_FALHA1":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>�nico, por�m n�o o menor!</strong></span><br>Seu lance " + Tmpa[3] + " foi registrado com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA2":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Lance menor mas n�o �nico!</strong></span><br>Seu lance " + Tmpa[3] + " foi registrado com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA3":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Nem menor nem �nico!</strong></span><br>Seu lance " + Tmpa[3] + " foi registrado com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA4":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Maior, por�m n�o �nico!</strong></span><br>Seu lance " + Tmpa[3] + " foi registrado com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break
-				
-                case "M_SUCESSO_FALHA5":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Maior e �nico!</strong></span><br>Seu lance " + Tmpa[3] + " foi registrado com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break
-				
-                case "M_SUCESSO_FALHA6":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Menor e �nico!</strong></span><br>Seu lance " + Tmpa[3] + " foi registrado com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break
-				
-                case "M_SUCESSO_OK":
-					
-                    LayerSucesso(CodigoLeilao, "Parab�ns, o menor lance �nico por enquanto � o seu. Arrisque mais, aumente suas chances de ganhar, escolha outros valores.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA1M":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>�nico, por�m n�o o menor!</strong></span><br>Seus lances foram registrados com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA2M":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Lance menor mas n�o �nico!</strong></span><br>Seus lances foram registrados com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA3M":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Nem menor nem �bico!</strong></span><br>Seus lances foram registrados com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-                case "M_SUCESSO_FALHA4M":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Maior, por�m n�o �nico!</strong></span><br>Seus lances foram registrados com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break
-				
-                case "M_SUCESSO_FALHA5M":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Maior e �nico!</strong></span><br>Seus lances foram registrados com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break
-				
-                case "M_SUCESSO_FALHA6M":
-					
-                    LayerErro(CodigoLeilao, "<span style='color:#FFFF00'><strong>Menor e �nico!</strong></span><br>Seus lances foram registrados com sucesso.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break
-				
-                case "M_SUCESSO_OKM":
-					
-                    LayerSucesso(CodigoLeilao, "Parab�ns, o menor lance �nico por enquanto � o seu. Arrisque mais, aumente suas chances de ganhar, escolha outros valores.");
-                    $("#QtdLancesUtilizadosX").html(Tmpa[2]);
-                    $("#QtdLancesUtilizadosY").html(Tmpa[4]);
-					
-                    break;
-				
-				
-                case "LEILAO_SENDO_FINALIZADO":
-					
-                    alert("Este leil�o j� esta sendo finalizado!");
-					
-                    break
-				
-            }
-			
-            $("#Topo_Lances").html(Tmpa[1]);
-			
-            $("#L_BotaoA_" + CodigoLeilao).show();
-            $("#L_BotaoB_" + CodigoLeilao).hide();
-			
-            var req = null
-            delete req
-	
-        },
-        error: function( objRequest ){
-					
-            $("#L_BotaoA_" + CodigoLeilao).show();
-            $("#L_BotaoB_" + CodigoLeilao).hide();
-			
-            var req = null
-            delete req
-		 
-        },
-        beforeSend: function()
 
-        {
-			
-            var req = null
-            delete req
-	
-        }
-			
-    });
-
-    var req = null
-    delete req
-	
-}
 
 var MicroTime = 0;
 function MicroTimeServidor()
@@ -1377,10 +1078,54 @@ $(document).ready(function() {
     //Inicia Processos
     RequisitacaoLeiloes();
 	
-//$('.ApenasMoeda').priceFormat({
-//	prefix: 'R$ ',
-//	centsSeparator: ',',
-//	thousandsSeparator: '.'
-//}); 
 	
 });
+
+
+function atualizarPainel(){
+    var painel = document.getElementsByName("painel");
+    var tam = painel.length;
+    for(i=0; i< tam; i++){
+        
+        var params = "leilao="+painel[i].value;
+        var retorno = dhtmlxAjax.postSync("/otimolance/clance/buscarUltimoLance/",params);
+        retorno = retorno.xmlDoc.responseText;
+        retorno = retorno.split("@");
+      
+        document.getElementById('valorLance'+painel[i].value).innerHTML = roundNumber(retorno[1],3);
+        document.getElementById('usuLance'+painel[i].value).innerHTML = retorno[0];            
+        
+    }
+   
+    setTimeout(atualizarPainel, 50);
+}
+
+function lance(idLeilao, conta){
+    var params = "leilao="+idLeilao+"&id="+conta;
+    var retorno = dhtmlxAjax.postSync("/otimolance/clance/darLance/",params);
+    
+    retorno = retorno.xmlDoc.responseText;
+    retorno = retorno.split("@");
+    if(retorno[0] == 'SALDO_INSUFICIENTE'){
+        alert('Saldo insuficiente para lance.');
+    }
+    if(retorno[0] == 'LEILAO_INATIVO'){
+        alert('Leilão finalizado.');
+    }
+    else if(retorno[0] == 'SUCESSO'){
+        document.getElementById('usu_lances').innerHTML = retorno[1];         
+    }
+}
+
+function carregaLances(id){
+    $.post("/otimolance/clance/retLances", {"id": id},
+        function(data){
+            if(data != "")
+                $("#usu_lances").html(data.saldo);
+        }, "json");
+}
+
+function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places  
+    var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);  
+    return newnumber;
+}
