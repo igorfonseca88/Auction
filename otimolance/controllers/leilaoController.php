@@ -91,10 +91,10 @@ class LeilaoController extends CI_Controller {
             $msg .= " Valor do produto é obrigatório." . "<br/>";
             $erro = true;
         }
-        if ($valorFrete == "") {
-            $msg .= " Valor do frete é obrigatório.";
-            $erro = true;
-        }
+       // if ($valorFrete == "") {
+         //   $msg .= " Valor do frete é obrigatório.";
+           // $erro = true;
+       // }
 
         if ($erro == FALSE) {
             $data = array(
@@ -103,7 +103,8 @@ class LeilaoController extends CI_Controller {
                 "valorProduto" => $valorProduto,
                 "idProduto" => $produto
             );
-            $itemLeilao = $this->input->post("hIdItemLeilao");
+            $itemLeilao = $this->input->post("hItemLeilao");
+            
             $result = $this->leilao->salvarItemLeilao($data, $itemLeilao);
 
             if ($result > 0) {

@@ -48,8 +48,8 @@ $this->load->view('priv/_inc/superior');
                         <label>Valor leilão</label><br />
                         <select name='valorLeilao' id='valorLeilao' class="selectSmall">
                             <option value=""> Selecione </option>
-                            <option value="1" <?= $row->valorLeilao == '0.01' ? "selected" : "" ?>> 1 centavo</option>
-                            <option value="2" <?= $row->valorLeilao == '0.02' ? "selected" : "" ?>> 2 centavos</option>
+                            <option value="0.01" <?= $row->valorLeilao == '0.01' ? "selected" : "" ?>> 1 centavo</option>
+                            <option value="0.02" <?= $row->valorLeilao == '0.02' ? "selected" : "" ?>> 2 centavos</option>
                         </select>
                     </div>
 
@@ -90,31 +90,27 @@ $this->load->view('priv/_inc/superior');
 
                 <div class="item">
                     <label>Nome produto</label><br />
+                    <select name='idProduto' id='idProduto' class="select" <?= $row->publicado != 1 ? 'onchange="carregaDadosProduto(this.value)"' : "" ?> >
+                      <option value=""> Selecione </option>
                     <?
                     if (count($produtos)) {
-                        foreach ($produtos as $produto) {
-                            ?>
-                            <select name='idProduto' id='idProduto' class="select" <?= $row->publicado != 1 ? 'onchange="carregaDadosProduto(this.value)"' : "" ?> >
-                                <option value=""> Selecione </option>
+                        foreach ($produtos as $produto) { ?>
 
                                 <?
                                 if ($produto->idProduto == $row->idProduto)
                                     echo "<option value='" . $produto->idProduto . "' selected>" . $produto->categoria . " - " . $produto->nome . "</option>";
                                 else
                                     echo "<option value='" . $produto->idProduto . "'>" . $produto->categoria . " - " . $produto->nome . "</option>";
-                                ?>
-                            </select>
+                               }?> 
+                <?}?>
+                      
+                      </select>
                         </div>
-
-                        <div class="item">
+                
+                <div class="item">
                             <label>Valor do produto</label><br />
                             <input type="text" name="valorProduto" id="valorProduto" value="<?= $row->valorProduto ?>" class="inputSmall"/>
                         </div>
-
-                        <?
-                    }
-                }
-                ?>
 
                 <div class="item">
                     <label>Valor do frete</label><br />

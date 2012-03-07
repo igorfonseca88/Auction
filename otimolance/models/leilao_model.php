@@ -60,7 +60,7 @@ class Leilao_model extends CI_Model {
         if($this->situacao == "Em andamento"){
             $where = " WHERE l.dataFim is null ";
         }
-        else if($this->situacao == "Finalizado"){
+        else if($this->situacao == "Arrematado"){
             $where =  " WHERE l.dataFim is not null ";
         }
         
@@ -70,12 +70,22 @@ class Leilao_model extends CI_Model {
         }
         
         $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
-            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome
+            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
+            (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho,
+            (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
+             (select ifnull(max(valor),0) 
+               FROM tb_lance
+               where idLeilao = l.idLeilao) as valorArremate,
+        (SELECT login
+                                    FROM tb_lance la
+                                    JOIN tb_conta c ON la.idConta = c.idConta
+                                    WHERE la.idLeilao = l.idLeilao
+                                    ORDER BY idLance DESC 
+                                    LIMIT 0 , 1 ) as login
                    from tb_leilao l 
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
-                   left join tb_produto p on il.idProduto = p.idProduto $where ";
-        
+                   left join tb_produto p on il.idProduto = p.idProduto $where order by l.idLeilao desc ";
         
         $query = $this->db->query($sql);
         
@@ -160,13 +170,13 @@ class Leilao_model extends CI_Model {
     function listarLeiloesPublicados() {
         
         $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
-            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, caminho
+            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
+            (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho 
                    from tb_leilao l 
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
-                   left join tb_galeria g on g.idProduto = il.idProduto
-                   where l.publicado = 1 and l.dataInicio >= now() ";
+                   where  l.dataInicio >= now() and l.publicado = 1 ";
         
         
         $query = $this->db->query($sql);
