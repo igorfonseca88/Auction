@@ -7,6 +7,7 @@ class Produto{
     private $descricao;
     private $idCategoria;
     private $preco;
+    private $desconto;
     
     public function getIdProduto() {
         return $this->idProduto;
@@ -46,6 +47,14 @@ class Produto{
 
     public function setPreco($preco) {
         $this->preco = $preco;
+    }
+
+    public function getDesconto() {
+        return $this->desconto;
+    }
+
+    public function setDesconto($desconto) {
+        $this->desconto = $desconto;
     }
 
 }

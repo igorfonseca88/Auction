@@ -44,7 +44,7 @@ class CompraController extends CI_Controller {
         $paymentRequest->setCurrency("BRL");
 		
         foreach ($produtos as $row) {
-            $paymentRequest->addItem($row->idProduto, $row->nome,  100);
+            $paymentRequest->addItem($row->idProduto, $row->nome,  $quantidade, round($row->preco,2));
         }
 	
 	//serve para controles futuros, caso estejamos salvando em banco também as transações
@@ -68,10 +68,11 @@ class CompraController extends CI_Controller {
 		* Você pode pegar as credenciais de um arquivo de conf.
 		* $credentials = PagSeguroConfig::getAccountCredentials();
 		*/			
-		$credentials = new PagSeguroAccountCredentials("wwwitters@gmail.com", "2C36B0FEB8844C62947D65145B09115A");
+		$credentials = PagSeguroConfig::getAccountCredentials();
 		
 		$url = $paymentRequest->register($credentials);
 		
+                header("Location: $url"); 
 	} catch (PagSeguroServiceException $e) {
 		die($e->getMessage());
 	}

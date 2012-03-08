@@ -22,7 +22,8 @@ class ProdutoController extends CI_Controller {
             "nome" => $this->input->post("txtNome"),
             "descricao" => $this->input->post("txtDescricao"),
             "idCategoria" => $this->input->post("idCategoria"),
-            "preco" => $this->input->post("txtPreco")
+            "preco" => $this->input->post("txtPreco"),
+            "desconto" => $this->input->post("txtDesconto")
              
         );
         
@@ -43,7 +44,9 @@ class ProdutoController extends CI_Controller {
             "nome" => $this->input->post("txtNome"),
             "descricao" => $this->input->post("txtDescricao"),
             "idCategoria" => $this->input->post("idCategoria"),
-            "preco" => $this->input->post("txtPreco")
+            "preco" => $this->input->post("txtPreco"),
+            "desconto" => $this->input->post("txtDesconto")
+                
         );
 
         $this->produtoDAO->update($data,$id);
