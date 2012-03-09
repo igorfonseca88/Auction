@@ -47,13 +47,11 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
 
     <body onload="">
 
-        <div id="topo">
-            <img src="<?php echo BASE_URL(); ?>_imagens/logo_revistafalaserio.png" class="logo" />
-            <h1>&rsaquo; Painel administrativo</h1>
-        </div>
-
-
         <div id="menuesquerdo">
+            
+            <img src="<?php echo BASE_URL(); ?>_imagens/logo_revistafalaserio.png" class="logo" />
+            <h1> Gerenciador de leilões</h1>
+            
             <ul>
                 <li class="titulo"><a><span>Meu Admin</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>area-restrita"><span>Principal</span></a></li>
