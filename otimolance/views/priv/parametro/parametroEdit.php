@@ -66,6 +66,11 @@ $this->load->view('priv/_inc/superior');
                         <textarea class="textarea" id="padraoEmailCadastroConfirmado"name="padraoEmailCadastroConfirmado" rows="10" cols="60"><?= $parametro->padraoEmailCadastroConfirmado ?></textarea>
                     </div>
                     
+                    <div class="item">
+                        <label>Padrão recuperar senha</label><br />
+                        <textarea class="textarea" id="padraoEmailRecuperarSenha"name="padraoEmailRecuperarSenha" rows="10" cols="60"><?= $parametro->padraoEmailRecuperarSenha ?></textarea>
+                    </div>
+                    
                 </div>
 
             </form>
