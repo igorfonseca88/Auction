@@ -141,22 +141,22 @@ class Conta_model extends CI_Model {
     }
     
     function buscarLoginCadastrado($login) {
-        $query = $this->db->query("select c.login FROM tb_conta c where c.login LIKE '$login' ");
+        $query = $this->db->query("select c.login FROM tb_conta c where c.login = '$login' ");
         return $query->result();
     }
     
     function buscarCpfCadastrado($cpf) {
-        $query = $this->db->query("select c.cpf FROM tb_conta c where c.cpf LIKE '$cpf' ");
+        $query = $this->db->query("select c.cpf FROM tb_conta c where c.cpf = '$cpf' ");
         return $query->result();
     }
     
     function buscarEmailCadastrado($email) {
-        $query = $this->db->query("select c.email FROM tb_conta c where c.email LIKE '$email' ");
+        $query = $this->db->query("select c.email FROM tb_conta c where c.email = '$email' ");
         return $query->result();
     }
     
     function buscarIpCadastrado($ip) {
-        $query = $this->db->query("select c.ip FROM tb_conta c where c.ip LIKE '$ip' ");
+        $query = $this->db->query("select c.ip FROM tb_conta c where c.ip = '$ip' ");
         return $query->result();
     }
     
@@ -187,6 +187,11 @@ class Conta_model extends CI_Model {
             }
         }
         return $saldo;
+    }
+    
+    function recuperarSenha($email){
+        $query = $this->db->query("select c.senha, c.login FROM tb_conta c where c.email = '$email' ");
+        return $query->result();
     }
 }
 

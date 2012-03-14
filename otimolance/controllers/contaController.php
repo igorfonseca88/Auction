@@ -172,9 +172,21 @@ class ContaController extends CI_Controller {
 
                 if (!is_null($conta)) {
                     $this->enviarEmailAtivacao($email, $id);
-                    $conta["sucesso"] = "Cadastro realizado com sucesso.";
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
+                    
+                    $msgHtml = "<h3>Verifique o seu e-mail!!</h3>
+                                <br/>
+                                <br/>
+                                <label>Acabamos de enviar um e-mail para você. Para que possamos finalizar seu cadastro é necessário que você verifique o e-mail que usou na etapa anterior e clique no link que enviamos.</label>
+                                <br/><br/>
+                                <label>Obs.: Caso o e-mail não esteja em sua caixa de entrada, por favor verifique a pasta de spam/lixo eletrônico.</label>
+                                <br/><br/>
+                                <label>Obrigado</label>
+                                <br/><br/>
+                                <label>Equipe OtimoLance</label>";
        
+                    $conta["msgHtml"] = $msgHtml;
+                    $conta["sucesso"] = "Cadastro realizado com sucesso.";
                     $this->load->vars($conta);
                     $this->load->view("conta/contaMsg");
                 }
@@ -411,7 +423,7 @@ class ContaController extends CI_Controller {
         
         $this->email->message($msg);
         $this->email->send();
-        echo $this->email->print_debugger();
+        //echo $this->email->print_debugger();
     }
     
     function enviarEmailConfirmacao($email, $id, $login){
@@ -437,6 +449,30 @@ class ContaController extends CI_Controller {
         //echo $this->email->print_debugger();
     }
     
+    function enviarSenhaUsuario($email, $login, $senha){
+        $this->load->model('Parametro_model', 'parametro');
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $this->load->library('email');
+        
+        $this->email->smtp_host = $servidor["servidor"][0]->smtp_host;
+        $this->email->smtp_port = $servidor["servidor"][0]->smtp_port;
+        $this->email->smtp_user = $servidor["servidor"][0]->smtp_user;
+        $this->email->smtp_pass = $servidor["servidor"][0]->smtp_pass;
+        
+        $this->email->from('otimolance@gmail.com','Team OtimoLance');
+        $this->email->to($email);
+        $this->email->subject('[OtimoLance] Recuperação de senha!');
+        
+        $string1 = "Seu usuário é: $login";
+        $string2 = "Sua senha atual é: $senha";
+        $mensagem = $servidor["servidor"][0]->padraoEmailRecuperarSenha;      
+        $msg = SPrintF($mensagem, "$string1", "$string2");     
+        
+        $this->email->message($msg);
+        $this->email->send();
+        //echo $this->email->print_debugger();
+    }
+    
     function liberarConta() {
         $id = $_GET['id'];
         $this->load->model("Conta_model", "contaDAO");
@@ -455,11 +491,62 @@ class ContaController extends CI_Controller {
         }
         
         $this->enviarEmailConfirmacao($email, $id, $login);
-               
+        
+        $msgHtml = "<h3>Seu cadastro foi ativado com sucesso!</h3>  
+                    <br/><br/>
+                    <label>Agora você já pode começar ganhar! \o/</label>
+                    <br/><br/>
+                    <label>Para acessar suas informações pessoais, comprar pacote de lances e participar de um leilão, você deverá utilizar seu login e senha criados.</label>
+                    <label>Por segurança, não compartilhe essas informações com ninguém.</label>";
+        
+        $conta["msgHtml"] = $msgHtml;
         $conta["sucesso"] = "Ativação realizada com sucesso.";
-        $this->load->view("conta/contaRelease",$conta);     
+        $this->load->view("conta/contaMsg",$conta);     
     }
+    
+    function recuperarSenha(){
+        $this->load->view("conta/recuperarSenha");
+    }
+    
+    function retornarSenha(){
+        $email = $_POST["txtEmail"];
+        
+        $this->load->model("Conta_model", "contaDAO");
+        $conta["conta"] = $this->contaDAO->recuperarSenha($email);
+            
+        if (is_null($conta)){
+            $msgHtml = "";
+            $conta["msgHtml"] = $msgHtml;
+            $conta["erro"] = "E-mail não cadastrado.";
+            $this->load->view("conta/contaMsg",$conta); 
+        }
+        else{
+            foreach ($conta as $row) {
+                $senha=  $row[0]->senha;
+                $login=  $row[0]->login;
+            } 
+            
+            $this->enviarSenhaUsuario($email, $login, $senha);
 
+            $msgHtml = "<h3>Em alguns minutos você receberá um email com suas informações de usuário e senha.</h3>
+                        <br/>
+                        <br/>
+                        <label>Caso demore a chegar, verificar se por algum motivo ele não foi para no lixo eletrônico do seu email.</label>
+                        <br/><br/>
+                        <label>Obrigado</label>
+                        <br/><br/>
+                        <label>Equipe OtimoLance</label>";
+            
+            $conta["msgHtml"] = $msgHtml;
+            $conta["sucesso"] = "Solicitação efetuada com sucesso.";
+            $this->load->view("conta/contaMsg",$conta); 
+        }
+    }
+    
+    function alterarSenha(){
+        $this->load->view("priv/conta/contaAlterarSenha"); 
+    }
+    
     function editarConta() {
         $this->load->model("Conta_model", "contaDAO");
         $id = $this->input->post("idContah");
