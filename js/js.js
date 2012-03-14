@@ -1077,8 +1077,11 @@ $(document).ready(function() {
 	
     //Inicia Processos
     RequisitacaoLeiloes();
-	
-	
+    
+    
+    // Configuração para campos de Real.
+    $(".monetario").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
+
 });
 
 

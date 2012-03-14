@@ -11,7 +11,6 @@
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskMoney.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskedinput.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/ajax.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/js.js"></script>
         
 

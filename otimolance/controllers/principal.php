@@ -13,6 +13,7 @@ class Principal extends CI_Controller {
     
     function home(){
         $leiloes["leiloes"] = $this->getLeiloes();
+        $leiloes["leiloesArrematados"] = $this->getLeiloesArrematados();
         $this->load->vars($leiloes);
         $this->load->view('index');
     }
@@ -44,11 +45,11 @@ class Principal extends CI_Controller {
         $this->load->view('conta/conta');
     }
     
-    public function retornaHoraAtual(){
-        $date = date('H:i:s');
-        echo $date;
-        
+    public function getLeiloesArrematados() {
+        $this->load->model('Leilao_model', 'leilao');
+        return $this->leilao->listarLeiloesPublicadosEArrematados();
     }
+    
 
 }
 
