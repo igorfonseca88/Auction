@@ -12,34 +12,31 @@
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskedinput.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/js.js"></script>
-        
-
     </head>
     <body>
        
-       
-            <p id="relogioTopo"></p>
-            <? if ($this->session->userdata("login") != "") { ?>
-            <script>
-                carregaLances(<?=$this->session->userdata("idConta")?>);
-            </script>
-                <div class="titulo">
-                    <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
-                    <li><a href="<?= BASE_URL(); ?>minha-conta"><span>Minha conta</span></a></li>
-                    <li><a href="<?= BASE_URL(); ?>clientes/sair"><span>Sair</span></a></li>
-                    <li>Seus lances :<span id="usu_lances"></span></li>
-                </div>
-            <? } else { ?>
-                <div class="formulario">
-                    <li><a href="<?= base_url(); ?>contaController/cadastroClienteSite"><span>Cadastre-se</span></a></li>
-                    <li><a href="<?= base_url(); ?>contaController/recuperarSenha"><span>Esqueceu a senha?</span></a></li>
-                    <form action="<?= base_url() ?>clientes/login" method="post">
-
-                        <input type="text" style="border: 1px solid;" name="login" id="login" class="inputSmall" value=""/>
-                        <input type="password" style="border: 1px solid;" name="senha" id="senha" class="inputSmall" value=""/>
-                        <input type="submit" value="Enviar" class="button"/>
-
-                    </form>  
-                </div>
-            <? } ?>
+    <p id="relogioTopo"></p>
+    <? if ($this->session->userdata("login") != "") { ?>
+    <script>
+        carregaLances(<?=$this->session->userdata("idConta")?>);
+    </script>
+        <div class="titulo">
+            <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
+            <li><a href="<?= BASE_URL(); ?>minha-conta"><span>Minha conta</span></a></li>
+            <li><a href="<?= BASE_URL(); ?>clientes/sair"><span>Sair</span></a></li>
+            <li>Seus lances :<span id="usu_lances"></span></li>
+        </div>
+    <? } else { ?>
+    <div id="conteudo">
+        <div class="formulario">
+            <li><a href="<?= base_url(); ?>contaController/cadastroClienteSite"><span>Cadastre-se</span></a></li>
+            <li><a href="<?= base_url(); ?>contaController/recuperarSenha"><span>Esqueceu a senha?</span></a></li>
+            <form action="<?= base_url() ?>clientes/login" method="post">
+                <input type="text" style="border: 1px solid;" name="login" id="login" class="inputSmall" value=""/>
+                <input type="password" style="border: 1px solid;" name="senha" id="senha" class="inputSmall" value=""/>
+                <input type="submit" value="Enviar" class="button"/>
+            </form>  
+        </div>
+    <div/>
+    <? } ?>
 

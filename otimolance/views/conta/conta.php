@@ -8,25 +8,18 @@ if ($this->Conta_model->logged() == FALSE || !$this->Conta_model->validaTipoUsua
 $this->load->view('_padrao/topo');
 ?>
 
-
-
-      
-        
-        <div id="menuesquerdo">
-            <h1> Gerenciador de leilões</h1>
-            <ul>
-                <li class="titulo"><a><span>Meu Admin</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>login/login/logoff"><span>Sair</span></a></li>
-            </ul>
-            
-            <ul>
-                <li class="titulo"><a><span>Meus Dados</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>contaController/alterarDados"><span>Alterar Dados</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>contaController/alterarSenha"><span>Alterar Senha</span></a></li>
-            </ul>
-        </div>
-
-
+<div id="menuesquerdo">
+    <h1> Gerenciador de leilões</h1>
+    <ul>
+        <li class="titulo"><a><span>Meu Admin</span></a></li>
+        <li><a href="<?php echo BASE_URL(); ?>login/login/logoff"><span>Sair</span></a></li>
+    </ul>
+    <ul>
+        <li class="titulo"><a><span>Meus Dados</span></a></li>
+        <li><a href="<?php echo BASE_URL(); ?>contaController/alterarDados"><span>Alterar Dados</span></a></li>
+        <li><a href="<?php echo BASE_URL(); ?>contaController/alterarSenha"><span>Alterar Senha</span></a></li>
+    </ul>
+</div>
 
 
 

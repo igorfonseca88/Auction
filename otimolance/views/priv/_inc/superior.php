@@ -48,7 +48,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
 
         <div id="menuesquerdo">
             
-            <img src="<?php echo BASE_URL(); ?>_imagens/logo_revistafalaserio.png" class="logo" />
+            <img src="<?=base_url();?>img/logo1.jpg" class="logo" />
             <h1> Gerenciador de leilões</h1>
             
             <ul>

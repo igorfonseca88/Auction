@@ -193,6 +193,11 @@ class Conta_model extends CI_Model {
         $query = $this->db->query("select c.senha, c.login FROM tb_conta c where c.email = '$email' ");
         return $query->result();
     }
+    
+    function buscarSenhaAtual($senhaAtual, $id){
+        $query = $this->db->query("select c.idConta FROM tb_conta c where c.idConta = '$id' and c.senha = '$senhaAtual' ");
+        return $query->result();
+    }
 }
 
 ?>

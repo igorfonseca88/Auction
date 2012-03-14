@@ -2,7 +2,6 @@
 $this->load->view('priv/_inc/superior');
 ?>	
 <div id="conteudo">
-
     <div class="titulo">
         <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
         <p><span><span>Você está em:</span> <a href="/otimolance/">Principal</a> &raquo; 

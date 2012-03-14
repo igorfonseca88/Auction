@@ -11,17 +11,17 @@ $this->load->view('conta/conta');
         <form method="post" action="<?= BASE_URL(); ?>contaController/alterarSenha">
                 <div class="item">
                     <label><font color="#FF0000">*</font> Senha Atual</label><br />
-                    <input type="text" name="txtSenhaAtual" id="txtSenhaAtual" value="" class="input"/>
+                    <input type="password" name="txtSenhaAtual" id="txtSenhaAtual" value="" class="input"/>
                 </div>
             
                 <div class="item">
                     <label><font color="#FF0000">*</font> Nova Senha</label><br />
-                    <input type="text" name="txtNovaSenha" id="txtNovaSenha" value="" class="input"/>
+                    <input type="password" name="txtNovaSenha" id="txtNovaSenha" value="" class="input"/>
                 </div>
 
                 <div class="item">
                     <label><font color="#FF0000">*</font> Repetir Nova Senha</label><br />
-                    <input type="text" name="txtRepetirNovaSenha" id="txtRepetirNovaSenha" value="" class="input"/>
+                    <input type="password" name="txtRepetirNovaSenha" id="txtRepetirNovaSenha" value="" class="input"/>
                 </div>
 
                 <div class="acao">

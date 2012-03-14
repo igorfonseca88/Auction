@@ -544,9 +544,40 @@ class ContaController extends CI_Controller {
     }
     
     function alterarSenha(){
-        $this->load->view("priv/conta/contaAlterarSenha"); 
+        $this->load->view("conta/contaAlterarSenha"); 
     }
     
+    function realizarAlteracaoSenha(){
+        $senhaAtual = $_POST["txtSenhaAtual"];
+        
+        $this->load->model("Conta_model", "contaDAO");
+        $conta["conta"] = $this->contaDAO->buscarSenhaAtual($senhaAtual, $id);
+        
+        if (is_null($conta)){
+            $conta["erro"] = "Senha atual não confere.";
+            $this->load->view("conta/contaAlterarSenha",$conta); 
+        }
+        else{
+                $novaSenha = $_POST["txtNovaSenha"];
+                $repetirNovaSenha = $_POST["txtRepetirNovaSenha"];
+                
+                if ($novaSenha == $repetirNovaSenha){
+                    $data = array(
+                        "novaSenha" => $novaSenha
+                    );
+                    
+                    $this->contaDAO->update($data, $id);
+                    $conta["sucesso"] = "Solicitação efetuada com sucesso.";
+                    $this->load->view("conta/contaAlterarSenha",$conta);
+                }
+                else{
+                    $conta["erro"] = "Nova senha e confirmação não conferem.";
+                    $this->load->view("conta/contaAlterarSenha",$conta); 
+                }
+        }
+    }
+
+
     function editarConta() {
         $this->load->model("Conta_model", "contaDAO");
         $id = $this->input->post("idContah");
