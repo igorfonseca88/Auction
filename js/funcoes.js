@@ -133,3 +133,10 @@ function showHideCategoria(){
  var valor = $("#tipoLance").is(":checked");
  $("#idCategoria").attr("disabled", valor);
 }
+
+function calcularSubTotal(idProduto){
+    var quantidade = $("#txtQuantidade"+idProduto).find('option').filter(':selected').text();
+    var preco = $("#txtPreco"+idProduto).text();
+    var subTotal = quantidade * preco;
+    $("#txtSubTotal"+idProduto).text(subTotal);
+}

@@ -16,35 +16,46 @@ class CompraController extends CI_Controller {
      
      function carrinho($idProduto){
         $this->load->model('Produto_model', 'produtoDAO');
-        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto);
+
+        if($this->session->userdata('pedido') != null){
+             $data["pedido"] = $this->session->userdata('pedido');
+         }
+         
+        $data["pedido"]["infoPedido".$idProduto] = $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto);
+        
+        $this->session->set_userdata($data); 
         $this->load->view("compra/carrinhoCompra",$data);
     
      }
      
      function pagamento(){
         $this->load->model("Produto_model", "produtoDAO");
-        $idProduto = $this->input->post("idProdutoHidden");
-        $quantidade = $this->input->post("txtQuantidade");
-        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto);
         
-        $dadosNovaCompra = array(
-                   'produtos'  => $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto),
-                   'quantidade'     => $quantidade
-               );
-        $this->session->set_userdata($dadosNovaCompra);      
-        $this->load->view("compra/pagamento",$data);
+        if($this->session->userdata('pedido') != null){
+             $data["pedido"] = $this->session->userdata('pedido');
+         }
+         
+         foreach ($data["pedido"] as $row) {
+             $quantidade = $this->input->post("txtQuantidade".$row[0]->idProduto);
+             $data["pedido"]["infoPedido".$row[0]->idProduto]["quantidade"] = $quantidade;
+        }
+        $this->session->set_userdata($data); 
+        $this->load->view("compra/pagamento");
+        
      }
      
      function criarTransacaoPagSeguro(){
-         $quantidade = $this->session->userdata('quantidade');
-         $produtos = $this->session->userdata('produtos');
+         
+         if($this->session->userdata('pedido') != null){
+             $data["pedido"] = $this->session->userdata('pedido');
+         }
          
 	$paymentRequest = new PagSeguroPaymentRequest();
 	//moeda Brasileira
         $paymentRequest->setCurrency("BRL");
 		
-        foreach ($produtos as $row) {
-            $paymentRequest->addItem($row->idProduto, $row->nome,  $quantidade, round($row->preco,2));
+        foreach ($data["pedido"] as $row) {
+             $paymentRequest->addItem($row[0]->idProduto, $row[0]->nome,  $row["quantidade"], round($row[0]->preco,2));
         }
 	
 	//serve para controles futuros, caso estejamos salvando em banco também as transações
