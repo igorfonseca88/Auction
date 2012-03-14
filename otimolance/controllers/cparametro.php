@@ -24,7 +24,8 @@ class Cparametro extends CI_Controller {
             "smtp_user" => $this->input->post("smtp_user"),
             "smtp_pass" => $this->input->post("smtp_pass"),
             "padraoEmailConfirmarCadastro" => $this->input->post("padraoEmailConfirmarCadastro"),
-            "padraoEmailCadastroConfirmado" => $this->input->post("padraoEmailCadastroConfirmado")
+            "padraoEmailCadastroConfirmado" => $this->input->post("padraoEmailCadastroConfirmado"),
+            "padraoEmailRecuperarSenha" => $this->input->post("padraoEmailRecuperarSenha")
         );
 
 

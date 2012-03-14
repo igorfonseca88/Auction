@@ -1,18 +1,6 @@
 var DELIMITADOR_STRING = "@";
 
-$(function($) {
-    // Quando enviado o formulário
-    $("#upload").submit(function() {
-        // Passando por cada anexo
-        $("#anexos").find("li").each(function() {
-            // Recuperando nome do arquivo
-            var arquivo = $(this).attr('lang');
-            // Criando campo oculto com o nome do arquivo
-            $("#upload").prepend('<input type="hidden" name="anexos[]" value="' + arquivo + '" \/>');
-        }); 
-    });
-});
-    
+   
 function num2str(campo)
 {
     vr = campo.value;

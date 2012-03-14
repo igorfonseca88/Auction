@@ -11,14 +11,13 @@
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskMoney.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskedinput.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
-        <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/ajax.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/js.js"></script>
         
 
     </head>
     <body>
-        <div id="conteudo">
-
+       
+       
             <p id="relogioTopo"></p>
             <? if ($this->session->userdata("login") != "") { ?>
             <script>
@@ -33,12 +32,14 @@
             <? } else { ?>
                 <div class="formulario">
                     <li><a href="<?= base_url(); ?>contaController/cadastroClienteSite"><span>Cadastre-se</span></a></li>
+                    <li><a href="<?= base_url(); ?>contaController/recuperarSenha"><span>Esqueceu a senha?</span></a></li>
                     <form action="<?= base_url() ?>clientes/login" method="post">
 
-                        <input type="text" name="login" id="login" class="inputSmall" value=""/>
-                        <input type="password" name="senha" id="senha" class="inputSmall" value=""/>
+                        <input type="text" style="border: 1px solid;" name="login" id="login" class="inputSmall" value=""/>
+                        <input type="password" style="border: 1px solid;" name="senha" id="senha" class="inputSmall" value=""/>
                         <input type="submit" value="Enviar" class="button"/>
 
                     </form>  
                 </div>
             <? } ?>
+

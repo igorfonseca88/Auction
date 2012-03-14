@@ -8,12 +8,12 @@
 
 <body>
 <div id="topo">
-	<img src="/revistafalaserio/_imagens/logo_revistafalaserio.png" class="logo" />
-	<h1>&rsaquo; Gerenciador de Conteúdo</h1>
+	<img src="<?=base_url();?>img/logo1.jpg" class="logo" />
+	<h1>&rsaquo; Gerenciador de Leilões </h1>
 </div>
 <div id="conteudo" style="width:100%;margin:0 0 0 0">
-	<div id="telaLogin"> <?php echo validation_errors(); ?>
-		<form action="/otimolance/login/login/autenticarAdmin" method='post'>
+	<div id="telaLogin"> 
+		<form action="<?=base_url();?>login/login/autenticarAdmin" method='post'>
 			Usuário (email cadastrado):<br/>
 			<input name="usuarioEmail" type="text" class="text" size="35" id="usuarioEmail" />
 			<br />
@@ -25,7 +25,7 @@
 			<br />
 			<br />
 		</form>
-		<p class="error"><?= ($error != null) ? $error : ""; ?></p>
+		<?= ($error != "") ? "<p class='error'>".$error."</p>" : ""; ?>
 	</div>
 </div>
 </body>

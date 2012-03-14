@@ -5,27 +5,24 @@ if ($this->Conta_model->logged() == FALSE || !$this->Conta_model->validaTipoUsua
 } else if ($this->Conta_model->logged() == FALSE) {
     redirect('principal/redirecionaLogin', 'refresh');
 }
-
 $this->load->view('_padrao/topo');
 ?>
 
-        <div id="topo">
-            <img src="<?php echo BASE_URL(); ?>_imagens/logo_revistafalaserio.png" class="logo" />
-            <h1>&rsaquo; Painel administrativo</h1>
-        </div>
 
 
+      
+        
         <div id="menuesquerdo">
+            <h1> Gerenciador de leilões</h1>
             <ul>
                 <li class="titulo"><a><span>Meu Admin</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>login/login/logoff"><span>Sair</span></a></li>
             </ul>
+            
             <ul>
-                <li class="titulo"><a><span>Áreas</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>produtoController/"><span>Produtos</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>leilaoController/"><span>Painel de leilões</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>cparametro/"><span>Parâmetros do sistema</span></a></li>
-                <li><a href=""><span>Financeiro</span></a></li>
+                <li class="titulo"><a><span>Meus Dados</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>contaController/alterarDados"><span>Alterar Dados</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>contaController/alterarSenha"><span>Alterar Senha</span></a></li>
             </ul>
         </div>
 

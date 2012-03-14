@@ -158,7 +158,8 @@ class Leilao_model extends CI_Model {
 
         $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
                tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
-               il.valorProduto, il.valorFrete, l.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis
+               il.valorProduto, il.valorFrete, l.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis,
+                (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho 
                FROM tb_leilao l 
                left join tb_itemleilao il on l.idLeilao = il.idLeilao 
                where l.idLeilao = $id ");
@@ -177,6 +178,33 @@ class Leilao_model extends CI_Model {
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
                    where  l.dataInicio >= now() and l.publicado = 1 ";
+        
+        
+        $query = $this->db->query($sql);
+        
+        return $query->result();
+    }
+    
+    function listarLeiloesPublicadosEArrematados() {
+        
+        $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
+            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
+            (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho,
+            (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
+             (select ifnull(max(valor),0) 
+               FROM tb_lance
+               where idLeilao = l.idLeilao) as valorArremate,
+        (SELECT login
+                                    FROM tb_lance la
+                                    JOIN tb_conta c ON la.idConta = c.idConta
+                                    WHERE la.idLeilao = l.idLeilao
+                                    ORDER BY idLance DESC 
+                                    LIMIT 0 , 1 ) as login
+                   from tb_leilao l 
+                   left join tb_itemleilao il on l.idLeilao = il.idLeilao
+                   join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+                   left join tb_produto p on il.idProduto = p.idProduto 
+                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null ";
         
         
         $query = $this->db->query($sql);
