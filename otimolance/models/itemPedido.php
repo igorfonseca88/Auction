@@ -6,6 +6,7 @@ class ItemPedido {
     private $idProduto;
     private $idPedido;
     private $quantidade;
+    public $arrayAux;
     
     public function getIdItemPedido() {
         return $this->idItemPedido;
