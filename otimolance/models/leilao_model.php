@@ -159,9 +159,10 @@ class Leilao_model extends CI_Model {
         $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
                tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
                il.valorProduto, il.valorFrete, l.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis,
-                (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho 
+                (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho, p.nome 
                FROM tb_leilao l 
                left join tb_itemleilao il on l.idLeilao = il.idLeilao 
+                left join tb_produto p on il.idProduto = p.idProduto 
                where l.idLeilao = $id ");
         return $query->result();
     }
@@ -177,7 +178,7 @@ class Leilao_model extends CI_Model {
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
-                   where  l.dataInicio >= now() and l.publicado = 1 ";
+                   where  l.dataInicio >= now() and l.publicado = 1 and l.dataFim is null ";
         
         
         $query = $this->db->query($sql);

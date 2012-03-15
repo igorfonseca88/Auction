@@ -727,13 +727,10 @@ function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
             ListaHistorico = ListaHistorico.split("@");
 			
             TextoH = 	'';
-            TextoH = 	'<table width="100%" cellpadding="2" cellspacing="0">'+
+            TextoH = 	'<table class="tabela">'+
             '<tr>'+
-            '<td colspan="2" align="center" bgcolor="#36322f" height="25" class="h2" style="font-weight:bold;">Histórico de Lances</td>'+
-            '</tr>'+
-            '<tr>'+
-            '<td align="center" class="h1" style="font-weight:bold;">Lance</td>'+
-            '<td align="center" class="h1" style="font-weight:bold;">Usuário</td>'+
+            '<td align="center">Lance</td>'+
+            '<td align="center">Usuário</td>'+
             '</tr>';
 						
             if(ListaHistorico.length>0)

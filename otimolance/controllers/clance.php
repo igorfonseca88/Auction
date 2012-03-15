@@ -203,8 +203,15 @@ class Clance extends CI_Controller {
         if ($id != "") {
             $leilaoArray["leilaoArray"] = $this->leilao->buscarLeilaoPorId($id);
         }
+        
+        $leilaoArray["leiloesArrematados"] = $this->getLeiloesArrematados();
 
         $this->load->view("_paginas/detalhe_produto", $leilaoArray);
+    }
+    
+    public function getLeiloesArrematados() {
+        $this->load->model('Leilao_model', 'leilao');
+        return $this->leilao->listarLeiloesPublicadosEArrematados();
     }
 
 }

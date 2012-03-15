@@ -52,6 +52,10 @@
 	#conteudo .paginas {margin: 15px 0 25px 0;color:#333333;word-spacing:5px}
 	#conteudo .paginas a {padding:5px}
 	#conteudo .paginas .atual, #conteudo .paginas a:hover{background:#333333;color:#FFF}
+        #conteudo .bloco1 {float: left;}
+        #conteudo .bloco1 .img_produto {display: table;float: left;margin: 15px 40px 25px 0;width: 230px;padding: 8px;border:2px solid #d8d9dd}
+        #conteudo .bloco2 {width: 300px; float: left;}
+        #conteudo .bloco3 {float: right; width: 300px;}
         .galeria_lista {display: table;float: left;margin: 15px 40px 25px 0;width: 230px;}
         .galeria_lista.final {margin-right: 0px;}
         .galeria_lista .galeria_notica {float: left}
