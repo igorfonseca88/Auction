@@ -20,6 +20,8 @@ $this->load->view('_padrao/topo');
         <li><a href="<?php echo BASE_URL(); ?>contaController/alterarSenha"><span>Alterar Senha</span></a></li>
     </ul>
 </div>
+</body>
+</html>
 
 
 

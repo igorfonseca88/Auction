@@ -30,6 +30,5 @@ $this->load->view('conta/conta');
         </form>
     </div>
 </div>
-<?
-$this->load->view('priv/_inc/inferior');
-?>
+</body>
+</html>

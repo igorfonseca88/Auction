@@ -11,3 +11,5 @@ $this->load->view('_padrao/topo');
         <?= $msgHtml != "" ? '<div> ' . $msgHtml . ' </div>' : "" ?>
     </div>
 </div>
+</body>
+</html>
