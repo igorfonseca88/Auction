@@ -1,7 +1,7 @@
 <?
 $this->load->view('conta/conta');
 ?>	
-<div id="conteudo">
+<div id="conteudoAdmin">
     <div class="formulario">
         <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
         <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>

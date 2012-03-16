@@ -3,7 +3,7 @@ $this->load->view('_padrao/topo');
 ?>
 <br/>
 <br/>
-<div id="conteudo">
+<div id="conteudoAdmin">
     <div class="formulario">
     <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
     <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>      
