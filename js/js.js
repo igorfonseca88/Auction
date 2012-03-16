@@ -280,18 +280,18 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
             if(parseInt(Tempo)==0)
             {
 				
-                $("#L_Tempo_" + CodigoLeilao).html("<span style='color:red'>00:00:00</span>");
+                $("#L_Tempo_" + CodigoLeilao).html("<<p class='tempoMenorDez>00:00:00</p>");
 				
             }else{
 				
                 if(parseInt(Tempo)<10)
                 {
 					
-                    $("#L_Tempo_" + CodigoLeilao).html("<span style='color:red'>00:00:0" + Tempo + "</span>")
+                    $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez' >00:00:0" + Tempo + "</p>")
 					
                 }else{
 					
-                    $("#L_Tempo_" + CodigoLeilao).html("00:00:" + Tempo)
+                    $("#L_Tempo_" + CodigoLeilao).html("<p class='tempo'>00:00:" + Tempo + "</p>")
 					
                 }
 			
@@ -912,7 +912,7 @@ function DisparaFinalizadoLeilao(CodigoLeilao)
 
     TipoLeilao	= $("#TipoLeilao_" + CodigoLeilao).val();
 	
-    $("#boxBtn_"+CodigoLeilao).html("<span class='h3'>Arrematado</span>");
+    $("#boxBtn_"+CodigoLeilao).html("<p class='arrematado'>Arrematado</p>");
     $("#L_Tempo_" + CodigoLeilao).html("00:00:00");
     //$("#BoxDeletBtn_" + CodigoLeilao).html("");
 	
@@ -936,7 +936,7 @@ function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
             {
 				
                 RetroClock(CodigoLeilao, 1, TipoLeilao);
-                $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(1)
+                $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(0)
 				
             }else{
 		
