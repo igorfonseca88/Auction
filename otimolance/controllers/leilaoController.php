@@ -132,7 +132,7 @@ class LeilaoController extends CI_Controller {
 
         if (!is_null($leilao)) {
             $this->load->vars($leilao);
-            $this->load->view("priv/leilao/LeilaoEdit");
+            $this->load->view("priv/leilao/leilaoEdit");
         }
     }
 
