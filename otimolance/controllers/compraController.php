@@ -1,5 +1,6 @@
 <?php
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
+require_once "otimolance/models/Pedido.php";
 
 class CompraController extends CI_Controller {
 
@@ -11,55 +12,111 @@ class CompraController extends CI_Controller {
         $this->load->model('Produto_model', 'produtoDAO');
         $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria("Lance");
         $this->load->view("compra/comprarLances",$data);
-    
      }
      
      function carrinho($idProduto){
-        $this->load->model('Produto_model', 'produtoDAO');
-
-        if($this->session->userdata('pedido') != null){
-             $data["pedido"] = $this->session->userdata('pedido');
-         }
-         
-        $data["pedido"]["infoPedido".$idProduto] = $this->produtoDAO->buscarProdutosGaleriaPorIdProduto($idProduto);
+        $this->load->model("Produto_model", "produtoDAO");
+        $this->load->model("Pedido_model", "pedidoDAO");
+        $this->load->model("ItemPedido_model", "itemPedidoDAO");
+        $idConta = $this->session->userdata('idConta');
         
-        $this->session->set_userdata($data); 
+        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+        
+        if (is_null($pedido)) {
+            //CRIA UM NOVO PEDIDO
+            $pedido = array(
+                "idConta" => $idConta,
+                "status" => Pedido::$STATUS_EM_ANDAMENTO
+            );
+        
+            $idPedido = $this->pedidoDAO->salvar($pedido);
+        }else{
+            $idPedido = $pedido["pedido"][0]->idPedido;
+        }
+        
+        //INSERE O ITEM NO PEDIDO
+        if($idProduto != null){
+            $itemPedido = array(
+                "idProduto" => $idProduto,
+                "idPedido" => $idPedido,
+                "quantidade" => 1
+            );
+
+            $idItemPedido = $this->itemPedidoDAO->salvarItemPedido($itemPedido);
+        }
+        
+        $data["produtos"] = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
+
         $this->load->view("compra/carrinhoCompra",$data);
-    
+     }
+     
+     function identificacao(){
+       $this->load->model('Conta_model', 'contaDAO');
+       $this->load->model("Produto_model", "produtoDAO");
+       $this->load->model("Pedido_model", "pedidoDAO");
+       $this->load->model("ItemPedido_model", "itemPedidoDAO");
+       $idConta = $this->session->userdata('idConta');
+       
+       $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+       $idPedido = $pedido["pedido"][0]->idPedido;
+       $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($idPedido);
+
+       foreach ($itensPedido as $row) {
+             $quantidade = $this->input->post("txtQuantidade".$row->idItemPedido);
+             $itemPedido = array("quantidade" => $quantidade);
+             //Salva Item pedido com quantidade
+             $this->itemPedidoDAO->atualizarItemPedido($itemPedido, $row->idItemPedido);
+        }
+
+        $data["conta"] = $this->contaDAO->buscarContaPorId($idConta);
+        $this->load->view("compra/identificacao", $data);
      }
      
      function pagamento(){
-        $this->load->model("Produto_model", "produtoDAO");
-        
-        if($this->session->userdata('pedido') != null){
-             $data["pedido"] = $this->session->userdata('pedido');
-         }
-         
-         foreach ($data["pedido"] as $row) {
-             $quantidade = $this->input->post("txtQuantidade".$row[0]->idProduto);
-             $data["pedido"]["infoPedido".$row[0]->idProduto]["quantidade"] = $quantidade;
-        }
-        $this->session->set_userdata($data); 
         $this->load->view("compra/pagamento");
-        
      }
      
+     function excluirProdutoAction($idItemPedido){
+       $this->load->model("Pedido_model", "pedidoDAO");
+       $this->load->model("ItemPedido_model", "itemPedidoDAO");
+       $idConta = $this->session->userdata('idConta');
+       
+       $itemPedido = array("idItemPedido" => $idItemPedido);
+       
+       $this->itemPedidoDAO->excluirItemPedido($itemPedido);
+       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+       
+       $idPedido = $pedido[0]->idPedido;
+       
+       $data["produtos"] = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
+
+       $this->load->view("compra/carrinhoCompra",$data);
+       
+     }
+
      function criarTransacaoPagSeguro(){
-         
-         if($this->session->userdata('pedido') != null){
-             $data["pedido"] = $this->session->userdata('pedido');
-         }
-         
+       $this->load->model("Conta_model", "contaDAO");
+       $this->load->model("Pedido_model", "pedidoDAO");
+       $idConta = $this->session->userdata('idConta');
+       
+       $conta = $this->contaDAO->buscarContaPorId($idConta);
+       
+       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+       
+       $idPedido = $pedido[0]->idPedido;
+       
+       $itens = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
+       
 	$paymentRequest = new PagSeguroPaymentRequest();
 	//moeda Brasileira
         $paymentRequest->setCurrency("BRL");
 		
-        foreach ($data["pedido"] as $row) {
-             $paymentRequest->addItem($row[0]->idProduto, $row[0]->nome,  $row["quantidade"], round($row[0]->preco,2));
+        foreach ($itens as $row) {
+             $paymentRequest->addItem($row->idProduto, $row->nome,  $row->quantidade, round($row->preco,2));
         }
 	
 	//serve para controles futuros, caso estejamos salvando em banco também as transações
-	//$paymentRequest->setReference("REF1234");
+	$paymentRequest->setReference($idPedido);
 	
         //entrega FRETE
         $CODIGO_SEDEX = PagSeguroShippingType::getCodeByType('SEDEX');
@@ -67,23 +124,23 @@ class CompraController extends CI_Controller {
 	$paymentRequest->setShippingAddress('01452002',  'Av. Brig. Faria Lima',  '1384', 'apto. 114', 'Jardim Paulistano', 'São Paulo', 'SP', 'BRA');
 	
 	//dados do cliente para que ele não necessite informar novamente no pagseguro
-	$paymentRequest->setSender('William Witter da Silva Comprador', 'wwwitters@gmail.com', '11', '56273440');
+        //pode-se colocar ainda o codico de area e o telefone
+	$paymentRequest->setSender($conta[0]->nome." ".$conta[0]->sobrenome, $conta[0]->email);
 	
 	$paymentRequest->setRedirectUrl("http://www.lojamodelo.com.br");
 	
 	try {
+            /*
+            * #### Crendencials ##### 
+            * Credenciais (e-mail and token) - Token = numero gerado na conta do pagseguro
+            * Você pode pegar as credenciais de um arquivo de conf.
+            * $credentials = PagSeguroConfig::getAccountCredentials();
+            */			
+            $credentials = PagSeguroConfig::getAccountCredentials();
+            
+            $url = $paymentRequest->register($credentials);
 		
-		/*
-		* #### Crendencials ##### 
-		* Credenciais (e-mail and token) - Token = numero gerado na conta do pagseguro
-		* Você pode pegar as credenciais de um arquivo de conf.
-		* $credentials = PagSeguroConfig::getAccountCredentials();
-		*/			
-		$credentials = PagSeguroConfig::getAccountCredentials();
-		
-		$url = $paymentRequest->register($credentials);
-		
-                header("Location: $url"); 
+            header("Location: $url"); 
 	} catch (PagSeguroServiceException $e) {
 		die($e->getMessage());
 	}

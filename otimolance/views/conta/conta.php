@@ -18,6 +18,7 @@ $this->load->view('_padrao/topo');
         <li class="titulo"><a><span>Meus Dados</span></a></li>
         <li><a href="<?php echo BASE_URL(); ?>contaController/alterarDados"><span>Alterar Dados</span></a></li>
         <li><a href="<?php echo BASE_URL(); ?>contaController/alterarSenha"><span>Alterar Senha</span></a></li>
+        <li><a href="<?php echo BASE_URL(); ?>compraController/comprarLances"><span>Comprar Lances</span></a></li>
     </ul>
 </div>
 </body>

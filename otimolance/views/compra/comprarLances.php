@@ -1,4 +1,7 @@
-<div>
+<?
+$this->load->view('conta/conta');
+?>	
+<div id="conteudo">
         <form>
             <ul>
                 <?

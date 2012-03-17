@@ -2,10 +2,13 @@
 
 class Pedido {
     
+    public static $STATUS_EM_ANDAMENTO = "Em Andamento";
+
     private $idPedido;
-    private $idItemPedido;
     private $total;
     private $desconto;
+    private $idConta;
+    private $status;
     
     
     public function getIdPedido() {
@@ -14,14 +17,6 @@ class Pedido {
 
     public function setIdPedido($idPedido) {
         $this->idPedido = $idPedido;
-    }
-
-    public function getIdItemPedido() {
-        return $this->idItemPedido;
-    }
-
-    public function setIdItemPedido($idItemPedido) {
-        $this->idItemPedido = $idItemPedido;
     }
 
     public function getTotal() {
@@ -38,6 +33,22 @@ class Pedido {
 
     public function setDesconto($desconto) {
         $this->desconto = $desconto;
+    }
+    
+    public function getIdConta() {
+        return $this->idConta;
+    }
+
+    public function setIdConta($idConta) {
+        $this->idConta = $idConta;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
     }
 }
 ?>

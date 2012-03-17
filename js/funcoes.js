@@ -122,9 +122,9 @@ function showHideCategoria(){
  $("#idCategoria").attr("disabled", valor);
 }
 
-function calcularSubTotal(idProduto){
-    var quantidade = $("#txtQuantidade"+idProduto).find('option').filter(':selected').text();
-    var preco = $("#txtPreco"+idProduto).text();
+function calcularSubTotal(idItemPedido){
+    var quantidade = $("#txtQuantidade"+idItemPedido).find('option').filter(':selected').text();
+    var preco = $("#txtPreco"+idItemPedido).text();
     var subTotal = quantidade * preco;
-    $("#txtSubTotal"+idProduto).text(subTotal);
+    $("#txtSubTotal"+idItemPedido).text(subTotal);
 }
