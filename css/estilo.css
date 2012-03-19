@@ -72,3 +72,5 @@ body {width:960px;margin:auto}
 #conteudoAdmin .formulario .input:hover, #conteudo .formulario .textarea:hover, #conteudo .formulario .select:hover {border: 1px solid #999;}
 #conteudoAdmin .button {border: 1px solid #CCC;padding:4px;margin: 5px 0 15px 0;cursor:pointer}
 
+.tabela_arrematados {width:100%;border-collapse:collapse;font-size:12px;margin:15px 0 0 0}
+.tabela_arrematados tr td {border:1px solid #ebebeb;padding:8px}

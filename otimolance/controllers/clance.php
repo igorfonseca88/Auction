@@ -113,7 +113,7 @@ class Clance extends CI_Controller {
             // tem que acrescentar o valor do cronometro no time
             $data = str_replace(" ", "-", str_replace(":", "-", $dataCalcular));
             $data = explode("-", $data);
-            $time = mktime($data[3], $data[4], $data[5] + $value->tempoCronometro + 1, $data[1], $data[2], $data[0]);
+            $time = mktime($data[3], $data[4], $data[5] + $value->tempoCronometro, $data[1], $data[2], $data[0]);
 
             $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
             $status = '2';

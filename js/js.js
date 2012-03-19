@@ -880,7 +880,7 @@ function ContDowLeiloes()
             Status			= Trim(VarBoxSepara[2]);
 			
             //Calcula os segundos restantes para acabar o leil�o
-            Diferenca		= TimeProduto - TimeAtual - GmtSegundo - FalhaTempo  - 1;
+            Diferenca		= TimeProduto - TimeAtual - GmtSegundo   - 1;
 		//alert(Diferenca);	
 			
             if(Status=="2")
