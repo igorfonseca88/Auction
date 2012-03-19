@@ -17,13 +17,12 @@ class LeilaoController extends CI_Controller {
         $this->load->model("Leilao_model", "leilao");
 
         $dataInicio = $this->ajustaDataSql($this->input->post("dataInicio")) . " " . $this->input->post("horaInicio");
-        $format = 'Y-m-d H:i:s';
-        $dateInicio = DateTime::createFromFormat($format, $dataInicio);
+        $dateInicio = date("Y-m-d H:i:s", strtotime($dataInicio));
 
 
         $data = array(
             "dataCriacao" => date('Y-m-d H:i:s'),
-            "dataInicio" => $dateInicio->format('Y-m-d H:i:s'),
+            "dataInicio" => $dateInicio,
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idConta" => $this->session->userdata("idConta"),
@@ -91,10 +90,10 @@ class LeilaoController extends CI_Controller {
             $msg .= " Valor do produto é obrigatório." . "<br/>";
             $erro = true;
         }
-       // if ($valorFrete == "") {
-         //   $msg .= " Valor do frete é obrigatório.";
-           // $erro = true;
-       // }
+        // if ($valorFrete == "") {
+        //   $msg .= " Valor do frete é obrigatório.";
+        // $erro = true;
+        // }
 
         if ($erro == FALSE) {
             $data = array(
@@ -104,7 +103,7 @@ class LeilaoController extends CI_Controller {
                 "idProduto" => $produto
             );
             $itemLeilao = $this->input->post("hItemLeilao");
-            
+
             $result = $this->leilao->salvarItemLeilao($data, $itemLeilao);
 
             if ($result > 0) {
@@ -171,8 +170,7 @@ class LeilaoController extends CI_Controller {
                 $msg = "Salvo com sucesso.";
             }
             $mensagem["sucesso"] = $msg;
-        }
-        else{
+        } else {
             $mensagem["erro"] = 'Adicione um produto a ser leiloado.';
         }
         $this->editarLeilaoAction($idLeilao, $mensagem);
@@ -200,6 +198,7 @@ class LeilaoController extends CI_Controller {
         }
         return NULL;
     }
+
 }
 
 ?>
