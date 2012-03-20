@@ -212,6 +212,32 @@ class Leilao_model extends CI_Model {
         
         return $query->result();
     }
+    
+    function buscarLeiloesArrematadosPorIdConta($idConta){
+        $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
+            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
+            (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho,
+            (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
+             (select ifnull(max(valor),0) 
+               FROM tb_lance
+               where idLeilao = l.idLeilao) as valorArremate,
+        (SELECT login
+                                    FROM tb_lance la
+                                    JOIN tb_conta c ON la.idConta = c.idConta
+                                    WHERE la.idLeilao = l.idLeilao
+                                    ORDER BY idLance DESC 
+                                    LIMIT 0 , 1 ) as login
+                   from tb_leilao l 
+                   left join tb_itemleilao il on l.idLeilao = il.idLeilao
+                   join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+                   left join tb_produto p on il.idProduto = p.idProduto 
+                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null and l.idContaArremate = $idConta ";
+        
+        
+        $query = $this->db->query($sql);
+        
+        return $query->result();
+    }
 
 }
 

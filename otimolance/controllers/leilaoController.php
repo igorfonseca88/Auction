@@ -198,6 +198,13 @@ class LeilaoController extends CI_Controller {
         }
         return NULL;
     }
+    
+    function leiloesArrematados($idConta){
+        $this->load->model("Leilao_model", "leilao");
+        $leiloes["arrematados"] = $this->leilao->buscarLeiloesArrematadosPorIdConta($idConta);
+        $this->load->vars($leiloes);
+        $this->load->view("conta/leiloesArrematados");
+    }
 
 }
 

@@ -121,13 +121,13 @@ class CompraController extends CI_Controller {
         //entrega FRETE
         $CODIGO_SEDEX = PagSeguroShippingType::getCodeByType('SEDEX');
 	$paymentRequest->setShippingType($CODIGO_SEDEX);
-	$paymentRequest->setShippingAddress('01452002',  'Av. Brig. Faria Lima',  '1384', 'apto. 114', 'Jardim Paulistano', 'São Paulo', 'SP', 'BRA');
+	$paymentRequest->setShippingAddress('01452002',  'Rua Tenente Waldevino',  '350', 'apto. 12', 'Centro', 'Campo grande', 'MS', 'BRA');
 	
 	//dados do cliente para que ele não necessite informar novamente no pagseguro
         //pode-se colocar ainda o codico de area e o telefone
 	$paymentRequest->setSender($conta[0]->nome." ".$conta[0]->sobrenome, $conta[0]->email);
 	
-	$paymentRequest->setRedirectUrl("http://www.lojamodelo.com.br");
+	$paymentRequest->setRedirectUrl("http://www.mynewbiz.com.br/otimolance");
 	
 	try {
             /*
