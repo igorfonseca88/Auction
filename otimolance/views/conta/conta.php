@@ -1,9 +1,9 @@
 <?
 // se um usu�rio do tipo administrador estiver na sess�o n�o deixa logar aqui
 if ($this->Conta_model->logged() == FALSE || !$this->Conta_model->validaTipoUsuario(Conta_model::TU_CLIENTE)) {
-    redirect('home');
+    redirect('clientes/autenticar', 'refresh');
 } else if ($this->Conta_model->logged() == FALSE) {
-    redirect('principal/redirecionaLogin', 'refresh');
+    redirect('clientes/autenticar', 'refresh');
 }
 $this->load->view('_padrao/topo');
 ?>

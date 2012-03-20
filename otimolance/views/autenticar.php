@@ -13,7 +13,7 @@
 	    <p>Já sou cliente</p>
 		<form action="<?=base_url();?>clientes/login" method='post'>
 			Usuário (email cadastrado):<br/>
-			<input name="usuarioEmail" type="text" class="text" size="35" id="usuarioEmail" />
+			<input name="login" type="text" class="text" size="35" id="login" />
 			<br />
 			Senha:<br />
 			<input  type="password" name="senha" class="text" size="10" id="senha" />
