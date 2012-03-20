@@ -760,6 +760,25 @@ function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
 		
 }
 
+function timeAtual()
+{
+    var retorno = dhtmlxAjax.postSync("/otimolance/clance/retHorarioAtual/");
+    retorno = retorno.xmlDoc.responseText;
+    
+    DataTmp 		= new Date();
+    GtmCliente 		= DataTmp.getTimezoneOffset()/60;
+
+    GmtServidor 	= 4; //GMT -3 Horas
+    GmtDiferenca	= GmtServidor - GtmCliente;
+
+    GmtSegundo		= GmtDiferenca * 60 * 60;
+
+    retorno 		= retorno - GmtSegundo;
+            
+    return retorno;	
+}
+
+
 var TempoUltimaReq		= 0;
 var QtdReqLeiloes		= 0;
 var DetalheProduto = "";
@@ -869,7 +888,7 @@ function ContDowLeiloes()
             VarBoxSepara 	= VarBox.split("__");
 			
             //MkTime Atual
-            TimeAtual		= mktime();
+            TimeAtual		= timeAtual();//mktime();
             //alert(new Date());
 
             //MkTime do Produto

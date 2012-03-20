@@ -167,6 +167,9 @@ class Clance extends CI_Controller {
     function retHorario() {
         echo json_encode(array("time" => mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'))));
     }
+    function retHorarioAtual() {
+        echo mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
+    }
 
     function retLances($id = "") {
         $idConta = $this->input->post("id") != "" ? $this->input->post("id") : $id;

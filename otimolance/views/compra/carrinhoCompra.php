@@ -1,21 +1,21 @@
 <?
 $this->load->view('conta/conta');
 ?>	
-<div id="conteudo">
-<div>
+<div id="conteudoAdmin">
+    <div class="formulario">
     <form method="post" action="<?= BASE_URL(); ?>compraController/identificacao">
-            <table width="100%">
+            <table class="tabela_arrematados">
                 <tr>
-                    <td width="40%">
+                    <td>
                         <span>Item</span>
                     </td>
-                    <td width="10%">
+                    <td>
                         <span>Quantidade</span>
                     </td>
-                    <td width="20%">
+                    <td>
                         <span>Valor Unitário</span>
                     </td>
-                    <td width="30%">
+                    <td>
                         <span>Subtotal</span>
                     </td>
                 </tr>
@@ -64,7 +64,7 @@ $this->load->view('conta/conta');
             </table>
             <div>
                 <a href="<?= BASE_URL(); ?>compraController/comprarLances">Voltar</a>
-                <input type="submit" value="Continuar" >
+                <input type="submit" value="Continuar" class="button" >
             </div>
         </form>
     </div>
