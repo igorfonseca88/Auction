@@ -1,7 +1,8 @@
 <?
 $this->load->view('conta/conta');
 ?>	
-<div id="conteudo">
+<div id="conteudoAdmin">
+    <div class="formulario">
         <form>
             <ul>
                 <?

@@ -1,8 +1,8 @@
 <?
 $this->load->view('conta/conta');
 ?>	
-<div id="conteudo">
-<div>
+<div id="conteudoAdmin">
+    <div class="formulario">
     <form method="post" action="<?= BASE_URL(); ?>compraController/identificacao">
             <table width="100%">
                 <tr>
