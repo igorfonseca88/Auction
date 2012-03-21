@@ -178,7 +178,7 @@ class Leilao_model extends CI_Model {
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
-                   where  l.dataInicio >= now() and l.publicado = 1 and l.dataFim is null ";
+                   where  l.publicado = 1 and l.dataFim is null ";
         
         
         $query = $this->db->query($sql);

@@ -280,8 +280,8 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
             if(parseInt(Tempo)==0)
             {
 				
-                $("#L_Tempo_" + CodigoLeilao).html("<<p class='tempoMenorDez>00:00:00</p>");
-				
+                $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez>00:00:00</p>");
+                
             }else{
 				
                 if(parseInt(Tempo)<10)
@@ -888,7 +888,7 @@ function ContDowLeiloes()
             VarBoxSepara 	= VarBox.split("__");
 			
             //MkTime Atual
-            TimeAtual		= timeAtual();//mktime();
+            TimeAtual		= mktime();//timeAtual();//
             //alert(new Date());
 
             //MkTime do Produto
@@ -899,7 +899,7 @@ function ContDowLeiloes()
             Status			= Trim(VarBoxSepara[2]);
 			
             //Calcula os segundos restantes para acabar o leil�o
-            Diferenca		= TimeProduto - TimeAtual - GmtSegundo   - 1;
+            Diferenca		= TimeProduto - TimeAtual - GmtSegundo - FalhaTempo  - 1;
 		//alert(Diferenca);	
 			
             if(Status=="2")
@@ -933,12 +933,8 @@ function DisparaFinalizadoLeilao(CodigoLeilao)
 	
     $("#boxBtn_"+CodigoLeilao).html("<p class='arrematado'>Arrematado</p>");
     $("#L_Tempo_" + CodigoLeilao).html("00:00:00");
-    //$("#BoxDeletBtn_" + CodigoLeilao).html("");
 	
     RetroClock(CodigoLeilao, 0, TipoLeilao);
-    //LayerFechar(CodigoLeilao);
-	
-	
 }
 
 function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
@@ -954,8 +950,9 @@ function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
             if(Diferenca<1)
             {
 				
-                RetroClock(CodigoLeilao, 0, TipoLeilao);
-                $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(0)
+                //RetroClock(CodigoLeilao,0, TipoLeilao);
+                //$("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(1);
+                DisparaFinalizadoLeilao(CodigoLeilao);
 				
             }else{
 		
@@ -1096,7 +1093,7 @@ $(document).ready(function() {
     
     
     // Configuração para campos de Real.
-    $(".monetario").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
+    
 
 });
 

@@ -2,6 +2,8 @@
 
 class Pedido_model extends CI_Model {
 
+    const STATUS_EM_ANDAMENTO = "Em Andamento";
+    
     function getAll() {
         $query = $this->db->query("select idProduto, p.nome, descricao, p.idCategoria, p.preco, p.desconto, c.nome as categoria 
             from tb_produto p join tb_categoria c on p.idCategoria = c.idCategoria ");

@@ -1,5 +1,5 @@
 <?php
-require_once "otimolance/models/Pedido.php";
+
 class Clance extends CI_Controller {
 
     function __construct() {
@@ -117,7 +117,7 @@ class Clance extends CI_Controller {
 
             $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
             $status = '2';
-            if (($time - $time2) <= 0 && $value->vencedor == null ) {
+            if (($time - $time2) <= 0 && $value->vencedor == "" ) {
                 $status = 'F';
                 // chama o arremate
                 $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate, $value->idProduto);
@@ -152,13 +152,13 @@ class Clance extends CI_Controller {
         $this->load->model("Pedido_model", "pedidoDAO");
         $this->load->model("ItemPedido_model", "itemPedidoDAO");
         
-        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idContaArremate, Pedido::$STATUS_EM_ANDAMENTO, $idLeilao);
+        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idContaArremate, Pedido_model::STATUS_EM_ANDAMENTO, $idLeilao);
         
         if (is_null($pedido["pedido"][0])) {
             //CRIA UM NOVO PEDIDO
             $pedido = array(
                 "idConta" => $idContaArremate,
-                "status" => Pedido::$STATUS_EM_ANDAMENTO,
+                "status" => Pedido_model::STATUS_EM_ANDAMENTO,
                 "dataCriacao"  => date('Y-m-d H:i:s'),
                 "idLeilao"  => $idLeilao
             );
