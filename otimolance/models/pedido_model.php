@@ -47,5 +47,12 @@ class Pedido_model extends CI_Model {
                                    AND g.isPrincipal = 1 ");
         return $query->result();
     }
+    
+    function buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idConta, $statusPedido, $idLeilao) {
+        $query = $this->db->query("select p.idPedido from tb_pedido p 
+                                   where p.idConta = $idConta 
+                                   and p.status = '$statusPedido' and p.idLeilao = $idLeilao ");
+        return $query->result();
+    }
 }
 ?>

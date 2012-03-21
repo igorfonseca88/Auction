@@ -954,7 +954,7 @@ function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
             if(Diferenca<1)
             {
 				
-                RetroClock(CodigoLeilao, 1, TipoLeilao);
+                RetroClock(CodigoLeilao, 0, TipoLeilao);
                 $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(0)
 				
             }else{

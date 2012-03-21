@@ -146,7 +146,7 @@ class Leilao_model extends CI_Model {
                 
                 (SELECT ifnull(max(data),0)
                                     FROM tb_lance
-               where idLeilao = l.idLeilao) as dataUltLance 
+               where idLeilao = l.idLeilao) as dataUltLance, l.idContaArremate as vencedor
                 
                FROM tb_leilao l 
                JOIN tb_itemleilao il on l.idLeilao = il.idLeilao 
@@ -214,23 +214,19 @@ class Leilao_model extends CI_Model {
     }
     
     function buscarLeiloesArrematadosPorIdConta($idConta){
-        $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
-            tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
+        $sql = "select l.idLeilao, l.dataCriacao, dataInicio, dataFim, 
+            tempoCronometro, valorLeilao, l.idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
             (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho,
             (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
              (select ifnull(max(valor),0) 
                FROM tb_lance
-               where idLeilao = l.idLeilao) as valorArremate,
-        (SELECT login
-                                    FROM tb_lance la
-                                    JOIN tb_conta c ON la.idConta = c.idConta
-                                    WHERE la.idLeilao = l.idLeilao
-                                    ORDER BY idLance DESC 
-                                    LIMIT 0 , 1 ) as login
+               where idLeilao = l.idLeilao) as valorArremate, status
+        
                    from tb_leilao l 
-                   left join tb_itemleilao il on l.idLeilao = il.idLeilao
+                   join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
-                   left join tb_produto p on il.idProduto = p.idProduto 
+                   join tb_produto p on il.idProduto = p.idProduto 
+                   join tb_pedido ped on ped.idLeilao = l.idLeilao
                    where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null and l.idContaArremate = $idConta ";
         
         

@@ -1,5 +1,5 @@
 <?php
-
+require_once "otimolance/models/Pedido.php";
 class Clance extends CI_Controller {
 
     function __construct() {
@@ -113,14 +113,14 @@ class Clance extends CI_Controller {
             // tem que acrescentar o valor do cronometro no time
             $data = str_replace(" ", "-", str_replace(":", "-", $dataCalcular));
             $data = explode("-", $data);
-            $time = mktime($data[3], $data[4], $data[5] + $value->tempoCronometro, $data[1], $data[2], $data[0]);
+            $time = mktime($data[3], $data[4], $data[5] + $value->tempoCronometro+1, $data[1], $data[2], $data[0]);
 
             $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
             $status = '2';
-            if (($time - $time2) <= 0) {
+            if (($time - $time2) <= 0 && $value->vencedor == null ) {
                 $status = 'F';
                 // chama o arremate
-                $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate);
+                $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate, $value->idProduto);
             }
 
             $ret[$i] = array(
@@ -139,7 +139,7 @@ class Clance extends CI_Controller {
         echo json_encode($ret);
     }
 
-    private function arrematar($idLeilao, $valor, $idContaArremate) {
+    private function arrematar($idLeilao, $valor, $idContaArremate, $idProduto) {
         $this->load->model("leilao_model", "leilao");
         $data = array(
             "dataFim" => date('Y-m-d H:i:s'),
@@ -147,6 +147,40 @@ class Clance extends CI_Controller {
             "idContaArremate" => $idContaArremate
         );
         $this->leilao->alterar($data, $idLeilao);
+        
+        $this->load->model("Produto_model", "produtoDAO");
+        $this->load->model("Pedido_model", "pedidoDAO");
+        $this->load->model("ItemPedido_model", "itemPedidoDAO");
+        
+        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idContaArremate, Pedido::$STATUS_EM_ANDAMENTO, $idLeilao);
+        
+        if (is_null($pedido["pedido"][0])) {
+            //CRIA UM NOVO PEDIDO
+            $pedido = array(
+                "idConta" => $idContaArremate,
+                "status" => Pedido::$STATUS_EM_ANDAMENTO,
+                "dataCriacao"  => date('Y-m-d H:i:s'),
+                "idLeilao"  => $idLeilao
+            );
+        
+            $idPedido = $this->pedidoDAO->salvar($pedido);
+        }else{
+            $idPedido = $pedido["pedido"][0]->idPedido;
+        }
+        
+        //INSERE O ITEM NO PEDIDO
+        if($idProduto != null){
+            $itemPedido = array(
+                "idProduto" => $idProduto,
+                "idPedido" => $idPedido,
+                "quantidade" => 1
+            );
+
+            $idItemPedido = $this->itemPedidoDAO->salvarItemPedido($itemPedido);
+        }
+        
+        $data["produtos"] = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
+
     }
 
     private function getListaLances($idLeilao) {
@@ -216,7 +250,6 @@ class Clance extends CI_Controller {
         $this->load->model('Leilao_model', 'leilao');
         return $this->leilao->listarLeiloesPublicadosEArrematados();
     }
-
 }
 
 ?>
