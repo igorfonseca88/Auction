@@ -2,6 +2,8 @@
 
 class Pedido_model extends CI_Model {
 
+    const STATUS_EM_ANDAMENTO = "Em Andamento";
+    
     function salvar($options = array()) {
         $this->db->insert('tb_pedido', $options);
         return $this->db->insert_id();
@@ -10,17 +12,13 @@ class Pedido_model extends CI_Model {
     function atualizar($options = array(), $id) {
         
         $this->db->where('idPedido', $id);
-        $this->db->update('tb_produto', $options);
+        $this->db->update('tb_pedido', $options);
         return $this->db->insert_id();
     }
     
-    function excluirProduto($options = array()){
-        $this->db->delete('tb_produto', $options);
-    }
-    
     function buscarPorId($id) {
-        $this->db->where('idProduto', $id);
-        $query = $this->db->get("tb_produto");
+        $this->db->where('idPedido', $id);
+        $query = $this->db->get("tb_pedido");
         return $query->result();
     }
     
@@ -39,6 +37,13 @@ class Pedido_model extends CI_Model {
                                    WHERE pe.idPedido = $idPedido
                                    AND g.tipoGaleria = 'imagem' 
                                    AND g.isPrincipal = 1 ");
+        return $query->result();
+    }
+    
+    function buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idConta, $statusPedido, $idLeilao) {
+        $query = $this->db->query("select p.idPedido from tb_pedido p 
+                                   where p.idConta = $idConta 
+                                   and p.status = '$statusPedido' and p.idLeilao = $idLeilao ");
         return $query->result();
     }
 }

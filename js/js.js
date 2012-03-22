@@ -1,271 +1,8 @@
-/*
 
-* Price Format jQuery Plugin
-* By Eduardo Cuducos
-* cuducos [at] gmail [dot] com
-* Version: 1.1
-* Release: 2009-02-10
-
-* original char limit by Fl�vio Silveira <http://flaviosilveira.com>
-* original keydown event attachment by Kaihua Qi
-* keydown fixes by Thasmo <http://thasmo.com>
-
-*/
-
-(function($) {
-
-    $.fn.priceFormat = function(options) {
-
-        var defaults = {
-            prefix: 'US$ ',
-            centsSeparator: '.', 
-            thousandsSeparator: ',',
-            limit: false,
-            centsLimit: 2
-        };
-
-        var options = $.extend(defaults, options);
-
-        return this.each(function() {
-
-            // pre defined options
-            var obj = $(this);
-            var is_number = /[0-9]/;
-
-            // load the pluggings settings
-            var prefix = options.prefix;
-            var centsSeparator = options.centsSeparator;
-            var thousandsSeparator = options.thousandsSeparator;
-            var limit = options.limit;
-            var centsLimit = options.centsLimit;
-
-            // skip everything that isn't a number
-            // and also skip the left zeroes
-            function to_numbers (str) {
-                var formatted = '';
-                for (var i=0;i<(str.length);i++) {
-                    char = str.charAt(i);
-                    if (formatted.length==0 && char==0) char = false;
-                    if (char && char.match(is_number)) {
-                        if (limit) {
-                            if (formatted.length < limit) formatted = formatted+char;
-                        }else{
-                            formatted = formatted+char;
-                        }
-                    }
-                }
-                return formatted;
-            }
-
-            // format to fill with zeros to complete cents chars
-            function fill_with_zeroes (str) {
-                while (str.length<(centsLimit+1)) str = '0'+str;
-                return str;
-            }
-
-            // format as price
-            function price_format (str) {
-
-                // formatting settings
-                var formatted = fill_with_zeroes(to_numbers(str));
-                var thousandsFormatted = '';
-                var thousandsCount = 0;
-
-                // split integer from cents
-                var centsVal = formatted.substr(formatted.length-centsLimit,centsLimit);
-                var integerVal = formatted.substr(0,formatted.length-centsLimit);
-
-                // apply cents pontuation
-                formatted = integerVal+centsSeparator+centsVal;
-
-                // apply thousands pontuation
-                if (thousandsSeparator) {
-                    for (var j=integerVal.length;j>0;j--) {
-                        char = integerVal.substr(j-1,1);
-                        thousandsCount++;
-                        if (thousandsCount%3==0) char = thousandsSeparator+char;
-                        thousandsFormatted = char+thousandsFormatted;
-                    }
-                    if (thousandsFormatted.substr(0,1)==thousandsSeparator) thousandsFormatted = thousandsFormatted.substring(1,thousandsFormatted.length);
-                    formatted = thousandsFormatted+centsSeparator+centsVal;
-                }
-
-                // apply the prefix
-                if (prefix) formatted = prefix+formatted;
-
-                return formatted;
-
-            }
-
-            // filter what user type (only numbers and functional keys)
-            function key_check (e) {
-		
-                var code = (e.keyCode ? e.keyCode : e.which);
-                var typed = String.fromCharCode(code);
-                var functional = false;
-                var str = obj.val();
-                var newValue = price_format(str+typed);
-				
-                // allow keypad numbers, 0 to 9
-                if(code >= 96 && code <= 105) functional = true;
-
-                // check Backspace, Tab, Enter, and left/right arrows
-                if (code ==  8) functional = true;
-                if (code ==  9) functional = true;
-                if (code == 13) functional = true;
-                if (code == 37) functional = true;
-                if (code == 39) functional = true;
-
-                if (!functional) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (str!=newValue) obj.val(newValue);
-                }
-
-            }
-
-            // inster formatted price as a value of an input field
-            function price_it () {
-                var str = obj.val();
-                var price = price_format(str);
-                if (str != price) obj.val(price);
-            }
-
-            // bind the actions
-            $(this).bind('keydown', key_check);
-            $(this).bind('keyup', price_it);
-            if ($(this).val().length>0) price_it();
-	
-        });
-	
-    }; 		
-	
-})(jQuery);
 /*
 Rotinas
 */
-function SubmitForm(Form)
-{
-	
-    $("#" + Form).submit();
-	
-}
-function LimpaForm(Form)
-{
-	
-    $("#" + Form).reset();
-	
-}
 
-
-var Validacao = {
-	
-    NumeroInteiro: function(Numero)
-    {
-		
-        if(isNaN(parseInt(Numero)))
-        {
-			
-            return false;
-			
-        }else{
-			
-            return true;
-			
-        }
-		
-    },
-	
-    CPF: function(Dado)
-    {
-		
-        var i; 
-        s = Dado; 
-        s = s.replace(".", "");
-        s = s.replace(".", "");
-        s = s.replace("-", "");
-		
-        if(s=="11111111111" || s=="22222222222" || s=="33333333333" || s=="44444444444" || s=="55555555555" || s=="66666666666" || s=="77777777777" || s=="88888888888" || s=="99999999999")
-        {
-            return false; 
-        }
-			
-		
-        var c = s.substr(0,9); 
-        var dv = s.substr(9,2); 
-        var d1 = 0; 
-		
-        for (i = 0; i < 9; i++) 
-        { 
-            d1 += c.charAt(i)*(10-i); 
-        } 
-		
-        if (d1 == 0)
-        { 
-            return false; 
-        } 
-		
-        d1 = 11 - (d1 % 11); 
-        if (d1 > 9) d1 = 0; 
-        if (dv.charAt(0) != d1) 
-        { 
-            return false; 
-        } 
-        d1 *= 2; 
-        for (i = 0; i < 9; i++) 
-        { 
-            d1 += c.charAt(i)*(11-i); 
-        } 
-        d1 = 11 - (d1 % 11); 
-        if (d1 > 9) d1 = 0; 
-        if (dv.charAt(1) != d1) 
-        { 
-            return false; 
-        } 
-		
-        return true;
-		
-    },
-	
-    Data: function(pObj)
-    {
-		
-        var expReg = /^(([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[1-2][0-9]\d{2})$/;
-
-        if ((pObj.match(expReg)) && (pObj!=''))
-        {
-			
-            var dia = pObj.substring(0,2);
-            var mes = pObj.substring(3,5);
-            var ano = pObj.substring(6,10);
-			
-            if((mes==4 || mes==6 || mes==9 || mes==11) && dia > 30){
-                //alert("Dia incorreto !!! O m�s especificado cont�m no m�ximo 30 dias.");
-                return false;
-            } else{
-                if(ano%4!=0 && mes==2 && dia>28){
-                    //alert("Data incorreta!! O m�s especificado cont�m no m�ximo 28 dias.");
-                    return false;
-                } else{
-                    if(ano%4==0 && mes==2 && dia>29){
-                        //alert("Data incorreta!! O m�s especificado cont�m no m�ximo 29 dias.");
-                        return false;
-                    } else{
-                        //alert ("Data correta!");
-                        return true;
-                    }
-                }
-            }
-			
-        } else {
-
-            return false;
-		
-        }
-	 
-    }
-	
-};
 function RetroClock(CodigoLeilao, Tempo, Tipo)
 {
     /*
@@ -280,8 +17,8 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
             if(parseInt(Tempo)==0)
             {
 				
-                $("#L_Tempo_" + CodigoLeilao).html("<<p class='tempoMenorDez>00:00:00</p>");
-				
+                $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez>00:00:00</p>");
+                
             }else{
 				
                 if(parseInt(Tempo)<10)
@@ -697,7 +434,7 @@ function ProcuraFalhaTempo()
             var req = null
             delete req
 			
-            window.setTimeout("ProcuraFalhaTempo()", 60000);
+            window.setTimeout("ProcuraFalhaTempo()", 10000);
 
         }, "json");
     
@@ -759,7 +496,7 @@ function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
             $("#L_LancesHistorico_" + CodigoLeilao).html(TextoH);	
 		
 }
-
+//var MicroTime = 0;
 function timeAtual()
 {
     var retorno = dhtmlxAjax.postSync("/otimolance/clance/retHorarioAtual/");
@@ -774,6 +511,10 @@ function timeAtual()
     GmtSegundo		= GmtDiferenca * 60 * 60;
 
     retorno 		= retorno - GmtSegundo;
+    
+    MicroTime 		= retorno
+
+    RelogioTopo();
             
     return retorno;	
 }
@@ -886,9 +627,11 @@ function ContDowLeiloes()
             VarBox 			= $("#leilaoinfo_" + CodigoLeilao).val();
 	
             VarBoxSepara 	= VarBox.split("__");
+            Status			= Trim(VarBoxSepara[2]);
+            
 			
             //MkTime Atual
-            TimeAtual		= timeAtual();//mktime();
+            TimeAtual		= mktime();//timeAtual();
             //alert(new Date());
 
             //MkTime do Produto
@@ -896,22 +639,21 @@ function ContDowLeiloes()
             //Fixador d Tempo
             Fixador			= Trim(VarBoxSepara[1]);
             //Tempo
-            Status			= Trim(VarBoxSepara[2]);
+            
 			
             //Calcula os segundos restantes para acabar o leil�o
-            Diferenca		= TimeProduto - TimeAtual - GmtSegundo   - 1;
+            Diferenca		= TimeProduto - TimeAtual - FalhaTempo  - 1;
 		//alert(Diferenca);	
-			
+                
             if(Status=="2")
             {
-				
                 CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca);
 				
             }else if(Status=="3"){
 				
                 CarregaTimeLeilao(CodigoLeilao, Fixador, Fixador);
 			
-            }else if(Status=="F"){
+            }else if(Status=="F" && Diferenca < 1){
 				
                 DisparaFinalizadoLeilao(CodigoLeilao);
 				
@@ -930,15 +672,13 @@ function DisparaFinalizadoLeilao(CodigoLeilao)
 {
 
     TipoLeilao	= $("#TipoLeilao_" + CodigoLeilao).val();
-	
-    $("#boxBtn_"+CodigoLeilao).html("<p class='arrematado'>Arrematado</p>");
-    $("#L_Tempo_" + CodigoLeilao).html("00:00:00");
-    //$("#BoxDeletBtn_" + CodigoLeilao).html("");
-	
     RetroClock(CodigoLeilao, 0, TipoLeilao);
-    //LayerFechar(CodigoLeilao);
 	
+    $("#L_Tempo_" + CodigoLeilao).html("00:00:00");    
+    $("#boxBtn_"+CodigoLeilao).html("<p class='arrematado'>Arrematado</p>");
+    
 	
+    
 }
 
 function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
@@ -951,11 +691,19 @@ function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
 	
         case "S":
 		
-            if(Diferenca<1)
+            if(Diferenca< -1)
             {
+                //RetroClock(CodigoLeilao,0, TipoLeilao);
+                //$("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(0);
+                DisparaFinalizadoLeilao(CodigoLeilao);
 				
-                RetroClock(CodigoLeilao, 1, TipoLeilao);
-                $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(0)
+            }
+            
+            else if(Diferenca<1)
+            {
+                RetroClock(CodigoLeilao,1, TipoLeilao);
+                $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(1);
+                //DisparaFinalizadoLeilao(CodigoLeilao);
 				
             }else{
 		
@@ -1087,6 +835,7 @@ $(document).ready(function() {
 	
     //Obtem MicroTime do Servidor
     MicroTimeServidor();
+    //timeAtual();
  
     //Obtem leil�es da janela
     MontaListaLeiloes();
@@ -1096,7 +845,7 @@ $(document).ready(function() {
     
     
     // Configuração para campos de Real.
-    $(".monetario").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
+    
 
 });
 
@@ -1116,24 +865,34 @@ function atualizarPainel(){
         
     }
    
-    setTimeout(atualizarPainel, 50);
+    setTimeout(atualizarPainel, 100);
 }
 
 function lance(idLeilao, conta){
-    var params = "leilao="+idLeilao+"&id="+conta;
-    var retorno = dhtmlxAjax.postSync("/otimolance/clance/darLance/",params);
+   
+    var req =  $.post("/otimolance/clance/darLance/", {"leilao" : idLeilao, "id": conta},
+     function(msg){
+            
+            if(msg != ""){
+                
+                if(msg.retorno == "SALDO_INSUFICIENTE")
+                    alert('Saldo insuficiente para lance.');
+                if(msg.retorno == 'LEILAO_INATIVO'){
+                    alert('Leilão finalizado.');
+                }
+                else if(msg.retorno == 'SUCESSO'){
+                    document.getElementById('usu_lances').innerHTML = msg.saldo;         
+                }
+            }
+			
+            var req = null
+            delete req
+	
+        },"json");
+        
+    var req = null
+    delete req
     
-    retorno = retorno.xmlDoc.responseText;
-    retorno = retorno.split("@");
-    if(retorno[0] == 'SALDO_INSUFICIENTE'){
-        alert('Saldo insuficiente para lance.');
-    }
-    if(retorno[0] == 'LEILAO_INATIVO'){
-        alert('Leilão finalizado.');
-    }
-    else if(retorno[0] == 'SUCESSO'){
-        document.getElementById('usu_lances').innerHTML = retorno[1];         
-    }
 }
 
 function carregaLances(id){

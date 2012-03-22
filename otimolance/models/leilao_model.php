@@ -45,11 +45,11 @@ class Leilao_model extends CI_Model {
     function salvarItemLeilao($data = array(), $idItemLeilao = 0) {
 
         if ($idItemLeilao == 0) {
-            $this->db->insert('tb_itemLeilao', $data);
+            $this->db->insert('tb_itemleilao', $data);
             return $this->db->insert_id();
         } else {
             $this->db->where('idItemLeilao', $idItemLeilao);
-            $this->db->update('tb_itemLeilao', $data);
+            $this->db->update('tb_itemleilao', $data);
             return $this->db->affected_rows();
         }
     }
@@ -146,7 +146,7 @@ class Leilao_model extends CI_Model {
                 
                 (SELECT ifnull(max(data),0)
                                     FROM tb_lance
-               where idLeilao = l.idLeilao) as dataUltLance 
+               where idLeilao = l.idLeilao) as dataUltLance, l.idContaArremate as vencedor
                 
                FROM tb_leilao l 
                JOIN tb_itemleilao il on l.idLeilao = il.idLeilao 
@@ -178,7 +178,7 @@ class Leilao_model extends CI_Model {
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
-                   where  l.dataInicio >= now() and l.publicado = 1 and l.dataFim is null ";
+                   where  l.publicado = 1 and l.dataFim is null ";
         
         
         $query = $this->db->query($sql);
@@ -205,7 +205,29 @@ class Leilao_model extends CI_Model {
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
-                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null ";
+                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null order by l.idLeilao desc ";
+        
+        
+        $query = $this->db->query($sql);
+        
+        return $query->result();
+    }
+    
+    function buscarLeiloesArrematadosPorIdConta($idConta){
+        $sql = "select l.idLeilao, l.dataCriacao, dataInicio, dataFim, 
+            tempoCronometro, valorLeilao, l.idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
+            (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho,
+            (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
+             (select ifnull(max(valor),0) 
+               FROM tb_lance
+               where idLeilao = l.idLeilao) as valorArremate, status
+        
+                   from tb_leilao l 
+                   join tb_itemleilao il on l.idLeilao = il.idLeilao
+                   join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+                   join tb_produto p on il.idProduto = p.idProduto 
+                   join tb_pedido ped on ped.idLeilao = l.idLeilao
+                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null and l.idContaArremate = $idConta ";
         
         
         $query = $this->db->query($sql);

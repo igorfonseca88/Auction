@@ -53,11 +53,13 @@ class LeilaoController extends CI_Controller {
 
 
         $dataInicio = $this->ajustaDataSql($this->input->post("dataInicio")) . " " . $this->input->post("horaInicio");
-        $format = 'Y-m-d H:i:s';
-        $dateInicio = DateTime::createFromFormat($format, $dataInicio);
+        //$format = 'Y-m-d H:i:s';
+        //$dateInicio = DateTime::createFromFormat($format, $dataInicio);
 
+        $dateInicio = date("Y-m-d H:i:s", strtotime($dataInicio));
+        
         $data = array(
-            "dataInicio" => $dateInicio->format('Y-m-d H:i:s'),
+            "dataInicio" => $dateInicio,
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
@@ -197,6 +199,13 @@ class LeilaoController extends CI_Controller {
             return $dataDividida[2] . "-" . $dataDividida[1] . "-" . $dataDividida[0];
         }
         return NULL;
+    }
+    
+    function leiloesArrematados($idConta){
+        $this->load->model("Leilao_model", "leilao");
+        $leiloes["arrematados"] = $this->leilao->buscarLeiloesArrematadosPorIdConta($idConta);
+        $this->load->vars($leiloes);
+        $this->load->view("conta/leiloesArrematados");
     }
 
 }

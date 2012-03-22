@@ -16,12 +16,14 @@ class Clance extends CI_Controller {
         // RETORNO 2 = SEM SALDO
         $idConta = $this->input->post("id");
         if ($this->Conta_model->existeSaldoNaConta($idConta) == FALSE) {
-            echo "SALDO_INSUFICIENTE@";
+            //echo "SALDO_INSUFICIENTE@";
+            echo json_encode(array("retorno" => "SALDO_INSUFICIENTE"));
             exit;
         }
 
         if ($this->leilao->leilaoAtivo($this->input->post("leilao")) == FALSE) {
-            echo "LEILAO_INATIVO@";
+            //echo "LEILAO_INATIVO@";
+            echo json_encode(array("retorno" => "LEILAO_INATIVO"));
             exit;
         }
 
@@ -48,7 +50,8 @@ class Clance extends CI_Controller {
 
         $saldoConta = $this->retLances($idConta);
 
-        echo "SUCESSO@" . $saldoConta;
+        //echo "SUCESSO@" . $saldoConta;
+        echo json_encode(array("retorno" => "SUCESSO", "saldo" => $saldoConta));
     }
 
     function buscarUltimoLance() {
@@ -117,10 +120,10 @@ class Clance extends CI_Controller {
 
             $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
             $status = '2';
-            if (($time - $time2) <= 0) {
+            if (($time - $time2) <= 0 && $value->vencedor == "" ) {
                 $status = 'F';
                 // chama o arremate
-                $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate);
+                $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate, $value->idProduto);
             }
 
             $ret[$i] = array(
@@ -139,14 +142,54 @@ class Clance extends CI_Controller {
         echo json_encode($ret);
     }
 
-    private function arrematar($idLeilao, $valor, $idContaArremate) {
+    private function arrematar($idLeilao, $valor, $idContaArremate, $idProduto) {
+        
         $this->load->model("leilao_model", "leilao");
+        $this->load->model("Produto_model", "produtoDAO");
+        $this->load->model("Pedido_model", "pedidoDAO");
+        $this->load->model("ItemPedido_model", "itemPedidoDAO");
+        
+        
         $data = array(
             "dataFim" => date('Y-m-d H:i:s'),
             "valorArremate" => $valor,
             "idContaArremate" => $idContaArremate
         );
         $this->leilao->alterar($data, $idLeilao);
+        
+        
+        
+        //$pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idContaArremate, "Em Andamento", $idLeilao);
+        
+        //if (is_null($pedido["pedido"][0])) {
+            //CRIA UM NOVO PEDIDO
+        $pedido = array(
+            "idConta" => $idContaArremate,
+            "status" => "Em Andamento",
+            "dataCriacao"  => date('Y-m-d H:i:s'),
+            "idLeilao"  => $idLeilao
+        );
+        
+        error_log($pedido["idConta"], $pedido["status"], $pedido["idLeilao"]);
+
+        $idPedido = $this->pedidoDAO->salvar($pedido);
+        //}else{
+          //  $idPedido = $pedido["pedido"][0]->idPedido;
+       // }
+        
+        //INSERE O ITEM NO PEDIDO
+        if($idProduto != null){
+            $itemPedido = array(
+                "idProduto" => $idProduto,
+                "idPedido" => $idPedido,
+                "quantidade" => 1
+            );
+
+            $idItemPedido = $this->itemPedidoDAO->salvarItemPedido($itemPedido);
+        }
+        
+        //$data["produtos"] = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
+
     }
 
     private function getListaLances($idLeilao) {
@@ -216,7 +259,6 @@ class Clance extends CI_Controller {
         $this->load->model('Leilao_model', 'leilao');
         return $this->leilao->listarLeiloesPublicadosEArrematados();
     }
-
 }
 
 ?>
