@@ -145,10 +145,8 @@ class Clance extends CI_Controller {
     private function arrematar($idLeilao, $valor, $idContaArremate, $idProduto) {
         
         $this->load->model("leilao_model", "leilao");
-        $this->load->model("Produto_model", "produtoDAO");
-        $this->load->model("Pedido_model", "pedidoDAO");
-        $this->load->model("ItemPedido_model", "itemPedidoDAO");
         
+        $this->criarPedido($idLeilao, $idContaArremate,$idProduto);
         
         $data = array(
             "dataFim" => date('Y-m-d H:i:s'),
@@ -159,9 +157,16 @@ class Clance extends CI_Controller {
         
         
         
-        //$pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedidoEIdLeilao($idContaArremate, "Em Andamento", $idLeilao);
         
-        //if (is_null($pedido["pedido"][0])) {
+
+    }
+    
+    private function criarPedido($idLeilao, $idContaArremate, $idProduto){
+        
+        //$this->load->model("produto_model", "produtoDAO");
+        $this->load->model("pedido_model", "pedido");
+        $this->load->model("itempedido_model", "itemPedidoDAO");
+        
             //CRIA UM NOVO PEDIDO
         $pedido = array(
             "idConta" => $idContaArremate,
@@ -170,12 +175,8 @@ class Clance extends CI_Controller {
             "idLeilao"  => $idLeilao
         );
         
-        error_log($pedido["idConta"], $pedido["status"], $pedido["idLeilao"]);
 
-        $idPedido = $this->pedidoDAO->salvar($pedido);
-        //}else{
-          //  $idPedido = $pedido["pedido"][0]->idPedido;
-       // }
+        $idPedido = $this->pedido->salvar($pedido);
         
         //INSERE O ITEM NO PEDIDO
         if($idProduto != null){
@@ -187,9 +188,6 @@ class Clance extends CI_Controller {
 
             $idItemPedido = $this->itemPedidoDAO->salvarItemPedido($itemPedido);
         }
-        
-        //$data["produtos"] = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
-
     }
 
     private function getListaLances($idLeilao) {

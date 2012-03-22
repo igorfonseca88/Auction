@@ -8,8 +8,7 @@ $this->load->view('_padrao/topo');
 
         <h2> Veja os leilões e dê um ótimo lance!</h2>
 
-
-
+        
 
         <? foreach ($leiloes as $leilao) { ?>
             <input type="hidden" name="painel" class="LeilaoOnline" id="leilao<?= $leilao->idLeilao ?>" value="<?= $leilao->idLeilao ?>"/>
