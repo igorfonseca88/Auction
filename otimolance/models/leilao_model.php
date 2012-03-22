@@ -45,11 +45,11 @@ class Leilao_model extends CI_Model {
     function salvarItemLeilao($data = array(), $idItemLeilao = 0) {
 
         if ($idItemLeilao == 0) {
-            $this->db->insert('tb_itemLeilao', $data);
+            $this->db->insert('tb_itemleilao', $data);
             return $this->db->insert_id();
         } else {
             $this->db->where('idItemLeilao', $idItemLeilao);
-            $this->db->update('tb_itemLeilao', $data);
+            $this->db->update('tb_itemleilao', $data);
             return $this->db->affected_rows();
         }
     }
@@ -205,7 +205,7 @@ class Leilao_model extends CI_Model {
                    left join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    left join tb_produto p on il.idProduto = p.idProduto 
-                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null ";
+                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null order by l.idLeilao desc ";
         
         
         $query = $this->db->query($sql);
