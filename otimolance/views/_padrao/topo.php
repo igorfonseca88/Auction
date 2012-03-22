@@ -34,7 +34,7 @@
 	
         <? } else { ?>
         <!-- fecha div autenticacao -->
-        
+         
             <ul>  
                   <li><a href="<?= base_url(); ?>contaController/cadastroClienteSite"><span>Cadastre-se</span></a></li>
                     <li><a href="<?= base_url(); ?>contaController/recuperarSenha"><span>Esqueceu a senha?</span></a></li>
@@ -47,7 +47,7 @@
             
         <? } ?>
     </div>
-        <!--Topo-->
+        <!--Topo-->ss
 	<div id="topo">
 		<a class="logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>img/logo1.jpg" alt="" title="" /></a>
 		<ul class="botoes">

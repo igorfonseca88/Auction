@@ -4,12 +4,6 @@ class Pedido_model extends CI_Model {
 
     const STATUS_EM_ANDAMENTO = "Em Andamento";
     
-    function getAll() {
-        $query = $this->db->query("select idProduto, p.nome, descricao, p.idCategoria, p.preco, p.desconto, c.nome as categoria 
-            from tb_produto p join tb_categoria c on p.idCategoria = c.idCategoria ");
-        return $query->result();
-    }
-
     function salvar($options = array()) {
         $this->db->insert('tb_pedido', $options);
         return $this->db->insert_id();
@@ -18,17 +12,13 @@ class Pedido_model extends CI_Model {
     function atualizar($options = array(), $id) {
         
         $this->db->where('idPedido', $id);
-        $this->db->update('tb_produto', $options);
+        $this->db->update('tb_pedido', $options);
         return $this->db->insert_id();
     }
     
-    function excluirProduto($options = array()){
-        $this->db->delete('tb_produto', $options);
-    }
-    
     function buscarPorId($id) {
-        $this->db->where('idProduto', $id);
-        $query = $this->db->get("tb_produto");
+        $this->db->where('idPedido', $id);
+        $query = $this->db->get("tb_pedido");
         return $query->result();
     }
     
