@@ -22,7 +22,7 @@ class CompraController extends CI_Controller {
         
         $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
         
-        if (is_null($pedido)) {
+        if (is_null($pedido["pedido"][0])) {
             //CRIA UM NOVO PEDIDO
             $pedido = array(
                 "idConta" => $idConta,

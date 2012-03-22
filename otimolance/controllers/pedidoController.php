@@ -8,11 +8,7 @@ class PedidoController extends CI_Controller {
         parent::__construct();
     }
     
-    function pedidos(){
-        $this->load->model('Pedido_model', 'pedidoDAO');
-        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria("Lance");
-        $this->load->view("compra/comprarLances",$data);
-     }
+   
      
      
 }
