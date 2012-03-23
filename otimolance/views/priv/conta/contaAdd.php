@@ -24,12 +24,12 @@ $this->load->view('priv/_inc/superior');
 
                 <div class="item">
                     <label>Cpf</label><br />
-                    <input type="text" name="txtCpf" id="txtCpf" value="<?echo $_POST['txtCpf']; ?>" class="input"/>
+                    <input type="text" name="txtCpf" id="txtCpf" value="<?echo $_POST['txtCpf']; ?>" class="inputSmall"/>
                 </div>
 
                 <div class="item">
                     <label>Login</label><br />
-                    <input type="text" name="txtLogin" id="txtLogin" value="<?echo $_POST['txtLogin']; ?>" class="input"/>
+                    <input type="text" name="txtLogin" id="txtLogin" value="<?echo $_POST['txtLogin']; ?>" class="inputSmall"/>
                 </div>
 
                 <div class="item">
@@ -44,17 +44,17 @@ $this->load->view('priv/_inc/superior');
 
                 <div class="item">
                     <label>Senha</label><br />
-                    <input type="password" name="txtSenha" id="txtSenha" value="" class="input"/>
+                    <input type="password" name="txtSenha" id="txtSenha" value="" class="inputSmall"/>
                 </div>
 
                 <div class="item">
                     <label>Repetir Senha</label><br />
-                    <input type="password" name="txtRepetirSenha" id="txtRepetirSenha" value="" class="input"/>
+                    <input type="password" name="txtRepetirSenha" id="txtRepetirSenha" value="" class="inputSmall"/>
                 </div>
 
                 <div class="item">
                     <label>Tipo de Conta</label><br />
-                    <select name='idTipoUsuario' id='idTipoUsuario' class="select">
+                    <select name='idTipoUsuario' id='idTipoUsuario' class="selectSmall">
                         <option value="<?echo $_POST['idTipoUsuario']; ?>"> Selecione </option>
                         <?
                         if (count($tiposUsuario)) {

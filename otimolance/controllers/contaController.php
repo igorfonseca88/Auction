@@ -150,6 +150,14 @@ class ContaController extends CI_Controller {
             $erro = true;
             $msg .= "A senha e a confirmação de senha não conferem." . "<br/>";
         }
+        
+        if(strlen($senha) < 6){
+            $erro = true;
+            $msg .= "A senha deve conter no mínimo 6 caracteres." . "<br/>";
+        }
+        
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $saldo = $servidor["servidor"][0]->numLancesNovoCadastro;
 
         if ($erro == false) {
             $data = array(
@@ -163,14 +171,15 @@ class ContaController extends CI_Controller {
                 "aceitarTermo" => $aceitarTermo,
                 "idTipoUsuario" => 2,
                 "ip" => $ip,
-                "status" => "bloqueado"
+                "status" => "bloqueado",
+                "saldo" => $saldo
             );
             $id = $this->contaDAO->salvar($data);
             
             if ($id > 0) {
                 $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
 
-                if (!is_null($conta)) {
+                if (!is_null($conta["conta"][0])) {
                     $this->enviarEmailAtivacao($email, $id);
                     $conta["tiposUsuario"] = $this->getTiposUsuario();
                     
@@ -304,6 +313,11 @@ class ContaController extends CI_Controller {
             $erro = true;
             $msg .= "A senha e a confirmação de senha não conferem." . "<br/>";
         }
+        
+        if(strlen($senha) < 6){
+            $erro = true;
+            $msg .= "A senha deve conter no mínimo 6 caracteres." . "<br/>";
+        }
 
         if ($erro == false) {
             $data = array(
@@ -426,7 +440,7 @@ class ContaController extends CI_Controller {
         //echo $this->email->print_debugger();
     }
     
-    function enviarEmailConfirmacao($email, $id, $login){
+    function enviarEmailConfirmacao($email, $login){
         $this->load->model('Parametro_model', 'parametro');
         $servidor["servidor"] = $this->parametro->buscarParametros();
         $this->load->library('email');
@@ -473,6 +487,30 @@ class ContaController extends CI_Controller {
         //echo $this->email->print_debugger();
     }
     
+        function enviarEmailTrocaDeSenha($email, $login, $senha){
+        $this->load->model('Parametro_model', 'parametro');
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $this->load->library('email');
+        
+        $this->email->smtp_host = $servidor["servidor"][0]->smtp_host;
+        $this->email->smtp_port = $servidor["servidor"][0]->smtp_port;
+        $this->email->smtp_user = $servidor["servidor"][0]->smtp_user;
+        $this->email->smtp_pass = $servidor["servidor"][0]->smtp_pass;
+        
+        $this->email->from('otimolance@gmail.com','Team OtimoLance');
+        $this->email->to($email);
+        $this->email->subject('[OtimoLance] Sua senha foi alterada');
+        
+        $string1 = "Seu usuário é: $login";
+        $string2 = "Sua senha atual é: $senha";
+        $mensagem = $servidor["servidor"][0]->padraoEmailTrocaDeSenha;      
+        $msg = SPrintF($mensagem, "$string1", "$string2");  
+        
+        $this->email->message($msg);
+        $this->email->send();
+        //echo $this->email->print_debugger();
+    }
+    
     function liberarConta() {
         $id = $_GET['id'];
         $this->load->model("Conta_model", "contaDAO");
@@ -490,7 +528,7 @@ class ContaController extends CI_Controller {
             $login=  $row[0]->login;
         }
         
-        $this->enviarEmailConfirmacao($email, $id, $login);
+        $this->enviarEmailConfirmacao($email, $login);
         
         $msgHtml = "<h3>Seu cadastro foi ativado com sucesso!</h3>  
                     <br/><br/>
@@ -514,7 +552,7 @@ class ContaController extends CI_Controller {
         $this->load->model("Conta_model", "contaDAO");
         $conta["conta"] = $this->contaDAO->recuperarSenha($email);
             
-        if (is_null($conta)){
+        if (is_null($conta["conta"][0])){
             $msgHtml = "";
             $conta["msgHtml"] = $msgHtml;
             $conta["erro"] = "E-mail não cadastrado.";
@@ -548,35 +586,173 @@ class ContaController extends CI_Controller {
     }
     
     function realizarAlteracaoSenha(){
+        $id = $this->session->userdata("idConta");
         $senhaAtual = $_POST["txtSenhaAtual"];
         
         $this->load->model("Conta_model", "contaDAO");
         $conta["conta"] = $this->contaDAO->buscarSenhaAtual($senhaAtual, $id);
         
-        if (is_null($conta)){
+        if (is_null($conta["conta"][0])){
             $conta["erro"] = "Senha atual não confere.";
             $this->load->view("conta/contaAlterarSenha",$conta); 
         }
         else{
-                $novaSenha = $_POST["txtNovaSenha"];
-                $repetirNovaSenha = $_POST["txtRepetirNovaSenha"];
+            $novaSenha = $_POST["txtNovaSenha"];
+            $repetirNovaSenha = $_POST["txtRepetirNovaSenha"];
+
+            if ($novaSenha == $repetirNovaSenha){
+                $data = array(
+                    "senha" => $novaSenha
+                );
+
+                $this->contaDAO->update($data, $id);
                 
-                if ($novaSenha == $repetirNovaSenha){
-                    $data = array(
-                        "novaSenha" => $novaSenha
-                    );
-                    
-                    $this->contaDAO->update($data, $id);
-                    $conta["sucesso"] = "Solicitação efetuada com sucesso.";
-                    $this->load->view("conta/contaAlterarSenha",$conta);
+                $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+         
+                foreach ($conta as $row) {
+                    $email=  $row[0]->email;
+                    $login=  $row[0]->login;
                 }
-                else{
-                    $conta["erro"] = "Nova senha e confirmação não conferem.";
-                    $this->load->view("conta/contaAlterarSenha",$conta); 
-                }
+        
+                $this->enviarEmailTrocaDeSenha($email, $login, $novaSenha);
+                $conta["sucesso"] = "Solicitação efetuada com sucesso.";
+                $this->load->view("conta/contaAlterarSenha",$conta);
+            }
+            else{
+                $conta["erro"] = "Nova senha e confirmação não conferem.";
+                $this->load->view("conta/contaAlterarSenha",$conta); 
+            }
         }
     }
 
+    function alterarDados(){
+        $id = $this->session->userdata("idConta");
+        $this->load->model('Conta_model', 'contaDAO');
+        $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+        $this->load->view("conta/contaDados",$conta); 
+    }
+    
+    function realizarAlteracaoDados(){
+        $this->load->model("Conta_model", "contaDAO");
+        $id = $this->input->post("idContah");
+        
+        $sexo = $this->input->post("txtSexo");
+        $dtNascimento = $this->input->post("txtDataNascimento");
+        $cep = $this->input->post("txtCep");
+        $logradouro = $this->input->post("txtLogradouro");
+        $numero = $this->input->post("txtNumero");
+        $complemento = $this->input->post("txtComplemento");
+        $bairro = $this->input->post("txtBairro");
+        $estado = $this->input->post("txtEstado");
+        $cidade = $this->input->post("txtCidade");
+        $telefone = $this->input->post("txtTelefone");
+        $celular = $this->input->post("txtCelular");
+        $email = $this->input->post("txtEmail");
+        $repetirEmail = $this->input->post("txtRepetirEmail");
+        
+        $mensagem = array();
+        $msg = "";
+        $erro = false;
+        
+        // Validações de campos nulos
+        if ($sexo == "Selecione") {
+            $erro = true;
+            $msg .= "O campo Sexo é obrigatório. Favor selecioná-lo corretamente." . "<br/>";
+        }
+        
+        if ($dtNascimento == "") {
+            $erro = true;
+            $msg .= "O campo Data de Nascimento é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($cep == "") {
+            $erro = true;
+            $msg .= "O campo Cep é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($logradouro == "") {
+            $erro = true;
+            $msg .= "O campo Logradouro é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($numero == "") {
+            $erro = true;
+            $msg .= "O campo Número é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($bairro == "") {
+            $erro = true;
+            $msg .= "O campo Bairro obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($estado == "Selecione") {
+            $erro = true;
+            $msg .= "O campo Estado obrigatório. Favor selecioná-lo corretamente." . "<br/>";
+        }
+        
+        if ($cidade == "") {
+            $erro = true;
+            $msg .= "O campo Cidade obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($telefone == "") {
+            $erro = true;
+            $msg .= "O campo Telefone obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+               
+        if ($this->validaEMAIL($email) == false){
+            $erro = true;
+            $msg .= "E-mail inválido." . "<br/>";
+        }
+        
+        if ($email != $repetirEmail){
+            $erro = true;
+            $msg .= "O e-mail e a confirmação de e-mail não conferem." . "<br/>";
+        }
+        
+        // Verificar de email já foi cadastrado
+        $listaEmail["$listaEmail"] = $this->contaDAO->buscarEmailCadastradoEdit($email, $id);
+           
+        foreach ($listaEmail as $row) {
+            $emailExistente =  $row[0]->email;
+        }
+
+        if (!is_null($emailExistente)){
+            $erro = true;
+            $msg .= "E-mail já cadastrado." . "<br/>";
+        }
+        
+        if ($erro == false) {
+            $data = array(
+                "sexo" => $sexo,
+                "dtNascimento" => $dtNascimento,
+                "cep" => $cep,
+                "logradouro" => $logradouro,
+                "numero" => $numero,
+                "complemento" => $complemento,
+                "bairro" => $bairro,
+                "estado" => $estado,
+                "cidade" => $cidade,
+                "telefone" => $telefone,
+                "celular" => $celular,
+                "email" => $email
+            );
+        
+            $this->contaDAO->update($data, $id);
+            $this->msgPadrao = "Dados atualizados com sucesso.";
+            $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+            $conta["sucesso"] = $this->msgPadrao;
+            $this->load->vars($conta);
+            $this->load->view("conta/contaDados",$conta);
+        }
+        else {           
+            $this->msgPadrao = $msg;
+            $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+            $conta["erro"] = $this->msgPadrao;
+            $this->load->vars($conta);
+            $this->load->view("conta/contaDados",$conta);
+        }
+    }
 
     function editarConta() {
         $this->load->model("Conta_model", "contaDAO");

@@ -122,9 +122,44 @@ function showHideCategoria(){
  $("#idCategoria").attr("disabled", valor);
 }
 
+function showHideFinalizarConta(){
+ if($("#checkAceitarTermo").is(":checked")){
+     $("#btFinalizar").attr("disabled", false);
+ }
+ else{
+     $("#btFinalizar").attr("disabled", true);
+ }
+}
+
 function calcularSubTotal(idItemPedido){
     var quantidade = $("#txtQuantidade"+idItemPedido).find('option').filter(':selected').text();
     var preco = $("#txtPreco"+idItemPedido).text();
     var subTotal = quantidade * preco;
     $("#txtSubTotal"+idItemPedido).text(subTotal);
+}
+
+function getEndereco() {
+    // Se o campo CEP n�o estiver vazio
+    if($.trim($("#txtCep").val()) != ""){
+    /* 
+    Para conectar no servi�o e executar o json, precisamos usar a fun��o
+    getScript do jQuery, o getScript e o dataType:"jsonp" conseguem fazer o cross-domain, os outros
+    dataTypes n�o possibilitam esta intera��o entre dom�nios diferentes
+    Estou chamando a url do servi�o passando o par�metro "formato=javascript" e o CEP digitado no formul�rio
+    http://cep.republicavirtual.com.br/web_cep.php?formato=javascript&cep="+$("#txtCep").val()
+    */
+    $.getScript("http://cep.republicavirtual.com.br/web_cep.php?formato=javascript&cep="+$("#txtCep").val(), function(){
+    if(resultadoCEP["resultado"] && resultadoCEP["bairro"] != ""){
+        $("#txtLogradouro").val(unescape(resultadoCEP["tipo_logradouro"])+": "+unescape(resultadoCEP["logradouro"]));
+        $("#txtBairro").val(unescape(resultadoCEP["bairro"]));
+        $("#txtCidade").val(unescape(resultadoCEP["cidade"]));
+        $("#txtEstado").val(unescape(resultadoCEP["uf"]));
+        $("#txtNumero").focus();
+        ScriptDiv.innerHTML = '';
+    }else{
+            ScriptDiv.innerHTML = 'CEP não encontrado.';
+            return false;
+        }
+    });                             
+    }
 }
