@@ -28,7 +28,8 @@ class Clance extends CI_Controller {
         }
 
         $valor = 0.00;
-        $valor = $this->getValorUltimoLance($this->input->post("leilao")) + $this->getValorLeilao($this->input->post("leilao"));
+        $valorLeilao = $this->getValorLeilao($this->input->post("leilao"));
+        $valor = $this->getValorUltimoLance($this->input->post("leilao")) + $valorLeilao;
 
 
         $data = array(
@@ -39,10 +40,19 @@ class Clance extends CI_Controller {
         );
 
         $id = $this->lance->salvarLance($data);
-
+        $atualizaSaldo = 0;
         if ($id > 0) {
             // chama um procedimento no banco de dados pra debitar do saldo do cliente
-            $this->lance->atualizaSaldoConta($idConta);
+            
+            switch ($valorLeilao){
+                case 0.01 :
+                    $atualizaSaldo = 1;
+                    break;
+                case 0.02 :
+                    $atualizaSaldo = 2;
+                    break;
+            }
+            $this->lance->atualizaSaldoConta($idConta, $atualizaSaldo);
         }
 
 
@@ -146,7 +156,6 @@ class Clance extends CI_Controller {
         
         $this->load->model("leilao_model", "leilao");
         
-        $this->criarPedido($idLeilao, $idContaArremate,$idProduto);
         
         $data = array(
             "dataFim" => date('Y-m-d H:i:s'),
@@ -155,9 +164,7 @@ class Clance extends CI_Controller {
         );
         $this->leilao->alterar($data, $idLeilao);
         
-        
-        
-        
+        $this->criarPedido($idLeilao, $idContaArremate,$idProduto);
 
     }
     

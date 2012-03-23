@@ -798,7 +798,7 @@ function MicroTimeServidor()
 			
             MicroTime 		= msg.time - GmtSegundo;
 			
-            RelogioTopo();
+            //RelogioTopo();
 			
             var req = null
             delete req
