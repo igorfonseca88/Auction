@@ -12,6 +12,12 @@
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskedinput.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/js.js"></script>
+        
+        <script>
+            $(function() {
+                $("#txtCpf").mask("999.999.999-99"); 
+            });
+        </script>  
     </head>
     <body>
         

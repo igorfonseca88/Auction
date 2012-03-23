@@ -11,6 +11,7 @@ class Conta_model extends CI_Model {
     private $idConta;
     private $idTipoUsuario;
     private $tipoUsuario;
+    private $status;
 
     function getLogin() {
         return $this->login;
@@ -51,10 +52,18 @@ class Conta_model extends CI_Model {
     public function setTipoUsuario($tipoUsuario) {
         $this->tipoUsuario = $tipoUsuario;
     }
+    
+    public function getStatus() {
+        return $this->status;
+    }
+    
+    public function setStatus($status) {
+        $this->status = $status;
+    }
 
     function validate() {
 
-        $sql = "select idConta, login, senha, c.idTipoUsuario, tipoUsuario from tb_conta c 
+        $sql = "select idConta, login, senha, c.idTipoUsuario, tipoUsuario, status from tb_conta c 
                 join tb_tipousuario tu  on tu.idTipoUsuario = c.idTipoUsuario
                 where login = '" . $this->getLogin() . "' and senha = '" . $this->getSenha() . "'";
 
@@ -134,7 +143,9 @@ class Conta_model extends CI_Model {
     
     function buscarContaPorId($id) {
         $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
-            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario
+            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario,
+            c.ip, c.status, c.sexo, c.dtNascimento, c.cep, c.logradouro, c.numero, c.complemento,
+            c.bairro, c.estado, c.cidade, c.telefone, c.celular, c.saldo
                FROM tb_conta c 
                where c.idConta = $id ");
         return $query->result();
@@ -152,6 +163,11 @@ class Conta_model extends CI_Model {
     
     function buscarEmailCadastrado($email) {
         $query = $this->db->query("select c.email FROM tb_conta c where c.email = '$email' ");
+        return $query->result();
+    }
+    
+    function buscarEmailCadastradoEdit($email, $id) {
+        $query = $this->db->query("select c.email FROM tb_conta c where c.email = '$email' and c.id <> '$id' ");
         return $query->result();
     }
     

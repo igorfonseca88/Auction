@@ -36,9 +36,14 @@ class Login extends CI_Controller {
                 $this->Conta_model->setIdConta($row->idConta);
                 $this->Conta_model->setIdTipoUsuario($row->idTipoUsuario);
                 $this->Conta_model->setTipoUsuario($row->tipoUsuario);
+                $this->Conta_model->setStatus($row->status);
             }
 
             if ($this->Conta_model->getTipoUsuario() != "cliente") {
+                return 1;
+            }
+            
+            if ($this->Conta_model->getStatus() != "liberado") {
                 return 1;
             }
 
