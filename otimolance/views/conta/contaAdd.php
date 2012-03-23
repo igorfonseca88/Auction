@@ -55,16 +55,16 @@ $this->load->view('_padrao/topo');
 
             <div class="item">
                 <label>Quero receber e-mails do OtimoLance</label><br />
-                <input type="checkbox" name="checkReceberEmail" id="checkReceberEmail" value="1" class="input"/>
+                <input type="checkbox" name="checkReceberEmail" id="checkReceberEmail" value="1"/>
             </div>
 
             <div class="item">
                 <label>Eu li e aceito os Termos e Condições de uso do OtimoLance</label><br />
-                <input type="checkbox" name="checkAceitarTermo" id="checkAceitarTermo" value="1" class="input"/>
+                <input type="checkbox" name="checkAceitarTermo" id="checkAceitarTermo" value="1" onchange="showHideFinalizarConta()"/>
             </div>
 
             <div class="acao">
-                <input type="submit" class="button" name="btFinalizar" value="Finalizar" />
+                <input type="submit" class="button" name="btFinalizar" id="btFinalizar" value="Finalizar" disabled="disabled"/>
             </div>
         </form>
     </div>

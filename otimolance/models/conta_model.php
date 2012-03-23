@@ -157,6 +157,11 @@ class Conta_model extends CI_Model {
         return $query->result();
     }
     
+    function buscarEmailCadastradoEdit($email, $id) {
+        $query = $this->db->query("select c.email FROM tb_conta c where c.email = '$email' and c.id <> '$id' ");
+        return $query->result();
+    }
+    
     function buscarIpCadastrado($ip) {
         $query = $this->db->query("select c.ip FROM tb_conta c where c.ip = '$ip' ");
         return $query->result();

@@ -28,7 +28,8 @@ $this->load->view('conta/conta');
 
                 <h2>Meu Endereço</h2> 
                 <div class="item">
-                    <label><font color="#FF0000">*</font> CEP</label><br />
+                    <label><font color="#FF0000">*</font> CEP</label>
+                    <label><font color="#00FF00"><a href="javascript:abrir('http://m.correios.com.br/movel/buscaCep.do');">Não sei meu CEP</a></font></label><br />
                     <input type="text" name="txtCep" id="txtCep" value="<?= $row->cep ?>" class="inputSmall" onblur="return getEndereco()"/>
                 </div>
 

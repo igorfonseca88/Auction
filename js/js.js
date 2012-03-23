@@ -907,3 +907,14 @@ function roundNumber(rnum, rlength) { // Arguments: number to round, number of d
     var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);  
     return newnumber;
 }
+
+function abrir(URL) {
+
+  var width = 450;
+  var height = 450;
+
+  var left = 499;
+  var top = 99;
+
+  window.open(URL,'janela', 'width='+width+', height='+height+', top='+top+', left='+left+', scrollbars=yes, status=no, toolbar=no, location=no, directories=no, menubar=no, resizable=no, fullscreen=no');
+}

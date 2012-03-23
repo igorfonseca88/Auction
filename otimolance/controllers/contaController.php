@@ -150,6 +150,11 @@ class ContaController extends CI_Controller {
             $erro = true;
             $msg .= "A senha e a confirmação de senha não conferem." . "<br/>";
         }
+        
+        if(strlen($senha) < 6){
+            $erro = true;
+            $msg .= "A senha deve conter no mínimo 6 caracteres." . "<br/>";
+        }
 
         if ($erro == false) {
             $data = array(
@@ -303,6 +308,11 @@ class ContaController extends CI_Controller {
         if ($senha != $repetirSenha){
             $erro = true;
             $msg .= "A senha e a confirmação de senha não conferem." . "<br/>";
+        }
+        
+        if(strlen($senha) < 6){
+            $erro = true;
+            $msg .= "A senha deve conter no mínimo 6 caracteres." . "<br/>";
         }
 
         if ($erro == false) {
@@ -606,6 +616,74 @@ class ContaController extends CI_Controller {
         $mensagem = array();
         $msg = "";
         $erro = false;
+        
+        // Validações de campos nulos
+        if ($sexo == "Selecione") {
+            $erro = true;
+            $msg .= "O campo Sexo é obrigatório. Favor selecioná-lo corretamente." . "<br/>";
+        }
+        
+        if ($dtNascimento == "") {
+            $erro = true;
+            $msg .= "O campo Data de Nascimento é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($cep == "") {
+            $erro = true;
+            $msg .= "O campo Cep é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($logradouro == "") {
+            $erro = true;
+            $msg .= "O campo Logradouro é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($numero == "") {
+            $erro = true;
+            $msg .= "O campo Número é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($bairro == "") {
+            $erro = true;
+            $msg .= "O campo Bairro obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($estado == "Selecione") {
+            $erro = true;
+            $msg .= "O campo Estado obrigatório. Favor selecioná-lo corretamente." . "<br/>";
+        }
+        
+        if ($cidade == "") {
+            $erro = true;
+            $msg .= "O campo Cidade obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+        
+        if ($telefone == "") {
+            $erro = true;
+            $msg .= "O campo Telefone obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+               
+        if ($this->validaEMAIL($email) == false){
+            $erro = true;
+            $msg .= "E-mail inválido." . "<br/>";
+        }
+        
+        if ($email != $repetirEmail){
+            $erro = true;
+            $msg .= "O e-mail e a confirmação de e-mail não conferem." . "<br/>";
+        }
+        
+        // Verificar de email já foi cadastrado
+        $listaEmail["$listaEmail"] = $this->contaDAO->buscarEmailCadastradoEdit($email, $id);
+           
+        foreach ($listaEmail as $row) {
+            $emailExistente =  $row[0]->email;
+        }
+
+        if (!is_null($emailExistente)){
+            $erro = true;
+            $msg .= "E-mail já cadastrado." . "<br/>";
+        }
         
         if ($erro == false) {
             $data = array(
