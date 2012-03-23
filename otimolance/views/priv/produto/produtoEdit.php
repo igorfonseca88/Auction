@@ -37,6 +37,11 @@ $this->load->view('priv/_inc/superior');
                    <label>Desconto</label><br />
                    R$ <input type="text" name="txtDesconto" id="txtDesconto" value="<?= $row->desconto?>" class="input"/>
                 </div>
+                
+                <div class="item">
+                   <label>Quantidade</label><br />
+                   <input type="text" name="txtQuantidade" id="txtQuantidade" value="<?= $row->quantidade?>" class="input"/>
+                </div>
 
                 <div class="item">
                     <label>Categoria</label><br />

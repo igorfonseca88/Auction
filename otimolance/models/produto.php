@@ -8,6 +8,7 @@ class Produto{
     private $idCategoria;
     private $preco;
     private $desconto;
+    private $quantidade;
     
     public function getIdProduto() {
         return $this->idProduto;
@@ -55,6 +56,13 @@ class Produto{
 
     public function setDesconto($desconto) {
         $this->desconto = $desconto;
+    }
+    public function getQuantidade() {
+        return $this->quantidade;
+    }
+
+    public function setQuantidade($quantidade) {
+        $this->quantidade = $quantidade;
     }
 
 }

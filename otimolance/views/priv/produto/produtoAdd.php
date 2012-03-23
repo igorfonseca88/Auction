@@ -30,6 +30,10 @@ $this->load->view('priv/_inc/superior');
                 <label>Desconto</label><br />
                 R$ <input type="text" name="txtDesconto" id="txtDesconto" value="" class="input"/>
             </div>
+            <div class="item">
+                <label>Quantidade</label><br />
+                <input type="text" name="txtQauntidade" id="txtQuantidade" value="" class="input"/>
+            </div>
             <div>
                 <input type="checkbox" name="tipoLance[]" id="tipoLance" onchange="showHideCategoria()"> 
                 <label>Produto do tipo lance</label>

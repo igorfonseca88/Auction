@@ -70,6 +70,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
                 <li class="titulo"><a><span>Leilões</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>leilaoController/"><span>Painel de leilões</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>cpedidos/"><span>Pedidos</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>notificacaoController/transacoesPorIntervaloDatas"><span>TESTE Retorno</span></a></li>
             </ul>
             
             <ul>
