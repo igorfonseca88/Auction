@@ -134,7 +134,9 @@ class Conta_model extends CI_Model {
     
     function buscarContaPorId($id) {
         $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
-            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario
+            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario,
+            c.ip, c.status, c.sexo, c.dtNascimento, c.cep, c.logradouro, c.numero, c.complemento,
+            c.bairro, c.estado, c.cidade, c.telefone, c.celular, c.saldo
                FROM tb_conta c 
                where c.idConta = $id ");
         return $query->result();

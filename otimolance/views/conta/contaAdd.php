@@ -21,14 +21,14 @@ $this->load->view('_padrao/topo');
 
             <div class="item">
                 <label><font color="#FF0000">*</font> Cpf</label><br />
-                <input type="text" name="txtCpf" id="txtCpf" value="<?echo $_POST['txtCpf']; ?>" class="input"/>
+                <input type="text" name="txtCpf" id="txtCpf" value="<?echo $_POST['txtCpf']; ?>" class="inputSmall"/>
                 <label><font size="1">Somente números. Só será permitido um cadastro por CPF. <br />Atenção: Verifique se os dados cadastrados estão corretos. Caso seja identificada alguma divergência, no caso de arremate e/ou compra de produtos, a entrega poderá ser prejudicada.</font></label>
             </div>
 
             <h2>Dados de Acesso</h2> 
             <div class="item">
                 <label><font color="#FF0000">*</font> Login</label><br />
-                <input type="text" name="txtLogin" id="txtLogin" value="<?echo $_POST['txtLogin']; ?>" class="input"/>
+                <input type="text" name="txtLogin" id="txtLogin" value="<?echo $_POST['txtLogin']; ?>" class="inputSmall"/>
             </div>
 
             <div class="item">
@@ -44,13 +44,13 @@ $this->load->view('_padrao/topo');
             <div class="item">
                 <label><font color="#FF0000">*</font> Senha</label><br />
                 <div><label><font size="1">Mínimo de 6 caracteres.</font></label></div>
-                <input type="password" name="txtSenha" id="txtSenha" value="" class="input"/>
+                <input type="password" name="txtSenha" id="txtSenha" value="" class="inputSmall"/>
             </div>
 
             <div class="item">
                 <label><font color="#FF0000">*</font> Repetir Senha</label><br />
                 <div><label><font size="1">Mínimo de 6 caracteres.</font></label></div>
-                <input type="password" name="txtRepetirSenha" id="txtRepetirSenha" value="" class="input"/>
+                <input type="password" name="txtRepetirSenha" id="txtRepetirSenha" value="" class="inputSmall"/>
             </div>
 
             <div class="item">
