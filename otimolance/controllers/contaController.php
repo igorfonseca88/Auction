@@ -155,6 +155,9 @@ class ContaController extends CI_Controller {
             $erro = true;
             $msg .= "A senha deve conter no mínimo 6 caracteres." . "<br/>";
         }
+        
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $saldo = $servidor["servidor"][0]->numLancesNovoCadastro;
 
         if ($erro == false) {
             $data = array(
@@ -168,7 +171,8 @@ class ContaController extends CI_Controller {
                 "aceitarTermo" => $aceitarTermo,
                 "idTipoUsuario" => 2,
                 "ip" => $ip,
-                "status" => "bloqueado"
+                "status" => "bloqueado",
+                "saldo" => $saldo
             );
             $id = $this->contaDAO->salvar($data);
             
@@ -436,7 +440,7 @@ class ContaController extends CI_Controller {
         //echo $this->email->print_debugger();
     }
     
-    function enviarEmailConfirmacao($email, $id, $login){
+    function enviarEmailConfirmacao($email, $login){
         $this->load->model('Parametro_model', 'parametro');
         $servidor["servidor"] = $this->parametro->buscarParametros();
         $this->load->library('email');
@@ -483,6 +487,30 @@ class ContaController extends CI_Controller {
         //echo $this->email->print_debugger();
     }
     
+        function enviarEmailTrocaDeSenha($email, $login, $senha){
+        $this->load->model('Parametro_model', 'parametro');
+        $servidor["servidor"] = $this->parametro->buscarParametros();
+        $this->load->library('email');
+        
+        $this->email->smtp_host = $servidor["servidor"][0]->smtp_host;
+        $this->email->smtp_port = $servidor["servidor"][0]->smtp_port;
+        $this->email->smtp_user = $servidor["servidor"][0]->smtp_user;
+        $this->email->smtp_pass = $servidor["servidor"][0]->smtp_pass;
+        
+        $this->email->from('otimolance@gmail.com','Team OtimoLance');
+        $this->email->to($email);
+        $this->email->subject('[OtimoLance] Sua senha foi alterada');
+        
+        $string1 = "Seu usuário é: $login";
+        $string2 = "Sua senha atual é: $senha";
+        $mensagem = $servidor["servidor"][0]->padraoEmailTrocaDeSenha;      
+        $msg = SPrintF($mensagem, "$string1", "$string2");  
+        
+        $this->email->message($msg);
+        $this->email->send();
+        //echo $this->email->print_debugger();
+    }
+    
     function liberarConta() {
         $id = $_GET['id'];
         $this->load->model("Conta_model", "contaDAO");
@@ -500,7 +528,7 @@ class ContaController extends CI_Controller {
             $login=  $row[0]->login;
         }
         
-        $this->enviarEmailConfirmacao($email, $id, $login);
+        $this->enviarEmailConfirmacao($email, $login);
         
         $msgHtml = "<h3>Seu cadastro foi ativado com sucesso!</h3>  
                     <br/><br/>
@@ -578,6 +606,15 @@ class ContaController extends CI_Controller {
                 );
 
                 $this->contaDAO->update($data, $id);
+                
+                $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+         
+                foreach ($conta as $row) {
+                    $email=  $row[0]->email;
+                    $login=  $row[0]->login;
+                }
+        
+                $this->enviarEmailTrocaDeSenha($email, $login, $novaSenha);
                 $conta["sucesso"] = "Solicitação efetuada com sucesso.";
                 $this->load->view("conta/contaAlterarSenha",$conta);
             }

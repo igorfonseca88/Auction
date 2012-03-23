@@ -11,6 +11,7 @@ class Conta_model extends CI_Model {
     private $idConta;
     private $idTipoUsuario;
     private $tipoUsuario;
+    private $status;
 
     function getLogin() {
         return $this->login;
@@ -51,10 +52,18 @@ class Conta_model extends CI_Model {
     public function setTipoUsuario($tipoUsuario) {
         $this->tipoUsuario = $tipoUsuario;
     }
+    
+    public function getStatus() {
+        return $this->status;
+    }
+    
+    public function setStatus($status) {
+        $this->status = $status;
+    }
 
     function validate() {
 
-        $sql = "select idConta, login, senha, c.idTipoUsuario, tipoUsuario from tb_conta c 
+        $sql = "select idConta, login, senha, c.idTipoUsuario, tipoUsuario, status from tb_conta c 
                 join tb_tipousuario tu  on tu.idTipoUsuario = c.idTipoUsuario
                 where login = '" . $this->getLogin() . "' and senha = '" . $this->getSenha() . "'";
 

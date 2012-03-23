@@ -11,8 +11,28 @@ $this->load->view('_padrao/topo');
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>css/conteudo.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>css/jquery.datepick.css" media="screen" />
     <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.js"></script>
     <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/funcoes.js"></script>
+    <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery-ui-1-8.min.js"></script>
+    <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskMoney.js"></script>
+    <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
+    
+    <script>
+        $(function() {
+            $( "#txtDataNascimento" ).datepicker({
+                dateFormat: 'dd/mm/yy', 
+                changeMonth: true, 
+                changeYear: true
+            });
+
+            $("#txtCep").mask("99999-999"); 
+            $("#txtTelefone").mask("(99)9999-9999"); 
+            $("#txtCelular").mask("(99)9999-9999"); 
+        });
+    </script>   
 </head>
 <body>
     <div id="menuesquerdo">

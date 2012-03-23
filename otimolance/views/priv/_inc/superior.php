@@ -39,6 +39,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
                 });
                 
                 $("#horaInicio").mask("99:99:99"); 
+                $("#txtCpf").mask("999.999.999-99"); 
             });
         </script>    
 

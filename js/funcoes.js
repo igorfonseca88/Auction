@@ -155,8 +155,9 @@ function getEndereco() {
         $("#txtCidade").val(unescape(resultadoCEP["cidade"]));
         $("#txtEstado").val(unescape(resultadoCEP["uf"]));
         $("#txtNumero").focus();
+        ScriptDiv.innerHTML = '';
     }else{
-            alert("Endere�o n�o encontrado");
+            ScriptDiv.innerHTML = 'CEP não encontrado.';
             return false;
         }
     });                             
