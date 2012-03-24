@@ -3,6 +3,7 @@
 class Pedido_model extends CI_Model {
 
     const STATUS_EM_ANDAMENTO = "Em Andamento";
+    const STATUS_AGUARD_PAGTO = "Aguardando Pagamento";
     
     function salvar($options = array()) {
         $this->db->insert('tb_pedido', $options);
@@ -31,9 +32,9 @@ class Pedido_model extends CI_Model {
     
     function buscarProdutosGaleriaPorIdPedido($idPedido) {
         $query = $this->db->query("SELECT p.nome, g.caminho, p.preco, p.idProduto, ip.quantidade, ip.idItemPedido, (p.preco * ip.quantidade) as subTotal
-                                   FROM TB_PRODUTO p JOIN TB_GALERIA g ON (p.idProduto = g.idProduto) 
-                                   JOIN TB_ITEMPEDIDO ip ON (ip.idProduto = p.idProduto)
-                                   JOIN TB_PEDIDO pe ON (pe.idPedido = ip.idPedido)
+                                   FROM tb_produto p JOIN tb_galeria g ON (p.idProduto = g.idProduto) 
+                                   JOIN b_itempedido ip ON (ip.idProduto = p.idProduto)
+                                   JOIN tb_pedido pe ON (pe.idPedido = ip.idPedido)
                                    WHERE pe.idPedido = $idPedido
                                    AND g.tipoGaleria = 'imagem' 
                                    AND g.isPrincipal = 1 ");

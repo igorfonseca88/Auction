@@ -220,8 +220,7 @@ class Leilao_model extends CI_Model {
             (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
              (select ifnull(max(valor),0) 
                FROM tb_lance
-               where idLeilao = l.idLeilao) as valorArremate, status
-        
+               where idLeilao = l.idLeilao) as valorArremate, status, ped.dataCriacao as dataPedido, ifnull(il.valorFrete,0) as frete
                    from tb_leilao l 
                    join tb_itemleilao il on l.idLeilao = il.idLeilao
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao

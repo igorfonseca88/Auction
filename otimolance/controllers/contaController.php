@@ -437,7 +437,7 @@ class ContaController extends CI_Controller {
         $this->email->to($email);
         $this->email->subject('[OtimoLance] Ative sua conta no OtimoLance');
         
-        $string = "http://localhost/otimolance/contaController/liberarConta?id=$id";
+        $string = base_url()."contaController/liberarConta?id=$id";
         $mensagem = $servidor["servidor"][0]->padraoEmailConfirmarCadastro;
         $msg = SPrintF($mensagem, $string);
         

@@ -177,7 +177,7 @@ class Clance extends CI_Controller {
             //CRIA UM NOVO PEDIDO
         $pedido = array(
             "idConta" => $idContaArremate,
-            "status" => "Em Andamento",
+            "status" => Pedido_model::STATUS_EM_ANDAMENTO,
             "dataCriacao"  => date('Y-m-d H:i:s'),
             "idLeilao"  => $idLeilao
         );
