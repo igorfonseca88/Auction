@@ -10,8 +10,14 @@ class ContaController extends CI_Controller {
 
     function index() {
         $this->load->model('Conta_model', 'contaDAO');
-        $conta["conta"] = $this->contaDAO->getAll();
+        $conta["conta"] = $this->contaDAO->listarContaInterna();
         $this->load->view("priv/conta/contaList",$conta);
+    }
+    
+    function contaClientes(){
+        $this->load->model('Conta_model', 'contaDAO');
+        $conta["conta"] = $this->contaDAO->listarContaCliente();
+        $this->load->view("priv/conta/contaList",$conta);  
     }
     
     function cadastroClienteSite(){
@@ -762,8 +768,10 @@ class ContaController extends CI_Controller {
         $sobrenome = $this->input->post("txtSobrenome");
         $cpf = $this->input->post("txtCpf");
         $login = $this->input->post("txtLogin");
+        $email = $this->input->post("txtEmail");
+        $saldo = $this->input->post("txtSaldo");
         $idTipoUsuario = $this->input->post("idTipoUsuario");
-        
+
         $mensagem = array();
         $msg = "";
         $erro = false;
@@ -788,6 +796,11 @@ class ContaController extends CI_Controller {
             $msg .= "O campo Login não pode ser nulo." . "<br/>";
         }
         
+        if ($email== "") {
+            $erro = true;
+            $msg .= "O campo E-Mail não pode ser nulo." . "<br/>";
+        }
+        
         if ($this->validaCPF($cpf) == false){
             $erro = true;
             $msg .= "Cpf inválido." . "<br/>";
@@ -799,6 +812,8 @@ class ContaController extends CI_Controller {
                 "sobrenome" => $sobrenome,
                 "cpf" => $cpf,
                 "login" => $login,
+                "email" => $email,
+                "saldo" => $saldo,
                 "idTipoUsuario" => $idTipoUsuario
             );
         
