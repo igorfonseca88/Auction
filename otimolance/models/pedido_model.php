@@ -3,6 +3,7 @@
 class Pedido_model extends CI_Model {
 
     const STATUS_EM_ANDAMENTO = "Em Andamento";
+    const STATUS_AGUARD_PAGTO = "Aguardando Pagamento";
     
     function salvar($options = array()) {
         $this->db->insert('tb_pedido', $options);

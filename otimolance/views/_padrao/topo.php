@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+        <title> LEILÕES ONLINE - Site de Leilão de Centavos | Ótimo Lance</title>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>css/estilo.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>css/jquery.datepick.css" media="screen" />
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.js"></script>

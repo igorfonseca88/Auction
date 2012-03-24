@@ -6,6 +6,15 @@ $this->load->view('conta/conta');
         <h2> Leilões arrematados </h2>
         <br/><br/><br/><br/>
         <table class="tabela_arrematados">
+            
+            <tr>
+                <td>Produto</td>
+                <td>Data</td>
+                <td>Valor</td>
+                <td>Situação</td>
+            </tr>
+                
+            
             <? foreach ($arrematados as $leilao) {  ?>
                 <tr class="linha">
                     <td>
@@ -16,13 +25,13 @@ $this->load->view('conta/conta');
                             <img width="50px" height="80px" src="<?= base_url() ?>img/imagem_nao_cadastrada.jpg"/>
                         <? } ?>
                     </td>
-                    <td>Iniciado em <br/> <?= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?> <br/><br/> 
-                        Finalizado em <br/> <?= date("d/m/Y H:i:s", strtotime($leilao->dataFim))  ?> </td>
-                    <td>Valor de mercado <br/> <?=  'R$ ' . number_format($leilao->valorProduto, 2, ',', '.'); ?> </br><br/>
-                        Vendido por: <br/> <?= 'R$ ' . number_format($leilao->valorArremate, 2, ',', '.'); ?>
+                    <td><?= date("d/m/Y H:i:s", strtotime($leilao->dataPedido)) ?> </td>
+                    <td><?= 'R$ ' . number_format($leilao->valorArremate + $leilao->frete, 2, ',', '.'); ?>
                     </td>
-                    <td> Arrematado por<br/><b><?=$leilao->login?></b> <br/> com <?=$leilao->qtdeLances?> lance(s) </td>
-                    <td> <input type="button" name="efetuarPagamento" id="efetuarPagameto" class="button" value="Pagar"/> </td>
+                    <td><?=$leilao->status?> </td>
+                    <? if($leilao->status == Pedido_model::STATUS_EM_ANDAMENTO){?>
+                        <td> <a href="<?= BASE_URL(); ?>compraController/identificacao/arremate">Pagamento</a> </td>
+                    <?}?>
                 </tr>
               <?}?>
          </table>

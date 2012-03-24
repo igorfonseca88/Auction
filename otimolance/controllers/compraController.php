@@ -1,6 +1,6 @@
 <?php
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
-require_once "otimolance/models/Pedido.php";
+//require_once "otimolance/models/Pedido.php";
 
 class CompraController extends CI_Controller {
 
@@ -20,13 +20,13 @@ class CompraController extends CI_Controller {
         $this->load->model("ItemPedido_model", "itemPedidoDAO");
         $idConta = $this->session->userdata('idConta');
         
-        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
         
         if (is_null($pedido["pedido"][0])) {
             //CRIA UM NOVO PEDIDO
             $pedido = array(
                 "idConta" => $idConta,
-                "status" => Pedido::$STATUS_EM_ANDAMENTO
+                "status" => Pedido_model::STATUS_EM_ANDAMENTO
             );
         
             $idPedido = $this->pedidoDAO->salvar($pedido);
@@ -50,23 +50,30 @@ class CompraController extends CI_Controller {
         $this->load->view("compra/carrinhoCompra",$data);
      }
      
-     function identificacao(){
+     /**
+      *
+      * @param type $origem 
+      * origem: arremate, lances, produtos
+      */
+     function identificacao($origem){
        $this->load->model('Conta_model', 'contaDAO');
        $this->load->model("Produto_model", "produtoDAO");
        $this->load->model("Pedido_model", "pedidoDAO");
        $this->load->model("ItemPedido_model", "itemPedidoDAO");
        $idConta = $this->session->userdata('idConta');
        
-       $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+       $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
        $idPedido = $pedido["pedido"][0]->idPedido;
        $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($idPedido);
 
-       foreach ($itensPedido as $row) {
-             $quantidade = $this->input->post("txtQuantidade".$row->idItemPedido);
-             $itemPedido = array("quantidade" => $quantidade);
-             //Salva Item pedido com quantidade
-             $this->itemPedidoDAO->atualizarItemPedido($itemPedido, $row->idItemPedido);
-        }
+       if($origem != "arremate"){
+           foreach ($itensPedido as $row) {
+                 $quantidade = $this->input->post("txtQuantidade".$row->idItemPedido);
+                 $itemPedido = array("quantidade" => $quantidade);
+                 //Salva Item pedido com quantidade
+                 $this->itemPedidoDAO->atualizarItemPedido($itemPedido, $row->idItemPedido);
+            }
+       }
 
         $data["conta"] = $this->contaDAO->buscarContaPorId($idConta);
         $this->load->view("compra/identificacao", $data);
@@ -84,7 +91,7 @@ class CompraController extends CI_Controller {
        $itemPedido = array("idItemPedido" => $idItemPedido);
        
        $this->itemPedidoDAO->excluirItemPedido($itemPedido);
-       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
        
        $idPedido = $pedido[0]->idPedido;
        
@@ -101,11 +108,11 @@ class CompraController extends CI_Controller {
        
        $conta = $this->contaDAO->buscarContaPorId($idConta);
        
-       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido::$STATUS_EM_ANDAMENTO);
+       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
        
        $idPedido = $pedido[0]->idPedido;
        
-       $itens = $this->pedidoDAO->buscarProdutosGaleriaPorIdPedido($idPedido);
+       $itens = $this->pedidoDAO->buscarItensPedidoPorIdPedido($idPedido);
        
 	$paymentRequest = new PagSeguroPaymentRequest();
 	//moeda Brasileira
@@ -141,6 +148,11 @@ class CompraController extends CI_Controller {
             $url = $paymentRequest->register($credentials);
 		
             header("Location: $url"); 
+            
+            // altera status do pedido para Aguardando pagamento
+            $statusPedido = array("status" => Pedido_model::STATUS_AGUARD_PAGTO);
+            $this->pedidoDAO->atualizar($statusPedido, $idPedido);
+             
 	} catch (PagSeguroServiceException $e) {
 		die($e->getMessage());
 	}
