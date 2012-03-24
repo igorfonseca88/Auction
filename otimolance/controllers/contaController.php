@@ -850,6 +850,10 @@ class ContaController extends CI_Controller {
         $this->load->model("TipoUsuario_model", "tipoUsuario");
         return $this->tipoUsuario->getAll();
     }
+    
+    function termosCondicoes(){
+        $this->load->view("conta/termosCondicoes");
+    }
 }
 
 ?>
