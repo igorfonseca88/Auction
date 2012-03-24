@@ -23,7 +23,8 @@ class ProdutoController extends CI_Controller {
             "descricao" => $this->input->post("txtDescricao"),
             "idCategoria" => $this->input->post("idCategoria"),
             "preco" => $this->input->post("txtPreco"),
-            "desconto" => $this->input->post("txtDesconto")
+            "desconto" => $this->input->post("txtDesconto"),
+            "quantidade" => $this->input->post("txtQuantidade")
              
         );
         
@@ -45,7 +46,8 @@ class ProdutoController extends CI_Controller {
             "descricao" => $this->input->post("txtDescricao"),
             "idCategoria" => $this->input->post("idCategoria"),
             "preco" => $this->input->post("txtPreco"),
-            "desconto" => $this->input->post("txtDesconto")
+            "desconto" => $this->input->post("txtDesconto"),
+            "quantidade" => $this->input->post("txtQuantidade")
                 
         );
 

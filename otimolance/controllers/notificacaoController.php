@@ -7,6 +7,19 @@ class NotificacaoController extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
+    function transacoes(){
+      $data["transactions"] = null;
+      $this->load->view("priv/transacoes/transacoesList", $data);
+    }
+
+
+    function pesquisarAction(){
+        $dataInicial = $this->input->post("dataInicial");
+        $dataFim = $this->input->post("dataFim");
+        
+        echo $dataFim;
+        echo $dataInicial;
+    }
     
     function notificacao(){
         
@@ -26,7 +39,7 @@ class NotificacaoController extends CI_Controller {
         }
      }
      
-     function transacoesPorIntervaloDatas($dataInicial, $dataFinal){
+     function transacoesPorIntervaloDatas($dataInicial = null, $dataFinal = null){
          
         /* Definindo as credenciais  */    
         $credentials = PagSeguroConfig::getAccountCredentials();
@@ -35,8 +48,8 @@ class NotificacaoController extends CI_Controller {
         $initialDate = '2012-03-18T08:50';  
       
         /* Definindo a data de término da consulta */  
-        $finalDate   = '2012-03-21T20:30';  
-      
+        $finalDate = '2012-03-21T20:30';  
+        
         /* Definindo o número máximo de resultados por página */  
         $maxPageResults = 20;  
       
@@ -49,10 +62,11 @@ class NotificacaoController extends CI_Controller {
             $initialDate, $finalDate); 
       
         /* Obtendo as transações do objeto PagSeguroTransactionSearchResult */  
-        $transactions = $result->getTransactions();  
+        $transactions = $result->getTransactions(); 
         
-        print_r($transactions);
-         
+        $data["transactions"] = $transactions;
+        $this->load->view("priv/transacoes/transacoesList",$data);
+        
      }
 }
 
