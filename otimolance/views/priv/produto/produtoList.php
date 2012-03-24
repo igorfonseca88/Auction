@@ -14,7 +14,6 @@ $this->load->view('priv/_inc/superior');
         <?= $alerta != "" ? '<div class="warning"> ' . $alerta . ' </div>' : "" ?>
         <h2>Listagem de Produtos</h2>
         <input type="button" class="button" type="button" name="btNovoProduto" onclick="location.href='<?= base_url() ?>produtoController/novoProdutoAction'" value="Novo Produto" />
-        <p><? //echo $this->session->flashdata('sucesso'); ?></p>
 
         <table class="tabela">
             <thead>
@@ -28,8 +27,8 @@ $this->load->view('priv/_inc/superior');
                     <td><?=$produto->idProduto?></td>
                     <td><?=$produto->nome?></td>
                     <td>
-                        <a href="<?= base_url() ?>produtoController/editarProdutoAction/<?= $produto->idProduto ?>">Editar</a>
-                        <a href="<?= base_url() ?>produtoController/excluirProdutoAction/<?= $produto->idProduto ?>">Excluir</a>
+                        <a href="<?= base_url() ?>produtoController/editarProdutoAction/<?= $produto->idProduto?>">Editar</a>
+                        <a href="<?= base_url() ?>produtoController/excluirProdutoAction/<?= $produto->idProduto?>">Excluir</a>
                     </td>
                 </tr>
               <?}?>
