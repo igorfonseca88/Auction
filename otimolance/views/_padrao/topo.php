@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+        <title> LEILÕES ONLINE - Site de Leilão de Centavos | Ótimo Lance</title>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>css/estilo.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL(); ?>css/jquery.datepick.css" media="screen" />
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.js"></script>
@@ -55,7 +55,7 @@
     </div>
         <!--Topo-->ss
 	<div id="topo">
-		<a class="logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>img/logo1.jpg" alt="" title="" /></a>
+            <a class="logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>img/logo.png" width="300px" alt="" title="" /></a>
 		<ul class="botoes">
 			<li><a href="<?php echo BASE_URL(); ?>compraController/comprarLances/">Comprar lances</a></li>
 			<li><a href="">Como funciona</a></li>

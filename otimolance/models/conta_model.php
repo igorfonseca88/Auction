@@ -151,6 +151,22 @@ class Conta_model extends CI_Model {
         return $query->result();
     }
     
+    function listarContaCliente() {
+        $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
+            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario, c.saldo
+               FROM tb_conta c 
+               where c.idTipoUsuario = 2");
+        return $query->result();
+    }
+    
+    function listarContaInterna() {
+        $query = $this->db->query("select c.idConta, c.nome, c.sobrenome, c.cpf, 
+            c.login, c.email, c.senha, c.receberEmail, c.aceitarTermo, c.idTipoUsuario, c.saldo
+               FROM tb_conta c 
+               where c.idTipoUsuario <> 2");
+        return $query->result();
+    }
+    
     function buscarLoginCadastrado($login) {
         $query = $this->db->query("select c.login FROM tb_conta c where c.login = '$login' ");
         return $query->result();
@@ -167,7 +183,7 @@ class Conta_model extends CI_Model {
     }
     
     function buscarEmailCadastradoEdit($email, $id) {
-        $query = $this->db->query("select c.email FROM tb_conta c where c.email = '$email' and c.id <> '$id' ");
+        $query = $this->db->query("select c.email FROM tb_conta c where c.email = '$email' and c.idConta <> '$id' ");
         return $query->result();
     }
     

@@ -7,8 +7,8 @@ class Lance_model extends CI_Model {
         return $this->db->insert_id();
     }
     
-    function atualizaSaldoConta($idConta) {
-        $this->db->set('saldo', 'saldo - 1', FALSE);
+    function atualizaSaldoConta($idConta, $valor) {
+        $this->db->set('saldo', 'saldo - '.$valor, FALSE);
         $this->db->where('idConta',$idConta);
         $this->db->update('tb_conta', $update);
     }

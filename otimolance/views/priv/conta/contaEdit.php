@@ -36,6 +36,16 @@ $this->load->view('priv/_inc/superior');
                 <label>Login</label><br />
                 <input type="text" name="txtLogin" id="txtLogin" value="<?= $row->login ?>" class="inputSmall"/>
             </div>
+            
+            <div class="item">
+                <label>E-Mail</label><br />
+                <input type="text" name="txtEmail" id="txtEmail" value="<?= $row->email ?>" class="input"/>
+            </div>
+            
+            <div class="item">
+                <label>Saldo</label><br />
+                <input type="text" name="txtSaldo" id="txtSaldo" value="<?= $row->saldo ?>" class="inputSmall"/>
+            </div>
 
             <div class="item">
                 <label>Tipo de Conta</label><br />

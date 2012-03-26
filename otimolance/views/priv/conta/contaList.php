@@ -13,13 +13,14 @@ $this->load->view('priv/_inc/superior');
 
         <table class="tabela">
             <thead>
-                <td>Código</td>
+                <td><p align="center">Código</p></td>
                 <td>Nome</td>
                 <td>Sobrenome</td>
-                <td>Cpf</td>
+                <td><p align="center">Cpf</p></td>
                 <td>E-mail</td>
-                <td>Login</td>
-                <td>Ações</td>
+                <td><p align="center">Login</p></td>
+                <td><p align="center">Saldo</p></td>
+                <td><p align="center">Ações</p></td>
             </thead>
             
             <? foreach ($conta as $conta) { ?>
@@ -27,9 +28,10 @@ $this->load->view('priv/_inc/superior');
                     <td><?=$conta->idConta?></td>
                     <td><?=$conta->nome?></td>
                     <td><?=$conta->sobrenome?></td>
-                    <td><?=$conta->cpf?></td>
+                    <td><p align="center"><?=$conta->cpf?></p></td>
                     <td><?=$conta->email?></td>
                     <td><?=$conta->login?></td>
+                    <td><p align="right"><?=$conta->saldo?></p></td>
                     <td>
                         <a href="<?= base_url() ?>contaController/editarContaAction/<?= $conta->idConta ?>">Editar</a>
                         <a href="<?= base_url() ?>contaController/excluirContaAction/<?= $conta->idConta ?>">Excluir</a>

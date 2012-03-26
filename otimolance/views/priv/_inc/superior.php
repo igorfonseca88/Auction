@@ -68,7 +68,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
                 <li class="titulo"><a><span>Cadastros</span></a></li>
                 <li><a href=""><span>Empresa</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>contaController/"><span>Usuários do sistema</span></a></li>
-                <li><a href=""><span>Contas dos clientes</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>contaController/contaClientes"><span>Contas dos clientes</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>categoriaController/"><span>Categorias</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>produtoController/"><span>Produtos</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>cparametro/"><span>Parâmetros do sistema</span></a></li>
@@ -77,12 +77,12 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
             <ul>
                 <li class="titulo"><a><span>Leilões</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>leilaoController/"><span>Painel de leilões</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>cpedidos/"><span>Pedidos</span></a></li>
+                
             </ul>
             
             <ul>
                 <li class="titulo"><a><span>Pedidos</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>pedidoController/"><span>Em Andamento</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>cpedidos/listarEmAndamento"><span>Em Andamento</span></a></li>
             </ul>
             
              <ul>
