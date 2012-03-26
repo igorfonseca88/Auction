@@ -25,6 +25,13 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
 
         <script>
             $(function() {
+                 $( ".date" ).datepicker({
+                    dateFormat: 'dd/mm/yy', 
+                    changeMonth: true, 
+                    changeYear: true
+                });
+                
+                
                 $( "#dataInicio" ).datepicker({
                     dateFormat: 'dd/mm/yy', 
                     changeMonth: true, 
