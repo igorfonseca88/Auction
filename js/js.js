@@ -420,16 +420,15 @@ function ProcuraFalhaTempo()
 {
 	
     TempoA = mktime();
-        
-        
-    $.post("/otimolance/clance/retHorario", {},
+    var tempoCliente = TempoCliente();
+    
+    var req = $.post("/otimolance/clance/retHorario", {"rand":tempoCliente},
         function(data){
-            //alert(data.time);
             msg = data.time;
             TempoB 		= mktime();
             TempoAB		= TempoB - TempoA;
 			
-            FalhaTempo 	= parseInt(msg) - parseInt(TempoB);
+            FalhaTempo 	= parseInt(msg) - parseInt(TempoAB);
 			
             var req = null
             delete req
@@ -559,7 +558,7 @@ function RequisitacaoLeiloes()
                         //                   $("#L_FaltaSegundos_"+Cod).html(Ret.FaltaSegundos);
                         $("#L_UltimoLogin_"+Cod).html(Ret.login);
                         //               $("#L_UltimoCodigo_"+Cod).html(Ret.UltimoCodigo);
-                        $("#L_UltimoValor_"+Cod).html(roundNumber(Ret.valor,3));
+                        $("#L_UltimoValor_"+Cod).html("R$ "+number_format(Ret.valor, 2, ',', '.'));
                         //           $("#L_Status_"+Cod).html(Ret.Status);
                         $("#L_MicroTimeFim_"+Cod).html(Ret.MicroTimeFim);
                         //           $("#L_QtdLances_"+Cod).html(Ret.QtdLances);					
@@ -784,7 +783,7 @@ function MicroTimeServidor()
 {
 	
         
-   var req =  $.post("/otimolance/clance/retHorario", {},
+   var req =  $.post("/otimolance/clance/retHorario", {"tempoCliente":""},
      function(msg){
                
 			
@@ -860,7 +859,7 @@ function atualizarPainel(){
         retorno = retorno.xmlDoc.responseText;
         retorno = retorno.split("@");
       
-        document.getElementById('valorLance'+painel[i].value).innerHTML = roundNumber(retorno[1],3);
+        document.getElementById('valorLance'+painel[i].value).innerHTML = number_format(retorno[1], 2, ',', '.');
         document.getElementById('usuLance'+painel[i].value).innerHTML = retorno[0];            
         
     }
@@ -899,7 +898,7 @@ function carregaLances(id){
     $.post("/otimolance/clance/retLances", {"id": id},
         function(data){
             if(data != "")
-                $("#usu_lances").html(data.saldo);
+                $("#usu_lances").html("R$ "+number_format(data.saldo, 2, ',', '.'));
         }, "json");
 }
 
