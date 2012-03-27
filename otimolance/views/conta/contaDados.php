@@ -14,7 +14,7 @@ $this->load->view('conta/conta');
                 <input type="hidden" name="idContah" id="idContah" value="<?= $row->idConta?>"/>
                 <div class="item">
                     <label><font color="#FF0000">*</font> Sexo</label><br />
-                    <select name='sexo' id='sexo' class="selectSmall">
+                    <select name='txtSexo' id='txtSexo' class="selectSmall">
                         <option value=""> Selecione </option>
                         <option value="Feminino" <?= $row->sexo == "Feminino" ? "selected" : "" ?>> Feminino</option>
                         <option value="Masculino" <?= $row->sexo == "Masculino" ? "selected" : "" ?>> Masculino</option>
@@ -23,7 +23,7 @@ $this->load->view('conta/conta');
 
                 <div class="item">
                     <label><font color="#FF0000">*</font> Data de Nascimento</label><br />
-                    <input type="text" name="txtDataNascimento" id="txtDataNascimento" value="<?= date('d/m/Y', strtotime($row->dtNascimento)) ?>" class="inputSmall"/>
+                    <input type="text" name="txtDataNascimento" id="txtDataNascimento" value="<?= ($row->dtNascimento != "") ?  date('d/m/Y', strtotime($row->dtNascimento)) : "" ?>" class="inputSmall"/>
                 </div>
 
                 <h2>Meu Endereço</h2> 
@@ -58,7 +58,7 @@ $this->load->view('conta/conta');
 
                 <div class="item" style="float: left;">
                     <label><font color="#FF0000">*</font> Estado</label><br />
-                    <select name='estado' id='estado' class="selectSmall">
+                    <select name='txtEstado' id='txtEstado' class="selectSmall">
                         <option value=""> Selecione </option>
                         <option value="MS" <?= $row->estado == "MS" ? "selected" : "" ?>> MS</option>
                         <option value="MT" <?= $row->estado == "MT" ? "selected" : "" ?>> MT</option>

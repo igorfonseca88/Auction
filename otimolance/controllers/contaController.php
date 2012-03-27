@@ -731,7 +731,7 @@ class ContaController extends CI_Controller {
         if ($erro == false) {
             $data = array(
                 "sexo" => $sexo,
-                "dtNascimento" => $dtNascimento,
+                "dtNascimento" => $this->ajustaDataSql($dtNascimento),
                 "cep" => $cep,
                 "logradouro" => $logradouro,
                 "numero" => $numero,
@@ -868,6 +868,14 @@ class ContaController extends CI_Controller {
     
     function termosCondicoes(){
         $this->load->view("conta/termosCondicoes");
+    }
+    
+    function ajustaDataSql($data) {
+        if ($data) {
+            $dataDividida = explode("/", $data);
+            return $dataDividida[2] . "-" . $dataDividida[1] . "-" . $dataDividida[0];
+        }
+        return NULL;
     }
 }
 
