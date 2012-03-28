@@ -183,6 +183,15 @@ class ContaController extends CI_Controller {
             $id = $this->contaDAO->salvar($data);
             
             if ($id > 0) {
+                $data = array(
+                    "dataCadastro" => date('Y-m-d H:i:s'),
+                    "qtdeLances" => $saldo,
+                    "idTipoAquisicao" => 1,
+                    "idConta" => $id
+                );
+                
+                $this->contaDAO->salvarHistoricoSaldo($data);
+                
                 $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
 
                 if (!is_null($conta["conta"][0])) {
@@ -876,6 +885,20 @@ class ContaController extends CI_Controller {
             return $dataDividida[2] . "-" . $dataDividida[1] . "-" . $dataDividida[0];
         }
         return NULL;
+    }
+    
+    function historicoLances(){
+        $id = $this->session->userdata("idConta");
+        $this->load->model('Lance_model', 'lanceDAO');
+        $lance["lance"] = $this->lanceDAO->buscarHistoricoLances($id);
+        $this->load->view("conta/historicoLances",$lance); 
+    }
+    
+    function extratoLances(){
+        $id = $this->session->userdata("idConta");
+        $this->load->model('Conta_model', 'contaDAO');
+        $extrato["extrato"] = $this->contaDAO->buscarExtratoLances($id);
+        $this->load->view("conta/extratoLances",$extrato); 
     }
 }
 

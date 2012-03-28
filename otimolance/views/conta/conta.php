@@ -46,6 +46,14 @@ $this->load->view('_padrao/topo');
             <li><a href="<?php echo BASE_URL(); ?>contaController/alterarDados"><span>Alterar Dados</span></a></li>
             <li><a href="<?php echo BASE_URL(); ?>contaController/alterarSenha"><span>Alterar Senha</span></a></li>
             <li><a href="<?php echo BASE_URL(); ?>compraController/comprarLances"><span>Comprar Lances</span></a></li>
+        </ul>
+        <ul>
+            <li class="titulo"><a><span>Lances</span></a></li>
+            <li><a href="<?php echo BASE_URL(); ?>contaController/historicoLances"><span>Histórico de Lances Utilizados</span></a></li>
+            <li><a href="<?php echo BASE_URL(); ?>contaController/extratoLances"><span>Extrato de Lances</span></a></li>
+        </ul>
+        <ul>
+            <li class="titulo"><a><span>Leilões</span></a></li>
             <li><a href="<?php echo BASE_URL(); ?>leilaoController/leiloesArrematados/<? echo $this->session->userdata("idConta")?>"><span>Leilões Arrematados</span></a></li>
         </ul>
     </div>

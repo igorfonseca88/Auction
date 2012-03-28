@@ -10,9 +10,9 @@ $this->load->view('priv/_inc/superior');
     </div>
 
     <div class="formulario">
-        <h2>Editar cadastro de leilão</h2>
         <?= $sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
         <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
+        <h2>Editar cadastro de leilão</h2>
 
         <? foreach ($leilao as $row) { ?>
             <form method="post" action="<?= BASE_URL(); ?>leilaoController/editarLeilao/<?= $row->idLeilao ?>">
