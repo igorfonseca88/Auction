@@ -30,7 +30,7 @@ $this->load->view('conta/conta');
                     </td>
                     <td><?=$leilao->status?> </td>
                     <? if($leilao->status == "Em Andamento"){?>
-                        <td> <a href="<?= BASE_URL(); ?>compraController/identificacao/arremate">Pagamento</a> </td>
+                        <td> <a href="<?= BASE_URL(); ?>compraController/identificacao/<?=$leilao->idPedido?>">Pagamento</a> </td>
                     <?}?>
                 </tr>
               <?}?>

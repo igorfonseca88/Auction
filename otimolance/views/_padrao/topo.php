@@ -44,11 +44,11 @@
             <ul>  
                   <li><a href="<?= base_url(); ?>contaController/cadastroClienteSite"><span>Cadastre-se</span></a></li>
                     <li><a href="<?= base_url(); ?>contaController/recuperarSenha"><span>Esqueceu a senha?</span></a></li>
-                    <form action="<?= base_url() ?>clientes/login" method="post">
+                    <li><form action="<?= base_url() ?>clientes/login" method="post">
                         <input type="text" style="border: 1px solid;" name="login" id="login" class="inputSmall" value=""/>
                         <input type="password" style="border: 1px solid;" name="senha" id="senha" class="inputSmall" value=""/>
                         <input type="submit" value="Enviar" class="button"/>
-                    </form>  
+                    </form>  </li>
             </ul>
             
         <? } ?>

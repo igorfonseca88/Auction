@@ -7,6 +7,7 @@ $this->load->view('conta/conta');
 
             <? foreach ($conta as $row) { ?>
             <input type="hidden" name="idContah" id="idContah" value="<?= $row->idConta?>"/>
+            <input type="hidden" name="idPedidoh" id="idPedidoh" value="<?= $idPedido?>"/>
                 <div class="item">
                    <label>Nome</label><br />
                    <input type="text" class="inputSmall" name="txtNome" id="txtNome" value="<?= $row->nome ?>"/>

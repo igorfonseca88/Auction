@@ -56,7 +56,7 @@ class CompraController extends CI_Controller {
       * @param type $origem 
       * origem: arremate, lances, produtos
       */
-     function identificacao($origem=""){
+     function identificacao($idPedidoArrematado = NULL){
        $this->load->model('Conta_model', 'contaDAO');
        $this->load->model("Produto_model", "produtoDAO");
        $this->load->model("Pedido_model", "pedidoDAO");
@@ -67,7 +67,7 @@ class CompraController extends CI_Controller {
        $idPedido = $pedido["pedido"][0]->idPedido;
        $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($idPedido);
 
-       if($origem != "arremate"){
+       if($idPedidoArrematado == NULL){
            foreach ($itensPedido as $row) {
                  $quantidade = $this->input->post("txtQuantidade".$row->idItemPedido);
                  $itemPedido = array("quantidade" => $quantidade);
@@ -77,11 +77,16 @@ class CompraController extends CI_Controller {
        }
 
         $data["conta"] = $this->contaDAO->buscarContaPorId($idConta);
+        if($idPedidoArrematado != NULL){
+            $data["idPedido"] = $idPedidoArrematado;
+        }
         $this->load->view("compra/identificacao", $data);
      }
      
      function pagamento(){
-        $this->load->view("compra/pagamento");
+        $idPedido = $this->input->post("idPedidoh"); 
+        $data["idPedido"] = $idPedido;
+        $this->load->view("compra/pagamento",$data);
      }
      
      function excluirProdutoAction($idItemPedido){
@@ -102,16 +107,19 @@ class CompraController extends CI_Controller {
        
      }
 
-     function criarTransacaoPagSeguro(){
+     function criarTransacaoPagSeguro($idPedidoArremate=null){
        $this->load->model("Conta_model", "contaDAO");
        $this->load->model("Pedido_model", "pedidoDAO");
        $idConta = $this->session->userdata('idConta');
-       
+     
        $conta = $this->contaDAO->buscarContaPorId($idConta);
-       
-       $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
-       
-       $idPedido = $pedido[0]->idPedido;
+       if($idPedidoArremate == null){
+        $pedido = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
+        $idPedido = $pedido[0]->idPedido;
+       }
+       else {
+           $idPedido = $idPedidoArremate;
+       }
        
        $itens = $this->pedidoDAO->buscarItensPedidoPorIdPedido($idPedido);
        
@@ -120,7 +128,7 @@ class CompraController extends CI_Controller {
         $paymentRequest->setCurrency("BRL");
 		
         foreach ($itens as $row) {
-             $paymentRequest->addItem($row->idProduto, $row->nome,  $row->quantidade, round($row->preco,2));
+             $paymentRequest->addItem($row->idProduto, $row->nome,  $row->quantidade, round($row->valor,2));
         }
 	
 	//serve para controles futuros, caso estejamos salvando em banco também as transações
@@ -129,7 +137,7 @@ class CompraController extends CI_Controller {
         //entrega FRETE
         $CODIGO_SEDEX = PagSeguroShippingType::getCodeByType('SEDEX');
 	$paymentRequest->setShippingType($CODIGO_SEDEX);
-	$paymentRequest->setShippingAddress('01452002',  'Rua Tenente Waldevino',  '350', 'apto. 12', 'Centro', 'Campo grande', 'MS', 'BRA');
+	$paymentRequest->setShippingAddress($conta[0]->cep,  $conta[0]->logradouro,  $conta[0]->numero, $conta[0]->complemento, $conta[0]->bairro, $conta[0]->cidade, $conta[0]->estado, 'BRA');
 	
 	//dados do cliente para que ele não necessite informar novamente no pagseguro
         //pode-se colocar ainda o codico de area e o telefone
