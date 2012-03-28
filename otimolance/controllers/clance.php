@@ -126,7 +126,7 @@ class Clance extends CI_Controller {
             // tem que acrescentar o valor do cronometro no time
             $data = str_replace(" ", "-", str_replace(":", "-", $dataCalcular));
             $data = explode("-", $data);
-            $time = mktime($data[3], $data[4], $data[5] + $value->tempoCronometro, $data[1], $data[2], $data[0]);
+            $time = mktime($data[3], $data[4], $data[5] + $value->tempoCronometro+1, $data[1], $data[2], $data[0]);
 
             $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
             $status = '2';
@@ -213,7 +213,17 @@ class Clance extends CI_Controller {
      * retora o horário em microsegundos para utilização no js
      */
     function retHorario() {
-        echo json_encode(array("time" => mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'))));
+        $tempoCliente = $this->input->post("rand");
+        
+        $mkTimeServer = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
+        if($tempoCliente == ""){
+            echo json_encode(array("time" =>$mkTimeServer ));
+        }
+        else{  
+            $arrayTempoCliente = explode("/", $tempoCliente);
+            $mkTimeCliente = mktime(date($arrayTempoCliente[3]), date($arrayTempoCliente[4]), date($arrayTempoCliente[5]), date($arrayTempoCliente[1]), date($arrayTempoCliente[0]), date($arrayTempoCliente[2]));
+            echo json_encode(array("time" =>$tempoCliente));
+        }
     }
     function retHorarioAtual() {
         echo mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));

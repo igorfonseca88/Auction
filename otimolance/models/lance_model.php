@@ -15,7 +15,7 @@ class Lance_model extends CI_Model {
     
     function buscarLancesPorIdLeilao($idLeilao) {
 
-        $query = $this->db->query("select l.*, c.nome 
+        $query = $this->db->query("SELECT l.*, c.nome 
                FROM tb_lance l join tb_conta c on l.idConta = c.idConta
                where idLeilao = $idLeilao order by idLance desc");
 
@@ -25,7 +25,7 @@ class Lance_model extends CI_Model {
 
     function buscarValorUltimoLance($idLeilao) {
 
-        $query = $this->db->query("select ifnull(max(valor),0) as valor
+        $query = $this->db->query("SELECT ifnull(max(valor),0) as valor
                FROM tb_lance
                where idLeilao = $idLeilao ");
 
@@ -53,10 +53,22 @@ class Lance_model extends CI_Model {
     
     function buscarListaLancePorIdLeilao($id) {
 
-        $query = $this->db->query("select data, valor, login
+        $query = $this->db->query("SELECT data, valor, login
                FROM tb_lance l 
                join tb_conta c on c.idConta = l.idConta
                where l.idLeilao = $id order by idLance desc ");
+        return $query->result();
+    }
+    
+    function buscarHistoricoLances($id){
+        
+        $query = $this->db->query("SELECT COUNT( * ) qtde, p.nome produto, le.dataFim
+                FROM  tb_lance l
+                INNER JOIN tb_leilao le ON le.idLeilao = l.idLeilao
+                INNER JOIN tb_itemleilao il ON il.idLeilao = l.idLeilao
+                INNER JOIN tb_produto p ON p.idProduto = il.idProduto
+                WHERE l.idConta = $id 
+                GROUP BY p.nome, le.dataFim ");
         return $query->result();
     }
 

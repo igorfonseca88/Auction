@@ -33,57 +33,57 @@ $this->load->view('priv/_inc/superior');
                         <input type="text" name="dataPedido" id="dataPedido" value="<?= date('d/m/Y', strtotime($row->dataCriacao)) ?>" class="inputSmall"/>
                     </div>
 
-                    <div class="item">
-                        <label>Cliente</label><br />
-                        <input type="text" name="cliente" id="cliente" value="<?= $row->cliente ?>" readonly="readonly" class="inputSmall"/>
-                    </div>
-
                 </div>
+
                 <div class="itemDireita">
-                    <div class="item">
-                        <label>Situação</label><br />
-                        <input type="text" name="status" id="status" value="<?= $row->status ?>" readonly="readonly" class="inputSmall"/>
-                    </div>
+                    <label>Situação</label><br />
+                    <select name='status' id='status' class="selectSmall">
+                        <option value=""> Selecione </option>
+                        <option value="<?=$row->status ?>" <?= ($row->status == "Em Andamento") ? "selected" : "" ?>> Em Andamento</option>
+                        <option value="<?=$row->status ?>" <?= ($row->status == "Aguardando Pagamento") ? "selected" : "" ?>> Aguardando Pagamento</option>
+                    </select>
                 </div>
-            </form>
-            <br/>
-            <h2>Itens do pedido</h2>
+
+        </div>
+    </form>
+    <br/>
+    <h2>Itens do pedido</h2>
 
 
-            <form method="post" action="<?= BASE_URL(); ?>leilaoController/salvarItemLeilao/<?= $row->idLeilao ?>">
+    <form method="post" action="<?= BASE_URL(); ?>leilaoController/salvarItemLeilao/<?= $row->idLeilao ?>">
 
-                <div class="acao">
-                    <input type="submit" class="button" name="btIncluir" value="Salvar produto" <?= $row->publicado == 1 ? "disabled" : "" ?> />
-                </div>		
+        <div class="acao">
+            <input type="submit" class="button" name="btIncluir" value="Salvar produto" <?= $row->publicado == 1 ? "disabled" : "" ?> />
+        </div>		
 
 
 
-                <table class="tabela">
-                    <thead>
-                    <td>Código</td>
-                    <td>Produto</td>
-                    <td>Valor</td>
-                    <td>Frete</td>
-                    <td>Ações</td>
-                    </thead>
+        <table class="tabela">
+            <thead>
+            <td>Código</td>
+            <td>Produto</td>
+            <td>Valor</td>
+            <td>Frete</td>
+            <td>Ações</td>
+            </thead>
 
-                    <? foreach ($itensPedido as $item) { ?>
-                        <tr class="linha">
-                            <td><?= $item->idPedido ?></td>
-                            <td><?= $item->nome ?></td>
-                            <td><?= $item->valor ?></td>
-                            <td><?= $item->frete ?></td>
-                            <td>
-                                <a href="<?= base_url() ?>cpedidos/editarPedidoAction/<?= $pedido->idPedido ?>">Editar</a>
-                            </td>
-                        </tr>
-                    <? } ?>
-                </table>
-                <br/>
-            </form>
+            <? foreach ($itensPedido as $item) { ?>
+                <tr class="linha">
+                    <td><?= $item->idPedido ?></td>
+                    <td><?= $item->nome ?></td>
+                    <td><?= $item->valor ?></td>
+                    <td><?= $item->frete ?></td>
+                    <td>
+                        <a href="<?= base_url() ?>cpedidos/editarPedidoAction/<?= $pedido->idPedido ?>">Editar</a>
+                    </td>
+                </tr>
+            <? } ?>
+        </table>
+        <br/>
+    </form>
 
-        <? } ?>
-    </div>
+<? } ?>
+</div>
 </div>
 <?
 $this->load->view('priv/_inc/inferior');

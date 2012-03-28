@@ -114,6 +114,11 @@ class Conta_model extends CI_Model {
         $this->db->insert('tb_conta', $data);
         return $this->db->insert_id();
     }
+    
+    function salvarHistoricoSaldo($data = array()) {
+        $this->db->insert('tb_historicosaldo', $data);
+        return $this->db->insert_id();
+    }
        
     function update($data = array(), $id) {
         $this->db->where('idConta', $id);
@@ -228,6 +233,14 @@ class Conta_model extends CI_Model {
     
     function buscarSenhaAtual($senhaAtual, $id){
         $query = $this->db->query("select c.idConta FROM tb_conta c where c.idConta = '$id' and c.senha = '$senhaAtual' ");
+        return $query->result();
+    }
+    
+    function buscarExtratoLances($id){
+        $query = $this->db->query("SELECT h.dataCadastro, h.qtdeLances, t.nome tipo
+                FROM  tb_historicosaldo h
+                INNER JOIN tb_tipoaquisicao t ON t.idTipoAquisicao = h.idTipoAquisicao
+                WHERE h.idConta = $id ");
         return $query->result();
     }
 }
