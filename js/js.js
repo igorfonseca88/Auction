@@ -422,13 +422,13 @@ function ProcuraFalhaTempo()
     TempoA = mktime();
     var tempoCliente = TempoCliente();
     
-    var req = $.post("/otimolance/clance/retHorario", {"rand":tempoCliente},
+    var req = $.post("/otimolance/clance/retHorario", {"rand":""},
         function(data){
             msg = data.time;
             TempoB 		= mktime();
             TempoAB		= TempoB - TempoA;
 			
-            FalhaTempo 	= parseInt(msg) - parseInt(TempoAB);
+            FalhaTempo 	= parseInt(msg) - parseInt(TempoB);
 			
             var req = null
             delete req
