@@ -25,7 +25,7 @@ class Pedido_model extends CI_Model {
     
     function buscarPedidoPorIdContaEStatusPedido($idConta, $statusPedido) {
         $query = $this->db->query("select p.idPedido from tb_pedido p 
-                                   where p.idConta = $idConta 
+                                   where p.idConta = $idConta and p.idLeilao is null
                                    and p.status = '$statusPedido' ");
         return $query->result();
     }
@@ -33,7 +33,7 @@ class Pedido_model extends CI_Model {
     function buscarProdutosGaleriaPorIdPedido($idPedido) {
         $query = $this->db->query("SELECT p.nome, g.caminho, p.preco, p.idProduto, ip.quantidade, ip.idItemPedido, (p.preco * ip.quantidade) as subTotal
                                    FROM tb_produto p JOIN tb_galeria g ON (p.idProduto = g.idProduto) 
-                                   JOIN b_itempedido ip ON (ip.idProduto = p.idProduto)
+                                   JOIN tb_itempedido ip ON (ip.idProduto = p.idProduto)
                                    JOIN tb_pedido pe ON (pe.idPedido = ip.idPedido)
                                    WHERE pe.idPedido = $idPedido
                                    AND g.tipoGaleria = 'imagem' 

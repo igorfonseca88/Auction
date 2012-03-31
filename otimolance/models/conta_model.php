@@ -66,7 +66,6 @@ class Conta_model extends CI_Model {
         $sql = "select idConta, login, senha, c.idTipoUsuario, tipoUsuario, status from tb_conta c 
                 join tb_tipousuario tu  on tu.idTipoUsuario = c.idTipoUsuario
                 where login = '" . $this->getLogin() . "' and senha = '" . $this->getSenha() . "'";
-
         $query = $this->db->query($sql);
 
         return $query->result();

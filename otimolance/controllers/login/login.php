@@ -39,7 +39,7 @@ class Login extends CI_Controller {
                 $this->Conta_model->setStatus($row->status);
             }
 
-            if ($this->Conta_model->getTipoUsuario() != "Cliente") {
+            if ($this->Conta_model->getTipoUsuario() != "cliente") {
                 return 1;
             }
             
@@ -87,7 +87,7 @@ class Login extends CI_Controller {
                 $this->Conta_model->setTipoUsuario($row->tipoUsuario);
             }
 
-            if ($this->Conta_model->getTipoUsuario() != "Administrador") {
+            if ($this->Conta_model->getTipoUsuario() != "administrador") {
                 return 1;
             }
             $numeroRand = rand(00, 999999999);
