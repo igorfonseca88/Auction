@@ -89,5 +89,28 @@ class Pedido_model extends CI_Model {
                                     WHERE pe.idPedido =  $idPedido ");
         return $query->result();
     }
+    
+    function buscarPedidoPorFiltros($statusPedido="", $inicio, $offset){
+        
+        if($statusPedido != ""){
+            $where = " WHERE pe.status =  '$statusPedido'";
+        }
+        
+        $sql = "SELECT p.nome, p.preco, p.idProduto, ip.quantidade, ip.idItemPedido, pe.idPedido, pe.status, 
+                                    CASE WHEN lei.valorArremate IS NOT NULL 
+                                    THEN lei.valorArremate
+                                    ELSE SUM( p.preco * ip.quantidade ) 
+                                    END AS valor, sum(ifnull(ilei.valorFrete,0)) as frete
+                                    FROM tb_produto p
+                                    JOIN tb_itempedido ip ON ( ip.idProduto = p.idProduto ) 
+                                    JOIN tb_pedido pe ON ( pe.idPedido = ip.idPedido ) 
+                                    LEFT JOIN tb_leilao lei ON pe.idLeilao = lei.idLeilao
+                                    LEFT JOIN tb_itemleilao ilei ON ilei.idLeilao = lei.idLeilao
+                                    $where 
+                                    GROUP BY pe.idPedido order by pe.idPedido desc LIMIT $offset, $inicio ";
+        
+        $query = $this->db->query($sql);
+        return $query;
+    }
 }
 ?>

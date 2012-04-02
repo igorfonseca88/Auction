@@ -7,16 +7,12 @@ class Cpedidos extends CI_Controller {
     }
 
     function index() {
-        
-    }
-
-   function listarEmAndamento(){
        $this->load->model('Pedido_model', 'pedidoDAO');
-       $pedidos["pedidos"] = $this->pedidoDAO->buscarPedidoPorStatusPedido(Pedido_model::STATUS_EM_ANDAMENTO);
+       $pedidos["pedidos"] = $this->pedidoDAO->buscarPedidoPorFiltros();
        $this->load->vars($pedidos);
        $this->load->view("priv/pedido/pedidoList");
-   }
-   
+    }
+
    function editarPedidoAction($id) {
         $this->load->model('Pedido_model', 'pedidoDAO');
         $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorId($id);
@@ -26,6 +22,30 @@ class Cpedidos extends CI_Controller {
             $this->load->vars($pedido);
             $this->load->view("priv/pedido/pedidoEdit");
         }
+    }
+    
+    function pesquisarAction($offset=0) {
+        $this->load->model('Pedido_model', 'pedidoDAO');
+        $situacao = $this->input->post("situacao");
+
+        
+        $query = $this->pedidoDAO->buscarPedidoPorFiltros($situacao, 4, $offset);
+
+        $config['base_url'] = base_url() . "cpedidos/pesquisarAction";
+        
+        $config['total_rows'] = $this->db->count_all('tb_pedido');
+        $config['per_page'] = '4';
+        $config['first_link'] = 'Inicio';
+        $config['prev_link'] = 'Anterior';
+        $config['next_link'] = 'Proximo';
+        $config['last_link'] = 'Fim';
+        $this->pagination->initialize($config);
+
+
+        $data['paginacao'] = $this->pagination->create_links();
+        $data['pedidos'] = $query->result();
+        $this->load->vars($data);
+        $this->load->view("priv/pedido/pedidoList");
     }
 
     function ajustaDataSql($data) {
