@@ -13,15 +13,31 @@ class Cpedidos extends CI_Controller {
        $this->load->view("priv/pedido/pedidoList");
     }
 
-   function editarPedidoAction($id) {
+   function editarPedidoAction($id, $mensagem = array()) {
         $this->load->model('Pedido_model', 'pedidoDAO');
         $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorId($id);
         $pedido["itensPedido"] = $this->pedidoDAO->buscarItensPedidoPorIdPedido($id);
-
+        $pedido["sucesso"] = $mensagem["sucesso"];
         if (!is_null($pedido)) {
             $this->load->vars($pedido);
             $this->load->view("priv/pedido/pedidoEdit");
         }
+    }
+    
+    function editarPedido($idPedido){
+        $this->load->model("Pedido_model", "pedidoDAO");
+
+        $data = array(
+            "status" => $this->input->post("status")
+        );
+
+        $result = $this->pedidoDAO->atualizar($data, $idPedido);
+        $mensagem = array();
+        if ($result > 0) {
+            $msg = "Salvo com sucesso.";
+        }
+        $mensagem["sucesso"] = $msg;
+        $this->editarPedidoAction($idPedido, $mensagem);
     }
     
     function pesquisarAction($offset=0) {

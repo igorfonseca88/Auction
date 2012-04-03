@@ -38,8 +38,10 @@ $this->load->view('priv/_inc/superior');
                     <label>Situação</label><br />
                     <select name='status' id='status' class="selectSmall">
                         <option value=""> Selecione </option>
-                        <option value="<?=$row->status ?>" <?= ($row->status == "Em Andamento") ? "selected" : "" ?>> Em Andamento</option>
-                        <option value="<?=$row->status ?>" <?= ($row->status == "Aguardando Pagamento") ? "selected" : "" ?>> Aguardando Pagamento</option>
+                        <option value="Em Andamento" <?= ($row->status == "Em Andamento") ? "selected" : "" ?>> Em Andamento</option>
+                        <option value="Aguardando Pagamento" <?= ($row->status == "Aguardando Pagamento") ? "selected" : "" ?>> Aguardando Pagamento</option>
+                        <option value="Finalizado" <?= ($row->status == "Finalizado") ? "selected" : "" ?>> Finalizado</option>
+                        <option value="Entregue" <?= ($row->status == "Entregue") ? "selected" : "" ?>> Entregue</option>
                     </select>
                 </div>
 

@@ -14,7 +14,7 @@ class Pedido_model extends CI_Model {
         
         $this->db->where('idPedido', $id);
         $this->db->update('tb_pedido', $options);
-        return $this->db->insert_id();
+        return $this->db->affected_rows();
     }
     
     function buscarPorId($id) {
