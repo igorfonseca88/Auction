@@ -29,7 +29,6 @@ class Login extends CI_Controller {
 
         $usuarios = $this->Conta_model->validate();
 
-
         if ($usuarios) {
 
             foreach ($usuarios as $row) {
@@ -77,7 +76,6 @@ class Login extends CI_Controller {
 
 
         $usuarios = $this->Conta_model->validate();
-
 
         if ($usuarios) {
 

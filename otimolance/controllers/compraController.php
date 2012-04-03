@@ -141,7 +141,8 @@ class CompraController extends CI_Controller {
 	
 	//dados do cliente para que ele não necessite informar novamente no pagseguro
         //pode-se colocar ainda o codico de area e o telefone
-	$paymentRequest->setSender($conta[0]->nome." ".$conta[0]->sobrenome, $conta[0]->email);
+        echo $conta[0]->nome+" "+$conta[0]->sobrenome;
+	$paymentRequest->setSender($conta[0]->nome+" "+$conta[0]->sobrenome, $conta[0]->email);
 	
 	$paymentRequest->setRedirectUrl("http://www.mynewbiz.com.br/otimolance");
 	

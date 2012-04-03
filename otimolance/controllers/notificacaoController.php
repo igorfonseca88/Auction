@@ -1,6 +1,7 @@
 <?php
 
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
+require_once "otimolance/models/Util.php";
 
 class NotificacaoController extends CI_Controller {
 
@@ -14,11 +15,11 @@ class NotificacaoController extends CI_Controller {
 
 
     function pesquisarAction(){
-        $dataInicial = $this->input->post("dataInicial");
-        $dataFim = $this->input->post("dataFim");
         
-        echo $dataFim;
-        echo $dataInicial;
+        $dataInicio = Util::ajustaDataSql($this->input->post("dataInicio"))."T00:00:00Z";
+        $dataFim = Util::ajustaDataSql($this->input->post("dataFim"))."T00:00:00Z";
+        
+        $this->transacoesPorIntervaloDatas($dataInicio, $dataFim);
     }
     
     function notificacao(){
@@ -39,16 +40,16 @@ class NotificacaoController extends CI_Controller {
         }
      }
      
-     function transacoesPorIntervaloDatas($dataInicial = null, $dataFinal = null){
+     function transacoesPorIntervaloDatas($dataInicial, $dataFinal){
          
         /* Definindo as credenciais  */    
         $credentials = PagSeguroConfig::getAccountCredentials();
       
         /* Definindo a data de ínicio da consulta */  
-        $initialDate = '2012-03-18T08:50';  
+        $initialDate = $dataInicial;  
       
         /* Definindo a data de término da consulta */  
-        $finalDate = '2012-03-21T20:30';  
+        $finalDate = $dataFinal;  
         
         /* Definindo o número máximo de resultados por página */  
         $maxPageResults = 20;  
