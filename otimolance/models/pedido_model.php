@@ -14,7 +14,7 @@ class Pedido_model extends CI_Model {
         
         $this->db->where('idPedido', $id);
         $this->db->update('tb_pedido', $options);
-        return $this->db->insert_id();
+        return $this->db->affected_rows();
     }
     
     function buscarPorId($id) {
@@ -25,7 +25,7 @@ class Pedido_model extends CI_Model {
     
     function buscarPedidoPorIdContaEStatusPedido($idConta, $statusPedido) {
         $query = $this->db->query("select p.idPedido from tb_pedido p 
-                                   where p.idConta = $idConta 
+                                   where p.idConta = $idConta and p.idLeilao is null
                                    and p.status = '$statusPedido' ");
         return $query->result();
     }
@@ -33,7 +33,7 @@ class Pedido_model extends CI_Model {
     function buscarProdutosGaleriaPorIdPedido($idPedido) {
         $query = $this->db->query("SELECT p.nome, g.caminho, p.preco, p.idProduto, ip.quantidade, ip.idItemPedido, (p.preco * ip.quantidade) as subTotal
                                    FROM tb_produto p JOIN tb_galeria g ON (p.idProduto = g.idProduto) 
-                                   JOIN b_itempedido ip ON (ip.idProduto = p.idProduto)
+                                   JOIN tb_itempedido ip ON (ip.idProduto = p.idProduto)
                                    JOIN tb_pedido pe ON (pe.idPedido = ip.idPedido)
                                    WHERE pe.idPedido = $idPedido
                                    AND g.tipoGaleria = 'imagem' 
@@ -88,6 +88,29 @@ class Pedido_model extends CI_Model {
                                     JOIN tb_conta c on c.idConta = pe.idConta
                                     WHERE pe.idPedido =  $idPedido ");
         return $query->result();
+    }
+    
+    function buscarPedidoPorFiltros($statusPedido="", $inicio, $offset){
+        
+        if($statusPedido != ""){
+            $where = " WHERE pe.status =  '$statusPedido'";
+        }
+        
+        $sql = "SELECT p.nome, p.preco, p.idProduto, ip.quantidade, ip.idItemPedido, pe.idPedido, pe.status, 
+                                    CASE WHEN lei.valorArremate IS NOT NULL 
+                                    THEN lei.valorArremate
+                                    ELSE SUM( p.preco * ip.quantidade ) 
+                                    END AS valor, sum(ifnull(ilei.valorFrete,0)) as frete
+                                    FROM tb_produto p
+                                    JOIN tb_itempedido ip ON ( ip.idProduto = p.idProduto ) 
+                                    JOIN tb_pedido pe ON ( pe.idPedido = ip.idPedido ) 
+                                    LEFT JOIN tb_leilao lei ON pe.idLeilao = lei.idLeilao
+                                    LEFT JOIN tb_itemleilao ilei ON ilei.idLeilao = lei.idLeilao
+                                    $where 
+                                    GROUP BY pe.idPedido order by pe.idPedido desc LIMIT $offset, $inicio ";
+        
+        $query = $this->db->query($sql);
+        return $query;
     }
 }
 ?>

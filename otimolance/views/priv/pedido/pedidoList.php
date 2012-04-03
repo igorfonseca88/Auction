@@ -12,8 +12,25 @@ $this->load->view('priv/_inc/superior');
         <?=$sucesso != "" ? '<div class="success"> ' . $sucesso . ' </div>' : "" ?>
         <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
         <?= $alerta != "" ? '<div class="warning"> ' . $alerta . ' </div>' : "" ?>
+        
+        
+        <form method="post" action="<?= base_url() ?>cpedidos/pesquisarAction">
+            <div class="item">
+                <label>Situação</label><br />
+                <select name='situacao' id='situacao' class="select">
+                    <option value=""> Selecione </option>
+                    <option value="Aguardando Pagamento" <?= $_POST["situacao"] == "Aguardando Pagamento" ? "selected" : "" ?>> Aguardando Pagamento</option>
+                    <option value="Em Andamento" <?= $_POST["situacao"] == "Em Andamento" ? "selected" : "" ?>> Em Andamento</option>
+                </select>
+            </div>
+
+            <div class="acao">
+                <input type="submit" class="button" name="btPesquisar" value="Pesquisar" />
+            </div>
+        </form>   
+        
+        
         <h2>Listagem de Pedidos</h2>
-        <input type="button" class="button" type="button" name="btNovoProduto" onclick="location.href='<?= base_url() ?>produtoController/novoProdutoAction'" value="Novo Produto" />
         <p><? //echo $this->session->flashdata('sucesso'); ?></p>
 
         <table class="tabela">
@@ -40,6 +57,9 @@ $this->load->view('priv/_inc/superior');
               <?}?>
          </table>
         <br/>
+         <div>
+        <?=$paginacao;?>
+    </div>
     </div>
 </div>
 <?

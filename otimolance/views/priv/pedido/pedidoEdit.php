@@ -6,7 +6,7 @@ $this->load->view('priv/_inc/superior');
     <div class="titulo">
         <h1>Olá <?= $this->session->userdata("login") ?> !</h1>
         <p><span><span>Você está em:</span> <a href="<?= BASE_URL(); ?>/area-restrita">Principal</a> &raquo; 
-                <a href="<?= BASE_URL(); ?>cpedidos/listarEmAndamento">Listagem de pedidos em andamento</a> &raquo; Editar pedido</span>
+                <a href="<?= BASE_URL(); ?>cpedidos/">Listagem de pedidos</a> &raquo; Editar pedido</span>
     </div>
 
     <div class="formulario">
@@ -17,9 +17,8 @@ $this->load->view('priv/_inc/superior');
         <? foreach ($pedido as $row) { ?>
             <form method="post" action="<?= BASE_URL(); ?>cpedidos/editarPedido/<?= $row->idPedido ?>">
                 <div class="acao">
-                    <input type="reset" value="Cancelar" class="button"<?= $row->publicado == 1 ? "disabled" : "" ?> />
-                    <input type="submit" class="button" name="btSalvarLeilao" value="Salvar leilão" <?= $row->publicado == 1 ? "disabled" : "" ?> />
-                    <input type="button" class="button" onclick="location.href='<?= BASE_URL(); ?>leilaoController/publicarLeilao/<?= $row->idLeilao ?>'" name="btPublicarLeilao" value="Publicar leilão" <?= ($row->publicado == 1) ? "disabled" : "" ?> />
+                    <input type="reset" value="Cancelar" class="button" />
+                    <input type="submit" class="button" name="btSalvarPedido" value="Salvar pedido" />
                 </div>	
                 <div class="itemEsquerda">
 
@@ -39,23 +38,22 @@ $this->load->view('priv/_inc/superior');
                     <label>Situação</label><br />
                     <select name='status' id='status' class="selectSmall">
                         <option value=""> Selecione </option>
-                        <option value="<?=$row->status ?>" <?= ($row->status == "Em Andamento") ? "selected" : "" ?>> Em Andamento</option>
-                        <option value="<?=$row->status ?>" <?= ($row->status == "Aguardando Pagamento") ? "selected" : "" ?>> Aguardando Pagamento</option>
+                        <option value="Em Andamento" <?= ($row->status == "Em Andamento") ? "selected" : "" ?>> Em Andamento</option>
+                        <option value="Aguardando Pagamento" <?= ($row->status == "Aguardando Pagamento") ? "selected" : "" ?>> Aguardando Pagamento</option>
+                        <option value="Finalizado" <?= ($row->status == "Finalizado") ? "selected" : "" ?>> Finalizado</option>
+                        <option value="Entregue" <?= ($row->status == "Entregue") ? "selected" : "" ?>> Entregue</option>
                     </select>
                 </div>
 
         </div>
     </form>
     <br/>
-    <h2>Itens do pedido</h2>
+    
 
 
-    <form method="post" action="<?= BASE_URL(); ?>leilaoController/salvarItemLeilao/<?= $row->idLeilao ?>">
+    <form method="post" action="">
 
-        <div class="acao">
-            <input type="submit" class="button" name="btIncluir" value="Salvar produto" <?= $row->publicado == 1 ? "disabled" : "" ?> />
-        </div>		
-
+       
 
 
         <table class="tabela">
@@ -64,7 +62,6 @@ $this->load->view('priv/_inc/superior');
             <td>Produto</td>
             <td>Valor</td>
             <td>Frete</td>
-            <td>Ações</td>
             </thead>
 
             <? foreach ($itensPedido as $item) { ?>
@@ -73,9 +70,7 @@ $this->load->view('priv/_inc/superior');
                     <td><?= $item->nome ?></td>
                     <td><?= $item->valor ?></td>
                     <td><?= $item->frete ?></td>
-                    <td>
-                        <a href="<?= base_url() ?>cpedidos/editarPedidoAction/<?= $pedido->idPedido ?>">Editar</a>
-                    </td>
+                    
                 </tr>
             <? } ?>
         </table>

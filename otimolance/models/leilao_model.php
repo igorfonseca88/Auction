@@ -226,7 +226,7 @@ class Leilao_model extends CI_Model {
                    join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                    join tb_produto p on il.idProduto = p.idProduto 
                    join tb_pedido ped on ped.idLeilao = l.idLeilao
-                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null and l.idContaArremate = $idConta ";
+                   where  l.publicado = 1 and l.valorArremate > 0 and l.dataFim is not null and l.idContaArremate = $idConta order by l.idLeilao desc ";
         
         
         $query = $this->db->query($sql);

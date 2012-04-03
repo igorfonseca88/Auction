@@ -82,7 +82,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
             
             <ul>
                 <li class="titulo"><a><span>Pedidos</span></a></li>
-                <li><a href="<?php echo BASE_URL(); ?>cpedidos/listarEmAndamento"><span>Em Andamento</span></a></li>
+                <li><a href="<?php echo BASE_URL(); ?>cpedidos/pesquisarAction"><span>Pedidos</span></a></li>
             </ul>
             
              <ul>
