@@ -42,6 +42,7 @@
         #conteudo .formulario .date {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:250px;margin: 5px 0 15px 0}
 	#conteudo .formulario .textarea {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:450px;margin: 5px 0 15px 0;font-family:Verdana, Geneva, sans-serif;font-size:12px;}
 	#conteudo .formulario .select {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:455px;margin: 5px 0 15px 0}
+        #conteudo .formulario .checkbox {}
         #conteudo .formulario .selectSmall {border: 1px solid #CCC;padding:4px 2px 4px 2px;width:250px;margin: 5px 0 15px 0}
 	#conteudo .formulario .input:hover, #conteudo .formulario .textarea:hover, #conteudo .formulario .select:hover {border: 1px solid #999;}
 	#conteudo .button {border: 1px solid #CCC;padding:4px;margin: 5px 0 15px 0;cursor:pointer}

@@ -13,9 +13,33 @@ class NotificacaoController extends CI_Controller {
       $this->load->view("priv/transacoes/transacoesList", $data);
     }
 
-
-    function pesquisarAction(){
+    function processarEscolha(){
+        $option = $this->input->post("optHidden");
+        if($option == "pesquisar"){
+            $this->pesquisarAction();
+        }else if($option == "processar"){
+            $this->processar();
+        }else{
+            $data["transactions"] = null;
+            $this->load->view("priv/transacoes/transacoesList", $data);
+        }
+    }
+    
+    function processar(){
+     $selecionados = $this->input->post("checkboxesChecked");
+     
+     $arrSelecionados = explode(",", $selecionados);
+     
+     if($selecionados != ""){
+     foreach ($arrSelecionados as $row) {
         
+         
+        }
+     }
+     
+    }
+    
+    function pesquisarAction(){
         $dataInicio = Util::ajustaDataSql($this->input->post("dataInicio"))."T00:00:00Z";
         $dataFim = Util::ajustaDataSql($this->input->post("dataFim"))."T00:00:00Z";
         

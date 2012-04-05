@@ -24,9 +24,10 @@ class Pedido_model extends CI_Model {
     }
     
     function buscarPedidoPorIdContaEStatusPedido($idConta, $statusPedido) {
-        $query = $this->db->query("select p.idPedido from tb_pedido p 
-                                   where p.idConta = $idConta and p.idLeilao is null
-                                   and p.status = '$statusPedido' ");
+        $query = $this->db->query("SELECT p.idPedido FROM tb_pedido p 
+                                   WHERE p.idConta = $idConta 
+                                   AND p.idLeilao IS NULL
+                                   AND p.status = '$statusPedido' ");
         return $query->result();
     }
     

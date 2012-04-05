@@ -138,6 +138,24 @@ function calcularSubTotal(idItemPedido){
     $("#txtSubTotal"+idItemPedido).text(subTotal);
 }
 
+ function verificarCheckbox() {
+     selecionados = new Array();
+        $(".checkbox").filter(':checked').each(function(){
+            selecionados.push($(this).val());
+            });
+            
+        $("#checkboxesChecked").val(selecionados);
+ }
+ 
+  function selecionarTodos() {
+       if($("#selectAll").is(":checked")){
+            $(".checkbox").attr("checked", true);
+       }else{
+           $(".checkbox").attr("checked", false);
+       }
+ }
+
+
 function getEndereco() {
     // Se o campo CEP n�o estiver vazio
     if($.trim($("#txtCep").val()) != ""){

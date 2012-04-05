@@ -19,8 +19,10 @@ class CompraController extends CI_Controller {
         $this->load->model("Pedido_model", "pedidoDAO");
         $this->load->model("ItemPedido_model", "itemPedidoDAO");
         $idConta = $this->session->userdata('idConta');
+        echo 'idConta'.$idConta;
         
         $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
+        print_r($pedido["pedido"]);
         
         if (is_null($pedido["pedido"][0])) {
             //CRIA UM NOVO PEDIDO
@@ -89,6 +91,12 @@ class CompraController extends CI_Controller {
         $this->load->view("compra/pagamento",$data);
      }
      
+     function atualizarDadosCadastrais(){
+     
+         
+         
+     }
+     
      function excluirProdutoAction($idItemPedido){
        $this->load->model("Pedido_model", "pedidoDAO");
        $this->load->model("ItemPedido_model", "itemPedidoDAO");
@@ -141,7 +149,6 @@ class CompraController extends CI_Controller {
 	
 	//dados do cliente para que ele não necessite informar novamente no pagseguro
         //pode-se colocar ainda o codico de area e o telefone
-        echo $conta[0]->nome+" "+$conta[0]->sobrenome;
 	$paymentRequest->setSender($conta[0]->nome+" "+$conta[0]->sobrenome, $conta[0]->email);
 	
 	$paymentRequest->setRedirectUrl("http://www.mynewbiz.com.br/otimolance");

@@ -14,7 +14,9 @@ require_once "otimolance/models/Util.php";
         <?= $erro != "" ? '<div class="error"> ' . $erro . ' </div>' : "" ?>
         <?= $alerta != "" ? '<div class="warning"> ' . $alerta . ' </div>' : "" ?>
         
-        <form method="post" action="<?= base_url() ?>notificacaoController/pesquisarAction">
+        <form method="post" action="<?= base_url() ?>notificacaoController/processarEscolha">
+            <input type="hidden" value="" id="optHidden" name="optHidden"/>
+            <input type="hidden" value="" id="checkboxesChecked" name="checkboxesChecked"/>
             <div class="item">
                 <div class="item">
                     <label>Data Início</label><br />
@@ -30,13 +32,15 @@ require_once "otimolance/models/Util.php";
             </div>
 
             <div class="acao">
-                <input type="submit" class="button" name="btPesquisar" value="Pesquisar" />
+                <input type="submit" class="button" name="btPesquisar" value="Pesquisar" onclick="document.getElementById('optHidden').value = 'pesquisar'"/>
+                <input type="submit" class="button" name="btProcessar" value="Processar" onclick="document.getElementById('optHidden').value = 'processar'; verificarCheckbox();"/>
             </div>
             
              <? if (!is_null($transactions)) { ?>
         <h2>Listagem de Transações</h2>
         <table class="tabela">
             <thead>
+            <td><input type="checkbox" name="selectAll" id="selectAll" onclick="selecionarTodos()"/> </td>
                 <td>Código</td>
                 <td>Status</td>
                 <td>Código do Pedido</td>
@@ -45,6 +49,7 @@ require_once "otimolance/models/Util.php";
                       
             <? foreach($transactions as $key => $transactionSummary) { ?>
                 <tr class="linha">
+                    <td><input type="checkbox" class="checkbox" value="<?=$transactionSummary->getReference()?>"/> </td>
                     <td><?=$transactionSummary->getCode()?></td>
                     <td><?=Util::retornarStatusPTBRPorCodigo($transactionSummary->getStatus()->getValue())?></td>
                     <td><?=$transactionSummary->getReference()?></td>
