@@ -553,23 +553,10 @@ function RequisitacaoLeiloes()
                         Ret		= Valores[i]; 
                         Cod 	= Ret.idLeilao;
 							
-                        //                       $("#L_LanceAtual"+Cod).html(Ret.UltimoValor);
                         $("#L_Fixador_"+Cod).html(Ret.tempoCronometro);
-                        //                   $("#L_FaltaSegundos_"+Cod).html(Ret.FaltaSegundos);
                         $("#L_UltimoLogin_"+Cod).html(Ret.login);
-                        //               $("#L_UltimoCodigo_"+Cod).html(Ret.UltimoCodigo);
                         $("#L_UltimoValor_"+Cod).html("R$ "+number_format(Ret.valor, 2, ',', '.'));
-                        //           $("#L_Status_"+Cod).html(Ret.Status);
                         $("#L_MicroTimeFim_"+Cod).html(Ret.MicroTimeFim);
-                        //           $("#L_QtdLances_"+Cod).html(Ret.QtdLances);					
-                        //           $("#L_EconomiaV_"+Cod).html(Ret.EconomiaV);
-                        //           $("#L_EconomiaP_"+Cod).html(Ret.EconomiaP);
-                        //           $("#L_DescontoLances_"+Cod).html(Ret.DescontoLances);
-                        //           $("#L_CompraValor_"+Cod).html(Ret.CompraValor);
-							
-                        //                 $("#L_ValoMercado_A"+Cod).html(Ret.ValorMercado);
-                        //               $("#L_ValoMercado_B"+Cod).html(Ret.ValorMercado);
-                        //             $("#L_ValoMercado_C"+Cod).html(Ret.ValorMercado);
 							
                         $("#L_DataInicio_"+Cod).html(Ret.dataInicio);
 							

@@ -27,7 +27,7 @@ $this->load->view('_padrao/topo');
                             <img width="130px" height="180px" src="<?= base_url() ?>img/imagem_nao_cadastrada.jpg"/>
                         <? } ?>
                     </a>
-                    <p class="inicio">Leilão nº <?= $leilao->idLeilao ?> - Início <?= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?></p>
+                    <p class="inicio">Leilão nº <?= $leilao->idLeilao ?> - Início <span id="L_DataInicio_<?= $leilao->idLeilao ?>"><?//= date("d/m/Y H:i:s", strtotime($leilao->dataInicio)) ?></span></p>
                 </div>
                 
                 

@@ -34,7 +34,7 @@ body {width:960px;margin:auto}
 #conteudo .conteudo h2 {font-weight:normal}
 #conteudo .conteudo .itemLeilao {width:200px;height:280px;border:1px solid #CCC;float:left;margin:20px 7.5px 0 0;text-align:center}
 #conteudo .conteudo .itemLeilao .cents {position:absolute;z-index:10;}
-#conteudo .conteudo .itemLeilao .itemProduto {height:180px;width:182px;overflow:hidden}
+#conteudo .conteudo .itemLeilao .itemProduto {width:182px;overflow:hidden}
 #conteudo .conteudo .itemLeilao.fimLista {margin-right:0}
 #conteudo .conteudo .itemLeilao .itemProduto p.produto {margin:10px 0 0 0;font-size:16px;color:#666}
 #conteudo .conteudo .itemLeilao .itemProduto p.inicio {margin:10px 0 0 0;color:#666}

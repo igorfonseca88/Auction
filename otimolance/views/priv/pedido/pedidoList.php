@@ -57,7 +57,7 @@ $this->load->view('priv/_inc/superior');
               <?}?>
          </table>
         <br/>
-         <div>
+        <div style="text-align: center; font-size: 12px;">
         <?=$paginacao;?>
     </div>
     </div>

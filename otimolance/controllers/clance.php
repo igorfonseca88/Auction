@@ -143,7 +143,8 @@ class Clance extends CI_Controller {
                 "MicroTimeFim" => $time,
                 "tempoCronometro" => $value->tempoCronometro,
                 "status" => $status,
-                "listaLances" => $this->getListaLances($value->idLeilao)
+                "listaLances" => $this->getListaLances($value->idLeilao),
+                "dataInicio" => date("d/m/Y H:i:s", strtotime($dataCalcular))
             );
             $i++;
         }

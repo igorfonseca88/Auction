@@ -51,9 +51,9 @@ class Cpedidos extends CI_Controller {
         
         $config['total_rows'] = $this->db->count_all('tb_pedido');
         $config['per_page'] = '4';
-        $config['first_link'] = 'Inicio';
+        $config['first_link'] = 'Início';
         $config['prev_link'] = 'Anterior';
-        $config['next_link'] = 'Proximo';
+        $config['next_link'] = 'Próximo';
         $config['last_link'] = 'Fim';
         $this->pagination->initialize($config);
 
