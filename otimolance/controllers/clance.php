@@ -20,7 +20,7 @@ class Clance extends CI_Controller {
             echo json_encode(array("retorno" => "SALDO_INSUFICIENTE"));
             exit;
         }
-
+        
         if ($this->leilao->leilaoAtivo($this->input->post("leilao")) == FALSE) {
             //echo "LEILAO_INATIVO@";
             echo json_encode(array("retorno" => "LEILAO_INATIVO"));
@@ -28,8 +28,16 @@ class Clance extends CI_Controller {
         }
 
         $valor = 0.00;
-        $valorLeilao = $this->getValorLeilao($this->input->post("leilao"));
-        $valor = $this->getValorUltimoLance($this->input->post("leilao")) + $valorLeilao;
+        //$valorLeilao = $this->getValorLeilao($this->input->post("leilao"));
+        $arrayValores = $this->leilao->buscarDadosLeilaoParaLance($this->input->post("leilao"));
+        
+        if ($arrayValores["categoriaLeilao"] == "Nunca venci" &&  $this->leilao->leilaoNuncaVenci($idConta) > 0) {
+            echo json_encode(array("retorno" => "LEILAO_INICIANTE"));
+            exit;
+        }
+        
+        
+        $valor = $this->getValorUltimoLance($this->input->post("leilao")) + $arrayValores["valor"];
 
 
         $data = array(

@@ -107,6 +107,22 @@ class Leilao_model extends CI_Model {
         return $valor;
     }
     
+    function buscarDadosLeilaoParaLance($idLeilao) {
+
+        $query = $this->db->query("select ifnull(max(valorLeilao),0) as valor, categoriaLeilao
+               FROM tb_leilao l join tb_categoriaLeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+               where idLeilao = $idLeilao ");
+        
+        $arrayValores = array();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $arrayValores["valor"] = $row->valor;
+                $arrayValores["categoriaLeilao"] = $row->categoriaLeilao;
+            }
+        }
+        return $arrayValores;
+    }
+    
     function buscarData($idLeilao) {
 
         $query = $this->db->query("select dataInicio 
@@ -232,6 +248,19 @@ class Leilao_model extends CI_Model {
         $query = $this->db->query($sql);
         
         return $query->result();
+    }
+    
+    function leilaoNuncaVenci($idConta){
+        $query = $this->db->query("select count(idContaArremate) as isArremate
+               FROM tb_leilao 
+               where idContaArremate = $idConta ");
+        $isArremate = 0;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $isArremate = $row->isArremate;
+            }
+        }
+        return $isArremate;
     }
 
 }

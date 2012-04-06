@@ -866,6 +866,9 @@ function lance(idLeilao, conta){
                 if(msg.retorno == 'LEILAO_INATIVO'){
                     alert('Leilão finalizado.');
                 }
+                if(msg.retorno == 'LEILAO_INICIANTE'){
+                    alert('Leilão destinado a quem nunca venceu!!');
+                }
                 else if(msg.retorno == 'SUCESSO'){
                     document.getElementById('usu_lances').innerHTML = msg.saldo;         
                 }
