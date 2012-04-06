@@ -55,7 +55,7 @@
     </div>
         <!--Topo-->ss
 	<div id="topo">
-            <a class="logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>img/logo.png" width="300px" alt="" title="" /></a>
+            <a class="logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>img/logo.jpg" width="300px" alt="" title="" /></a>
 		<ul class="botoes">
 			<li><a href="<?php echo BASE_URL(); ?>compraController/comprarLances/">Comprar lances</a></li>
 			<li><a href="">Como funciona</a></li>
