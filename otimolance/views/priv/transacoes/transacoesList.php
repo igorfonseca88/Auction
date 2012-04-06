@@ -41,7 +41,6 @@ require_once "otimolance/models/Util.php";
         <table class="tabela">
             <thead>
             <td><input type="checkbox" name="selectAll" id="selectAll" onclick="selecionarTodos()"/> </td>
-                <td>Código</td>
                 <td>Status</td>
                 <td>Código do Pedido</td>
                 <td>Valor Bruto</td>
@@ -50,7 +49,6 @@ require_once "otimolance/models/Util.php";
             <? foreach($transactions as $key => $transactionSummary) { ?>
                 <tr class="linha">
                     <td><input type="checkbox" class="checkbox" value="<?=$transactionSummary->getReference()?>"/> </td>
-                    <td><?=$transactionSummary->getCode()?></td>
                     <td><?=Util::retornarStatusPTBRPorCodigo($transactionSummary->getStatus()->getValue())?></td>
                     <td><?=$transactionSummary->getReference()?></td>
                     <td><?=$transactionSummary->getGrossAmount()?></td>

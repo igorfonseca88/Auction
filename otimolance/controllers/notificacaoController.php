@@ -2,6 +2,7 @@
 
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
 require_once "otimolance/models/Util.php";
+require_once "otimolance/models/Categoria.php";
 
 class NotificacaoController extends CI_Controller {
 
@@ -26,14 +27,56 @@ class NotificacaoController extends CI_Controller {
     }
     
     function processar(){
+     $this->load->model("Pedido_model", "pedidoDAO");
+     $this->load->model('Conta_model', 'contaDAO');
+     $this->load->model("ItemPedido_model", "itemPedidoDAO");
+     $this->load->model("Produto_model", "produtoDAO");
+     $this->load->model("Categoria_model", "categoriaDAO");
+     
      $selecionados = $this->input->post("checkboxesChecked");
      
      $arrSelecionados = explode(",", $selecionados);
      
      if($selecionados != ""){
      foreach ($arrSelecionados as $row) {
+        $pedido = $this->pedidoDAO->buscarPorId($row);
+        $conta = $this->contaDAO->buscarContaPorId($pedido[0]->idConta);
+        $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($row);
         
-         
+        foreach ($itensPedido as $itemPedido) {
+            $produto = $this->produtoDAO->buscarPorId($itemPedido->idProduto);
+            $categoria = $this->categoriaDAO->buscarPorId($produto[0]->idCategoria);
+
+            //processa somente os pedidos NÃO PROCESSADOS
+            if($pedido[0]->status != Util::$STATUS_PROCESSADO){
+            
+                if($categoria[0]->nome == Categoria::$TIPO_LANCE){
+                     
+                //Quantidade de créditos a ser acrescentado ao usuario no caso de CATEGORIAS do TIPO LANCE para CADA PRODUTO
+                //Ex: Comprei Pacote de 25 Lances a quantidade é 25 (OBS: A quantidade pode ser alterada no cadastro de produto);
+                $quantidadeProduto = $produto[0]->quantidade;
+                //Quantidade selecionado no ato da compra
+                //Ex: Selecionei o produto Pacote de 25 Lances e escolhi comprar 2 unidades deste pacote. 
+                $quantidadeItemPedido = $itemPedido->quantidade;
+                //Crédito a ser inserido na conta do usuario.
+                //Ex: Comprei 2 unidades do produto Pacote de 25 lances com a quantidade = 25 cada, total a ser creditado = 50 .
+                $credito = $quantidadeProduto * $quantidadeItemPedido;
+                
+                //Atualiza o saldo da conta com os créditos comprados
+                $contaUpdate = array(
+                     "saldo" => $conta[0]->saldo + $credito
+                 );
+
+                $this->contaDAO->update($contaUpdate, $conta[0]->idConta);
+                }
+                //Atualiza o status do pedido para Processado
+                $pedidoUpdate = array(
+                     "status" => Util::$STATUS_PROCESSADO
+                 );
+
+                $this->pedidoDAO->atualizar($pedidoUpdate, $pedido[0]->idPedido);
+            }
+            }
         }
      }
      

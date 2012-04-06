@@ -1,6 +1,8 @@
 <?php
 
 class Categoria {
+
+    public static $TIPO_LANCE = "Lance";
     
     private $idCategoria;
     private $nome;
