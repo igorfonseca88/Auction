@@ -18,7 +18,7 @@ class ItemPedido_model extends CI_Model {
     }
     
     function buscarItemPedidoPorIdPedido($idPedido) {
-        $query = $this->db->query("SELECT ip.idProduto, ip.idItemPedido FROM tb_itempedido ip
+        $query = $this->db->query("SELECT ip.idProduto, ip.idItemPedido, ip.quantidade FROM tb_itempedido ip
                                    WHERE ip.idPedido = $idPedido ");
         return $query->result();
     }

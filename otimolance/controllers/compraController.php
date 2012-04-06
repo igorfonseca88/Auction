@@ -19,7 +19,6 @@ class CompraController extends CI_Controller {
         $this->load->model("Pedido_model", "pedidoDAO");
         $this->load->model("ItemPedido_model", "itemPedidoDAO");
         $idConta = $this->session->userdata('idConta');
-        echo 'idConta'.$idConta;
         
         $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
         print_r($pedido["pedido"]);
