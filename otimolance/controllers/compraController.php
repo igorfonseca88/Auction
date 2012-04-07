@@ -1,6 +1,7 @@
 <?php
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
 //require_once "otimolance/models/Pedido.php";
+require_once "otimolance/models/Categoria.php";
 
 class CompraController extends CI_Controller {
 
@@ -10,7 +11,7 @@ class CompraController extends CI_Controller {
     
     function comprarLances(){
         $this->load->model('Produto_model', 'produtoDAO');
-        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria("Lance");
+        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria(Categoria::$TIPO_LANCE);
         $this->load->view("compra/comprarLances",$data);
      }
      

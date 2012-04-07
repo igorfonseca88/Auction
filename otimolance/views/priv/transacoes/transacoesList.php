@@ -17,16 +17,31 @@ require_once "otimolance/models/Util.php";
         <form method="post" action="<?= base_url() ?>notificacaoController/processarEscolha">
             <input type="hidden" value="" id="optHidden" name="optHidden"/>
             <input type="hidden" value="" id="checkboxesChecked" name="checkboxesChecked"/>
+            <input id="dtAtual" type="hidden" value="07/04/2012">
+            
             <div class="item">
                 <div class="item">
-                    <label>Data Início</label><br />
+                    <label>Últimos lançamentos:</label><br/>
+                   <select id="interval" name="interval">
+                        <option value="3">Últimos 3 dias</option>
+                        <option value="7">Últimos 7 dias</option>
+                        <option value="30">Últimos 30 dias</option>
+                        <option value="60">Últimos 60 dias</option>
+                        <option value="120">Últimos 120 dias</option>
+                   </select>
+                </div>
+            </div>
+            <br/>
+            <div class="item">
+                <div class="item">
+                    <label>Início:</label><br />
                     <input type="text" name="dataInicio" id="dataInicio" value="" class="date"/>
                 </div>
             </div>
 
             <div class="item">
                 <div class="item">
-                    <label>Data Fim</label><br />
+                    <label>Término:</label><br />
                     <input type="text" name="dataFim" id="dataFim" value="" class="date"/>
                 </div>
             </div>

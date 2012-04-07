@@ -87,7 +87,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
             
              <ul>
                 <li class="titulo"><a><span>Notificações</span></a></li>
-                 <li><a href="<?php echo BASE_URL(); ?>notificacaoController/transacoes"><span>Transações Por Periodo</span></a></li>
+                 <li><a href="<?php echo BASE_URL(); ?>notificacaoController/transacoes"><span>Extrato de Transações</span></a></li>
             </ul>
         </div>
 

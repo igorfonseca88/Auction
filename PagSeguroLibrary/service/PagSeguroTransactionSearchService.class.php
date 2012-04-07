@@ -152,7 +152,7 @@ class PagSeguroTransactionSearchService {
 				$connectionData->getServiceTimeout(),
 				$connectionData->getCharset()
 			);
-			
+			 
 			$httpStatus = new PagSeguroHttpStatus($connection->getStatus());
 			
 			switch ($httpStatus->getType()) {
@@ -183,7 +183,7 @@ class PagSeguroTransactionSearchService {
 			throw $e;
 		} catch (Exception $e) {
 			LogPagSeguro::error("Exception: ".$e->getMessage());
-			throw $e;
+                        throw $e;
 		}
 		
     }

@@ -18,7 +18,9 @@ $PagSeguroConfig['application'] = Array();
 $PagSeguroConfig['application']['charset'] = "ISO-8859-1"; // UTF-8, ISO-8859-1
 
 $PagSeguroConfig['log'] = Array();
-$PagSeguroConfig['log']['active'] = FALSE;
-$PagSeguroConfig['log']['fileLocation'] = "";
+//INFORMA SE O LOG ESTA ATIVO = TRUE ou INATIVO = FALSE
+$PagSeguroConfig['log']['active'] = TRUE;
+//LOCAL ONDE SE ENCONTRA O ARQUIVO DE LOG
+$PagSeguroConfig['log']['fileLocation'] = "logs/log.txt";
 
 ?>

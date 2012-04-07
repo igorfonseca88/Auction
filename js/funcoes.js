@@ -154,7 +154,22 @@ function calcularSubTotal(idItemPedido){
            $(".checkbox").attr("checked", false);
        }
  }
-
+ 
+$(document).ready(function(){
+    $('#interval').change(function(){
+    //1 day = 86400000 milisseconds
+    var d = new Date();
+    $('#dataFim').val($('#dtAtual').val());
+    var hj = $('#dataFim').val();
+    var dtHj = new Date(hj.substring(6),(hj.substring(3,5)-1),hj.substring(0,2));
+    var dias = 85200000 * parseInt($('#interval').val());
+    var dd = dtHj.getTime() - dias;
+    d.setTime(dd);
+    var dia = (parseInt(d.getDate()) < 10) ? '0'+d.getDate() : d.getDate();
+    var mes = (parseInt(d.getMonth())+1 < 10) ? '0'+parseInt(d.getMonth()+1) : d.getMonth()+1;
+    $('#dataInicio').val(dia+'/'+mes+'/'+d.getFullYear());
+    });
+});
 
 function getEndereco() {
     // Se o campo CEP n�o estiver vazio

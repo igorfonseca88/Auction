@@ -3,12 +3,18 @@
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
 require_once "otimolance/models/Util.php";
 require_once "otimolance/models/Categoria.php";
+require_once "otimolance/exception/OtimoLanceException.php";
 
 class NotificacaoController extends CI_Controller {
 
     function __construct() {
         parent::__construct();
     }
+    
+    private $msgSucesso = "";
+    private $msgErro = "";
+    private $msgAlerta = "";
+    
     function transacoes(){
       $data["transactions"] = null;
       $this->load->view("priv/transacoes/transacoesList", $data);
@@ -124,10 +130,29 @@ class NotificacaoController extends CI_Controller {
         /* Definindo o número da página */  
         $pageNumber = 1;  
       
+        try {
         /* Realizando a consulta */  
         $result = PagSeguroTransactionSearchService::searchByDate(  
             $credentials, $pageNumber, $maxPageResults,
             $initialDate, $finalDate); 
+
+       } catch (PagSeguroServiceException $exp) {  
+      
+            foreach ($exp->getErrors(null) as $key => $error) {
+                $a = new OtimoLanceException();
+               $this->msgErro = $a->getMessage($error->getCode());
+            }
+            $notificacao["erro"] = $this->msgErro;
+            $this->load->vars($notificacao);
+            $this->load->view("priv/transacoes/transacoesList");
+            
+            return;
+       }  catch (Exception $e) {
+            LogPagSeguro::error("Exception: ".$e->getMessage());
+           echo $e;
+           return;
+       }
+
       
         /* Obtendo as transações do objeto PagSeguroTransactionSearchResult */  
         $transactions = $result->getTransactions(); 
