@@ -1,1 +1,3 @@
-Deny from all
+RewriteEngine on
+RewriteCond $1 !^(ckeditor)
+RewriteRule ^(.*)$ index.php/$1 [L]

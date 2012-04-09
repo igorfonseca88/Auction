@@ -50,7 +50,7 @@ $this->load->view('_padrao/topo');
         <ul>
             <li class="titulo"><a><span>Lances</span></a></li>
             <li><a href="<?php echo BASE_URL(); ?>contaController/historicoLances"><span>Histórico de Lances Utilizados</span></a></li>
-            <li><a href="<?php echo BASE_URL(); ?>contaController/extratoLances"><span>Extrato de Lances</span></a></li>
+            <!--<li><a href="<?//php echo BASE_URL(); ?>contaController/extratoLances"><span>Extrato de Lances</span></a></li>-->
         </ul>
         <ul>
             <li class="titulo"><a><span>Leilões</span></a></li>

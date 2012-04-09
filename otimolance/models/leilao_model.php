@@ -109,8 +109,10 @@ class Leilao_model extends CI_Model {
     
     function buscarDadosLeilaoParaLance($idLeilao) {
 
-        $query = $this->db->query("select ifnull(max(valorLeilao),0) as valor, categoriaLeilao
-               FROM tb_leilao l join tb_categoriaLeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+        $query = $this->db->query("select ifnull(max(valorLeilao),0) as valor, categoriaLeilao, numMinimoExpert
+               FROM tb_leilao l 
+               join tb_categoriaLeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+               join tb_parametrosistema pa 
                where idLeilao = $idLeilao ");
         
         $arrayValores = array();
@@ -118,6 +120,7 @@ class Leilao_model extends CI_Model {
             foreach ($query->result() as $row) {
                 $arrayValores["valor"] = $row->valor;
                 $arrayValores["categoriaLeilao"] = $row->categoriaLeilao;
+                $arrayValores["numMinimoExpert"] = $row->numMinimoExpert;
             }
         }
         return $arrayValores;
@@ -250,7 +253,7 @@ class Leilao_model extends CI_Model {
         return $query->result();
     }
     
-    function leilaoNuncaVenci($idConta){
+    function countArrematePorIdConta($idConta){
         $query = $this->db->query("select count(idContaArremate) as isArremate
                FROM tb_leilao 
                where idContaArremate = $idConta ");
@@ -262,7 +265,8 @@ class Leilao_model extends CI_Model {
         }
         return $isArremate;
     }
-
+    
 }
 
 ?>
+

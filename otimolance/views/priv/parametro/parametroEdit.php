@@ -25,6 +25,11 @@ $this->load->view('priv/_inc/superior');
                         <label>Núm. lances para novo cadastro</label><br />
                         <input type="text" name="numLancesNovoCadastro" id="numLancesNovoCadastro" value="<?= $parametro->numLancesNovoCadastro ?>" class="inputSmall"/>
                     </div>
+                    
+                    <div class="item">
+                        <label>Categoria de leilão Expert (Num. mínimo de leilões arrematados)</label><br />
+                        <input type="text" name="numMinimoExpert" id="numMinimoExpert" value="<?= $parametro->numMinimoExpert ?>" class="inputSmall"/>
+                    </div>
 
                     <div class="item">
                         <label>Máximo de IPs por cadastro</label><br />
@@ -58,22 +63,22 @@ $this->load->view('priv/_inc/superior');
                     
                     <div class="item">
                         <label>Padrão e-mail cadastro</label><br />
-                        <textarea class="textarea" id="padraoEmailConfirmarCadastro" name="padraoEmailConfirmarCadastro" rows="10" cols="60"><?= $parametro->padraoEmailConfirmarCadastro ?></textarea>
+                        <textarea class="ckeditor" id="padraoEmailConfirmarCadastro" name="padraoEmailConfirmarCadastro" rows="10" cols="60"><?= $parametro->padraoEmailConfirmarCadastro ?></textarea>
                     </div>
 
                      <div class="item">
                         <label>Padrão cadastro confirmado</label><br />
-                        <textarea class="textarea" id="padraoEmailCadastroConfirmado"name="padraoEmailCadastroConfirmado" rows="10" cols="60"><?= $parametro->padraoEmailCadastroConfirmado ?></textarea>
+                        <textarea class="ckeditor" id="padraoEmailCadastroConfirmado"name="padraoEmailCadastroConfirmado" rows="10" cols="60"><?= $parametro->padraoEmailCadastroConfirmado ?></textarea>
                     </div>
                     
                     <div class="item">
                         <label>Padrão recuperar senha</label><br />
-                        <textarea class="textarea" id="padraoEmailRecuperarSenha"name="padraoEmailRecuperarSenha" rows="10" cols="60"><?= $parametro->padraoEmailRecuperarSenha ?></textarea>
+                        <textarea class="ckeditor" id="padraoEmailRecuperarSenha"name="padraoEmailRecuperarSenha" rows="10" cols="60"><?= $parametro->padraoEmailRecuperarSenha ?></textarea>
                     </div>
                     
                     <div class="item">
                         <label>Padrão Troca de Senha</label><br />
-                        <textarea class="textarea" id="padraoEmailTrocaDeSenha"name="padraoEmailTrocaDeSenha" rows="10" cols="60"><?= $parametro->padraoEmailTrocaDeSenha ?></textarea>
+                        <textarea class="ckeditor" id="padraoEmailTrocaDeSenha"name="padraoEmailTrocaDeSenha" rows="10" cols="60"><?= $parametro->padraoEmailTrocaDeSenha ?></textarea>
                     </div>
                     
                 </div>

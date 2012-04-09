@@ -21,7 +21,9 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskMoney.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/jquery.maskedinput.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL(); ?>js/dhtmlxcommon.js"></script>
-
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>core/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="<?php echo BASE_URL(); ?>core/ckeditor/config.js"></script>
+        <script src="<?php echo BASE_URL(); ?>core/ckeditor/_samples/sample.js" type="text/javascript"></script>
 
         <script>
             $(function() {
@@ -83,10 +85,7 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
             <ul>
                 <li class="titulo"><a><span>Pedidos</span></a></li>
                 <li><a href="<?php echo BASE_URL(); ?>cpedidos/pesquisarAction"><span>Pedidos</span></a></li>
-            </ul>
             
-             <ul>
-                <li class="titulo"><a><span>Notificações</span></a></li>
                  <li><a href="<?php echo BASE_URL(); ?>notificacaoController/transacoes"><span>Extrato de Transações</span></a></li>
             </ul>
         </div>

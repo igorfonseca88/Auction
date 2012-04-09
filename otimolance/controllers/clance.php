@@ -28,14 +28,17 @@ class Clance extends CI_Controller {
         }
 
         $valor = 0.00;
-        //$valorLeilao = $this->getValorLeilao($this->input->post("leilao"));
         $arrayValores = $this->leilao->buscarDadosLeilaoParaLance($this->input->post("leilao"));
         
-        if ($arrayValores["categoriaLeilao"] == "Nunca venci" &&  $this->leilao->leilaoNuncaVenci($idConta) > 0) {
+        if ($arrayValores["categoriaLeilao"] == "Nunca venci" &&  $this->leilao->countArrematePorIdConta($idConta) > 0) {
             echo json_encode(array("retorno" => "LEILAO_INICIANTE"));
             exit;
         }
         
+        if ($arrayValores["categoriaLeilao"] == "Expert" &&  ($this->leilao->countArrematePorIdConta($idConta) < $arrayValores["numMinimoExpert"])) {
+            echo json_encode(array("retorno" => "LEILAO_EXPERT"));
+            exit;
+        }
         
         $valor = $this->getValorUltimoLance($this->input->post("leilao")) + $arrayValores["valor"];
 

@@ -20,55 +20,36 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
                 $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez>00:00:00</p>");
                 
             }else{
+                
+                if(parseInt(Tempo)>10 && parseInt(Tempo)<3600){
+                    
+                    day 		= Math.floor(Tempo / 86400);
+                    hours 		= Math.floor((Tempo - ( day * 86400 )) / 3600);
+                    minutes 	= Math.floor((Tempo - ( day * 86400 ) - ( hours * 3600 )) / 60);
+                    seconds 	= Math.round(Tempo - ( day * 86400 ) - ( hours * 3600 ) - ( minutes * 60 ));
+
+                    hours 		= ("00" + hours).substring(("00" + hours).length-2);
+                    minutes 	= ("00" + minutes).substring(("00" + minutes).length-2);
+                    seconds 	= ("00" + seconds).substring(("00" + seconds).length-2);
+
+                     $("#L_Tempo_" + CodigoLeilao).html("<p class='tempo'>" + hours + ":" + minutes + ":" + seconds  +"</p>");
+
+                }
 				
-                if(parseInt(Tempo)<10)
+                else if(parseInt(Tempo)<10)
                 {
 					
                     $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez' >00:00:0" + Tempo + "</p>")
 					
-                }else{
+                //}else{
 					
-                    $("#L_Tempo_" + CodigoLeilao).html("<p class='tempo'>00:00:" + Tempo + "</p>")
+                  //  $("#L_Tempo_" + CodigoLeilao).html("<p class='tempo'>00:00:" + Tempo + "</p>")
 					
                 }
 			
             }
 	
             break;
-		
-        case "U":
-		
-            day 		= Math.floor(Tempo / 86400);
-            hours 		= Math.floor((Tempo - ( day * 86400 )) / 3600);
-            minutes 	= Math.floor((Tempo - ( day * 86400 ) - ( hours * 3600 )) / 60);
-            seconds 	= Math.round(Tempo - ( day * 86400 ) - ( hours * 3600 ) - ( minutes * 60 ));
-			
-            hours 		= ("00" + hours).substring(("00" + hours).length-2);
-            minutes 	= ("00" + minutes).substring(("00" + minutes).length-2);
-            seconds 	= ("00" + seconds).substring(("00" + seconds).length-2);
-		
-            if(parseInt(Tempo)==0)
-            {
-				
-                $("#L_Tempo_" + CodigoLeilao).html("<span class='TempoVermelho'>" + day + "d:" + hours + "h:" + minutes + "m:" + seconds + "s</span>");
-				
-            }else{
-				
-                if(parseInt(Tempo)<10)
-                {
-					
-                    $("#L_Tempo_" + CodigoLeilao).html("<span class='TempoVermelho'>" + day + "d:" + hours + "h:" + minutes + "m:" + seconds + "s</span>");
-					
-                }else{
-					
-                    $("#L_Tempo_" + CodigoLeilao).html(day + "d:" + hours + "h:" + minutes + "m:" + seconds + "s");
-					
-                }
-			
-            }
-		
-            break;
-		
     }
 	
 }
@@ -693,39 +674,14 @@ function CarregaTimeLeilao(CodigoLeilao, Fixador, Diferenca)
 				
             }else{
 		
-                if(Diferenca<Fixador)
-                {
-					
                     RetroClock(CodigoLeilao, Diferenca, TipoLeilao);
                     $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(Diferenca)
-					
-                }else{
-					
-                    RetroClock(CodigoLeilao, Fixador, TipoLeilao);
-                    $("#LeilaoOnline_UltimoTempo_" + CodigoLeilao).html(Fixador)
-					
-                }
-                
-			
+              
             }
 		
             break;
 		
-        case "U":
-			
-            if( Diferenca <= 0 ) 
-            {
-				
-                LayerFechar(CodigoLeilao);
-                $("#L_Tempo_" + CodigoLeilao).html("<span class='TempoVermelho'>Finalizando...</span>");
-				
-            }else{
-				
-                RetroClock(CodigoLeilao, Diferenca, TipoLeilao);
-				
-            }
-			
-            break;	
+        	
 		
     }
 	
@@ -868,6 +824,9 @@ function lance(idLeilao, conta){
                 }
                 if(msg.retorno == 'LEILAO_INICIANTE'){
                     alert('Leilão destinado a quem nunca venceu!!');
+                }
+                if(msg.retorno == 'LEILAO_EXPERT'){
+                    alert('Leilão destinado pra quem já arrematou nossos leilões !!');
                 }
                 else if(msg.retorno == 'SUCESSO'){
                     document.getElementById('usu_lances').innerHTML = msg.saldo;         
