@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `tb_leilao` (
   `publicado` int(11) NOT NULL DEFAULT '0',
   `idContaArremate` int(11) DEFAULT NULL,
   `valorArremate` decimal(12,2) DEFAULT NULL,
+   valorMinimoLeilao decimal(12,2) DEFAULT NULL
   PRIMARY KEY (`idLeilao`),
   KEY `fk_leilao_categorialeilao` (`idCategoriaLeilao`),
   KEY `fk_leilao_conta` (`idConta`),

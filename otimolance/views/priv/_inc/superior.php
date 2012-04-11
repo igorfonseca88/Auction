@@ -33,6 +33,13 @@ if ($this->Conta_model->logged() == TRUE && $this->Conta_model->validaTipoUsuari
                     changeYear: true
                 });
                 
+                $(".maskMoney").maskMoney({
+                    showSymbol:true, 
+                    symbol:"", 
+                    decimal:",", 
+                    thousands:"."
+                });
+                
                 
                 $( "#dataInicio" ).datepicker({
                     dateFormat: 'dd/mm/yy', 

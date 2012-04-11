@@ -89,6 +89,12 @@ $this->load->view('priv/_inc/superior');
                 </div>
             </div>
             <div class="itemDireita">
+                
+                <div class="item">
+                        <label>Valor mínimo leilão</label><br />
+                        <input type="text" name="valorMinimoLeilao" id="valorMinimoLeilao" value="" class="inputSmall maskMoney"/>
+                    </div>
+                
                 <div class="item">
                     <label>Valor leilão</label><br />
                     <select name='valorLeilao' id='valorLeilao' class="selectSmall">

@@ -72,7 +72,7 @@ class Leilao_model extends CI_Model {
         $sql = "select l.idLeilao, dataCriacao, dataInicio, dataFim, 
             tempoCronometro, valorLeilao, idConta, l.idCategoriaLeilao, il.valorProduto, p.nome, 
             (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho,
-            (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances,
+            (select ifnull(count(idLance),0) from tb_lance where idLeilao = l.idLeilao) as qtdeLances, valorMinimoLeilao,
              (select ifnull(max(valor),0) 
                FROM tb_lance
                where idLeilao = l.idLeilao) as valorArremate,
@@ -109,7 +109,7 @@ class Leilao_model extends CI_Model {
     
     function buscarDadosLeilaoParaLance($idLeilao) {
 
-        $query = $this->db->query("select ifnull(max(valorLeilao),0) as valor, categoriaLeilao, numMinimoExpert
+        $query = $this->db->query("select ifnull(max(valorLeilao),0) as valor, categoriaLeilao, numMinimoExpert, dataInicio, valorMinimoLeilao
                FROM tb_leilao l 
                join tb_categoriaLeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                join tb_parametrosistema pa 
@@ -121,6 +121,8 @@ class Leilao_model extends CI_Model {
                 $arrayValores["valor"] = $row->valor;
                 $arrayValores["categoriaLeilao"] = $row->categoriaLeilao;
                 $arrayValores["numMinimoExpert"] = $row->numMinimoExpert;
+                $arrayValores["dataInicio"] = $row->dataInicio;
+                $arrayValores["valorMinimoLeilao"] = $row->valorMinimoLeilao;
             }
         }
         return $arrayValores;
@@ -178,7 +180,7 @@ class Leilao_model extends CI_Model {
         $query = $this->db->query("select l.idLeilao, dataCriacao, dataInicio, dataFim, 
                tempoCronometro, valorLeilao, idConta, idCategoriaLeilao, 
                il.valorProduto, il.valorFrete, l.valorArremate, il.idItemLeilao, il.idProduto, l.publicado, l.freteGratis,
-                (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho, p.nome 
+                (select caminho from tb_galeria where idProduto = il.idProduto and isPrincipal = 1) as caminho, p.nome, valorMinimoLeilao 
                FROM tb_leilao l 
                left join tb_itemleilao il on l.idLeilao = il.idLeilao 
                 left join tb_produto p on il.idProduto = p.idProduto 

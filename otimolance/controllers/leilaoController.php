@@ -27,7 +27,8 @@ class LeilaoController extends CI_Controller {
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idConta" => $this->session->userdata("idConta"),
             "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
-            "freteGratis" => $this->input->post("freteGratis")
+            "freteGratis" => $this->input->post("freteGratis"),
+            "valorMinimoLeilao" => $this->input->post("valorMinimoLeilao")    
         );
 
 
@@ -53,8 +54,6 @@ class LeilaoController extends CI_Controller {
 
 
         $dataInicio = $this->ajustaDataSql($this->input->post("dataInicio")) . " " . $this->input->post("horaInicio");
-        //$format = 'Y-m-d H:i:s';
-        //$dateInicio = DateTime::createFromFormat($format, $dataInicio);
 
         $dateInicio = date("Y-m-d H:i:s", strtotime($dataInicio));
         
@@ -63,7 +62,8 @@ class LeilaoController extends CI_Controller {
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
-            "freteGratis" => $this->input->post("freteGratis")
+            "freteGratis" => $this->input->post("freteGratis"),
+            "valorMinimoLeilao" => $this->input->post("valorMinimoLeilao") 
         );
 
         $result = $this->leilao->alterar($data, $idLeilao);

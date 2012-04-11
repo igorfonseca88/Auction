@@ -242,6 +242,32 @@ class Conta_model extends CI_Model {
                 WHERE h.idConta = $id ");
         return $query->result();
     }
+    
+    function buscarContaBoot(){
+       $query = $this->db->query("select idConta
+                                  FROM tb_conta c 
+                                  join tb_tipousuario u  on c.idTipoUsuario = u.idTipoUsuario
+                                  where u.tipoUsuario = 'boot' ");
+        $idConta = 0;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $idConta = $row->idConta;
+            }
+        }
+        return $idConta; 
+    }
+    
+    function isContaBoot($idConta){
+       $query = $this->db->query("select idConta
+                                  FROM tb_conta c 
+                                  join tb_tipousuario u  on c.idTipoUsuario = u.idTipoUsuario
+                                  where u.tipoUsuario = 'boot' and idConta = $idConta ");
+        $isBoot = FALSE;
+        if ($query->num_rows() > 0) {
+            $isBoot = TRUE;
+        }
+        return $isBoot; 
+    }
 }
 
 ?>
