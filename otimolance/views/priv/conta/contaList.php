@@ -9,7 +9,7 @@ $this->load->view('priv/_inc/superior');
 
     <div class="formulario">
         <h2>Listagem de Usuários do Sistema</h2>
-        <input type="button" class="button" type="button" name="btNovaConta" onclick="location.href='<?= base_url() ?>contaController/novaContaAction'" value="Nova Conta" />
+        <input type="button" class="button" type="button" name="btNovaConta" onclick="location.href='<?= base_url() ?>contaController/novaContaAction?idTipoUsuario=<? echo $_GET['idTipoUsuario'] ?>'" value="Nova Conta" />
 
         <table class="tabela">
             <thead>
@@ -19,7 +19,13 @@ $this->load->view('priv/_inc/superior');
                 <td><p align="center">Cpf</p></td>
                 <td>E-mail</td>
                 <td><p align="center">Login</p></td>
+                
+                <? $idTipoUsuario = $_GET['idTipoUsuario']; 
+                   if ($idTipoUsuario == 2){
+                ?>
                 <td><p align="center">Saldo</p></td>
+                <? } ?>
+                
                 <td><p align="center">Ações</p></td>
             </thead>
             
@@ -31,9 +37,15 @@ $this->load->view('priv/_inc/superior');
                     <td><p align="center"><?=$conta->cpf?></p></td>
                     <td><?=$conta->email?></td>
                     <td><?=$conta->login?></td>
+                    
+                    <? $idTipoUsuario = $_GET['idTipoUsuario']; 
+                        if ($idTipoUsuario == 2){
+                    ?>
                     <td><p align="right"><?=$conta->saldo?></p></td>
+                    <? } ?>
+                    
                     <td>
-                        <a href="<?= base_url() ?>contaController/editarContaAction/<?= $conta->idConta ?>">Editar</a>
+                        <a href="<?= base_url() ?>contaController/editarContaAction/<?= $conta->idConta ?>/<?= $conta->idTipoUsuario ?>">Editar</a>
                         <a href="<?= base_url() ?>contaController/excluirContaAction/<?= $conta->idConta ?>">Excluir</a>
                     </td>
                 </tr>

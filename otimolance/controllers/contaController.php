@@ -778,9 +778,12 @@ class ContaController extends CI_Controller {
         $cpf = $this->input->post("txtCpf");
         $login = $this->input->post("txtLogin");
         $email = $this->input->post("txtEmail");
-        $saldo = $this->input->post("txtSaldo");
         $idTipoUsuario = $this->input->post("idTipoUsuario");
-
+        
+        if ($idTipoUsuario == 2){
+          $saldo = $this->input->post("txtSaldo");  
+        }
+        
         $mensagem = array();
         $msg = "";
         $erro = false;
@@ -816,16 +819,28 @@ class ContaController extends CI_Controller {
         }
 
         if ($erro == false) {
-            $data = array(
-                "nome" => $nome,
-                "sobrenome" => $sobrenome,
-                "cpf" => $cpf,
-                "login" => $login,
-                "email" => $email,
-                "saldo" => $saldo,
-                "idTipoUsuario" => $idTipoUsuario
-            );
-        
+            if ($idTipoUsuario == 2){
+                $data = array(
+                    "nome" => $nome,
+                    "sobrenome" => $sobrenome,
+                    "cpf" => $cpf,
+                    "login" => $login,
+                    "email" => $email,
+                    "idTipoUsuario" => $idTipoUsuario,
+                    "saldo" => $saldo
+                );
+            }
+            else{
+                $data = array(
+                    "nome" => $nome,
+                    "sobrenome" => $sobrenome,
+                    "cpf" => $cpf,
+                    "login" => $login,
+                    "email" => $email,
+                    "idTipoUsuario" => $idTipoUsuario
+                );
+            }
+
             $this->contaDAO->update($data, $id);
             $this->msgPadrao = "Conta salva com sucesso.";
             $this->editarContaAction($id);
