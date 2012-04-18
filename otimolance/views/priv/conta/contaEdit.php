@@ -18,6 +18,23 @@ $this->load->view('priv/_inc/superior');
             <? foreach ($conta as $row) { ?>
                 <input type="hidden" name="idContah" id="idContah" value="<?= $row->idConta?>"/>
                 <div class="item">
+                    <label>Tipo de Conta</label><br />
+                    <select name='idTipoUsuario' id='idTipoUsuario' class="select">
+                        <option value=""> Selecione </option>
+                        <?
+                        if (count($tiposUsuario)) {
+                            foreach ($tiposUsuario as $key) {
+                                if ($row->idTipoUsuario == $key->idTipoUsuario)
+                                    echo "<option selected value='" . $key->idTipoUsuario . "'>" . $key->tipoUsuario . "</option>";
+                                else
+                                    echo "<option value='" . $key->idTipoUsuario . "'>" . $key->tipoUsuario . "</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                
+                <div class="item">
                     <label>Nome</label><br />
                     <input type="text" name="txtNome" id="txtNome" value="<?= $row->nome ?>" class="input"/>
                 </div>
@@ -42,27 +59,12 @@ $this->load->view('priv/_inc/superior');
                     <input type="text" name="txtEmail" id="txtEmail" value="<?= $row->email ?>" class="input"/>
                 </div>
 
+                <? if ($row->idTipoUsuario == 2){ ?>
                 <div class="item">
                     <label>Saldo</label><br />
                     <input type="text" name="txtSaldo" id="txtSaldo" value="<?= $row->saldo ?>" class="inputSmall"/>
                 </div>
-
-                <div class="item">
-                    <label>Tipo de Conta</label><br />
-                    <select name='idTipoUsuario' id='idTipoUsuario' class="select">
-                        <option value=""> Selecione </option>
-                        <?
-                        if (count($tiposUsuario)) {
-                            foreach ($tiposUsuario as $key) {
-                                if ($row->idTipoUsuario == $key->idTipoUsuario)
-                                    echo "<option selected value='" . $key->idTipoUsuario . "'>" . $key->tipoUsuario . "</option>";
-                                else
-                                    echo "<option value='" . $key->idTipoUsuario . "'>" . $key->tipoUsuario . "</option>";
-                            }
-                        }
-                        ?>
-                    </select>
-                </div>
+                <? } ?>
 
                 <div class="acao">
                     <input type="reset" value="Cancelar" class="button"/>
