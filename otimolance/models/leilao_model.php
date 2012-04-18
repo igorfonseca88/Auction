@@ -111,7 +111,7 @@ class Leilao_model extends CI_Model {
 
         $query = $this->db->query("select ifnull(max(valorLeilao),0) as valor, categoriaLeilao, numMinimoExpert, dataInicio, valorMinimoLeilao
                FROM tb_leilao l 
-               join tb_categoriaLeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
+               join tb_categorialeilao cl on l.idCategoriaLeilao = cl.idCategoriaLeilao
                join tb_parametrosistema pa 
                where idLeilao = $idLeilao ");
         

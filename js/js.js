@@ -21,7 +21,17 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
                 
             }else{
                 
-                if(parseInt(Tempo)>10 && parseInt(Tempo)<3600){
+                if(parseInt(Tempo)<10)
+                {
+					
+                    $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez' >00:00:0" + Tempo + "</p>")
+					
+              		
+                }else if(parseInt(Tempo)<40){
+                    $("#L_Tempo_" + CodigoLeilao).html("<p class='tempo' >00:00:" + Tempo + "</p>")
+                }
+                else 
+                if(parseInt(Tempo)<3600){
                     
                     day 		= Math.floor(Tempo / 86400);
                     hours 		= Math.floor((Tempo - ( day * 86400 )) / 3600);
@@ -36,17 +46,6 @@ function RetroClock(CodigoLeilao, Tempo, Tipo)
 
                 }
 				
-                else if(parseInt(Tempo)<10)
-                {
-					
-                    $("#L_Tempo_" + CodigoLeilao).html("<p class='tempoMenorDez' >00:00:0" + Tempo + "</p>")
-					
-                //}else{
-					
-                  //  $("#L_Tempo_" + CodigoLeilao).html("<p class='tempo'>00:00:" + Tempo + "</p>")
-					
-                }
-			
             }
 	
             break;
@@ -383,6 +382,7 @@ var TotalLeiloesOnline 		= 0;
 
 var GmtSegundo 				= 0;
 var FalhaTempo				= 0;
+var GMT_DEFAULT = 4;
 
 function CalculaGMT()
 {
@@ -390,7 +390,7 @@ function CalculaGMT()
     DataTmp 		= new Date();
     GtmCliente 		= DataTmp.getTimezoneOffset()/60;
 	
-    GmtServidor 	= 4; //GMT -3 Horas
+    GmtServidor 	= GMT_DEFAULT; //GMT -3 Horas
     GmtDiferenca	= GmtServidor - GtmCliente;
 	
     GmtSegundo		= GmtDiferenca * 60 * 60;
@@ -485,7 +485,7 @@ function timeAtual()
     DataTmp 		= new Date();
     GtmCliente 		= DataTmp.getTimezoneOffset()/60;
 
-    GmtServidor 	= 4; //GMT -3 Horas
+    GmtServidor 	= GMT_DEFAULT; //GMT -3 Horas
     GmtDiferenca	= GmtServidor - GtmCliente;
 
     GmtSegundo		= GmtDiferenca * 60 * 60;
@@ -733,7 +733,7 @@ function MicroTimeServidor()
             DataTmp 		= new Date();
             GtmCliente 		= DataTmp.getTimezoneOffset()/60;
 			
-            GmtServidor 	= 4; //GMT -3 Horas
+            GmtServidor 	= GMT_DEFAULT; //GMT -3 Horas
             GmtDiferenca	= GmtServidor - GtmCliente;
 			
             GmtSegundo		= GmtDiferenca * 60 * 60;
