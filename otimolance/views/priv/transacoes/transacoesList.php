@@ -1,6 +1,6 @@
 <?
 $this->load->view('priv/_inc/superior');
-require_once "otimolance/models/Util.php";
+//require_once "otimolance/models/Util.php";
 ?>
 <div id="conteudo">
 

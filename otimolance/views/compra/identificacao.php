@@ -23,6 +23,7 @@ $this->load->view('conta/conta');
              </div>
              
                 <input type="hidden" name="idContah" id="idContah" value="<?= $row->idConta?>"/>
+                <input type="hidden" name="idPedidoh" id="idContah" value="<?= $idPedido?>"/>
                 <div class="item">
                     <label><font color="#FF0000">*</font> Sexo</label><br />
                     <select name='txtSexo' id='txtSexo' class="selectSmall">

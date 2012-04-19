@@ -1,8 +1,5 @@
 <?php
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
-//require_once "otimolance/models/Pedido.php";
-require_once "otimolance/models/Categoria.php";
-require_once "otimolance/models/Util.php";
 
 class CompraController extends CI_Controller {
 
@@ -15,7 +12,7 @@ class CompraController extends CI_Controller {
     
     function comprarLances(){
         $this->load->model('Produto_model', 'produtoDAO');
-        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria(Categoria::$TIPO_LANCE);
+        $data["produtos"] = $this->produtoDAO->buscarProdutosGaleriaPorNomeCategoria(Util::$CATEGORIA_TIPO_LANCE);
         $this->load->view("compra/comprarLances",$data);
      }
      
@@ -71,7 +68,11 @@ class CompraController extends CI_Controller {
        
        $pedido["pedido"] = $this->pedidoDAO->buscarPedidoPorIdContaEStatusPedido($idConta, Pedido_model::STATUS_EM_ANDAMENTO);
        $idPedido = $pedido["pedido"][0]->idPedido;
-       $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($idPedido);
+       if($idPedidoArrematado!= NULL){
+        $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($idPedidoArrematado);   
+       }
+       else
+        $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($idPedido);
 
        if($idPedidoArrematado == NULL){
            foreach ($itensPedido as $row) {
