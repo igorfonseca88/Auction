@@ -10,6 +10,8 @@ class Util {
     public static $STATUS_DEVOLVIDA = "Devolvida";
     public static $STATUS_CANCELADA = "Cancelada";
     public static $STATUS_PROCESSADO = "Processado";
+    
+    public static $CATEGORIA_TIPO_LANCE = "Lance";
 
     public static function ajustaDataSql($data) {
         if ($data) {
