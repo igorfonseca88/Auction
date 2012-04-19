@@ -28,7 +28,7 @@ class LeilaoController extends CI_Controller {
             "idConta" => $this->session->userdata("idConta"),
             "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
             "freteGratis" => $this->input->post("freteGratis"),
-            "valorMinimoLeilao" => $this->input->post("valorMinimoLeilao")    
+            "valorMinimoLeilao" => str_replace(",", ".", str_replace(".", "", $this->input->post("valorMinimoLeilao")))
         );
 
 
@@ -56,14 +56,14 @@ class LeilaoController extends CI_Controller {
         $dataInicio = $this->ajustaDataSql($this->input->post("dataInicio")) . " " . $this->input->post("horaInicio");
 
         $dateInicio = date("Y-m-d H:i:s", strtotime($dataInicio));
-        
+      
         $data = array(
             "dataInicio" => $dateInicio,
             "tempoCronometro" => $this->input->post("tempoCronometro"),
             "valorLeilao" => $this->input->post("valorLeilao"),
             "idCategoriaLeilao" => $this->input->post("idCategoriaLeilao"),
             "freteGratis" => $this->input->post("freteGratis"),
-            "valorMinimoLeilao" => $this->input->post("valorMinimoLeilao") 
+            "valorMinimoLeilao" => str_replace(",", ".", str_replace(".", "", $this->input->post("valorMinimoLeilao")))
         );
 
         $result = $this->leilao->alterar($data, $idLeilao);

@@ -1,9 +1,9 @@
 <?php
 
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
-require_once "otimolance/models/Util.php";
-require_once "otimolance/models/Categoria.php";
-require_once "otimolance/exception/OtimoLanceException.php";
+//require_once "otimolance/models/Util.php";
+//require_once "otimolance/models/Categoria.php";
+require_once "exception/otimoLanceException.php";
 
 class NotificacaoController extends CI_Controller {
 
