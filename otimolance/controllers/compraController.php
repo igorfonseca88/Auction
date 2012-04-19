@@ -2,9 +2,13 @@
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
 //require_once "otimolance/models/Pedido.php";
 require_once "otimolance/models/Categoria.php";
+require_once "otimolance/models/Util.php";
 
 class CompraController extends CI_Controller {
 
+    
+    private $msgPadrao = "";
+    
     function __construct() {
         parent::__construct();
     }
@@ -86,16 +90,112 @@ class CompraController extends CI_Controller {
      }
      
      function pagamento(){
+        $this->atualizarDadosCadastrais();
         $idPedido = $this->input->post("idPedidoh"); 
         $data["idPedido"] = $idPedido;
         $this->load->view("compra/pagamento",$data);
      }
      
-     function atualizarDadosCadastrais(){
-     
+     function atualizarDadosCadastrais() {
+
+        $this->load->model("Conta_model", "contaDAO");
+        $id = $this->input->post("idContah");
+
+        $sexo = $this->input->post("txtSexo");
+        $dtNascimento = $this->input->post("txtDataNascimento");
+        $cep = $this->input->post("txtCep");
+        $logradouro = $this->input->post("txtLogradouro");
+        $numero = $this->input->post("txtNumero");
+        $complemento = $this->input->post("txtComplemento");
+        $bairro = $this->input->post("txtBairro");
+        $estado = $this->input->post("txtEstado");
+        $cidade = $this->input->post("txtCidade");
+        $telefone = $this->input->post("txtTelefone");
+        $celular = $this->input->post("txtCelular");
+        $email = $this->input->post("txtEmail");
+
+        $msg = "";
+
+        // Validações de campos nulos
+        if ($sexo == "Selecione") {
+            $msg .= "O campo Sexo é obrigatório. Favor selecioná-lo corretamente." . "<br/>";
+        }
+
+        if ($dtNascimento == "") {
+            $msg .= "O campo Data de Nascimento é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if ($cep == "") {
+            $msg .= "O campo Cep é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if ($logradouro == "") {
+            $msg .= "O campo Logradouro é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if ($numero == "") {
+            $msg .= "O campo Número é obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if ($bairro == "") {
+            $msg .= "O campo Bairro obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if ($estado == "Selecione") {
+            $msg .= "O campo Estado obrigatório. Favor selecioná-lo corretamente." . "<br/>";
+        }
+
+        if ($cidade == "") {
+            $msg .= "O campo Cidade obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if ($telefone == "") {
+            $msg .= "O campo Telefone obrigatório. Favor preenche-lo corretamente." . "<br/>";
+        }
+
+        if (Util::validaEmail($email) == false) {
+            $msg .= "E-mail inválido." . "<br/>";
+        }
+
+        // Verificar de email já foi cadastrado
+        $listaEmail["$listaEmail"] = $this->contaDAO->buscarEmailCadastradoEdit($email, $id);
+
+        foreach ($listaEmail as $row) {
+            $emailExistente = $row[0]->email;
+        }
+
+        if (!is_null($emailExistente)) {
+            $msg .= "E-mail já cadastrado." . "<br/>";
+        }
+        echo $sexo;
+
+        if (strlen($msg) <= 0) {
+            $data = array(
+                "sexo" => $sexo,
+                "dtNascimento" => Util::ajustaDataSql($dtNascimento),
+                "cep" => $cep,
+                "logradouro" => $logradouro,
+                "numero" => $numero,
+                "complemento" => $complemento,
+                "bairro" => $bairro,
+                "estado" => $estado,
+                "cidade" => $cidade,
+                "telefone" => $telefone,
+                "celular" => $celular,
+                "email" => $email
+            );
+
+            $this->contaDAO->update($data, $id);
+        } else {
+            $this->msgPadrao = $msg;
+            echo $msg;
+            $conta["conta"] = $this->contaDAO->buscarContaPorId($id);
+            $conta["erro"] = $this->msgPadrao;
+            $this->load->vars($conta);
+            $this->load->view("compra/identificacao", $conta);
+        }
+    }
          
-         
-     }
      
      function excluirProdutoAction($idItemPedido){
        $this->load->model("Pedido_model", "pedidoDAO");
