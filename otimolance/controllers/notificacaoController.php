@@ -56,7 +56,7 @@ class NotificacaoController extends CI_Controller {
             //processa somente os pedidos NÃO PROCESSADOS
             if($pedido[0]->status != Util::$STATUS_PROCESSADO){
             
-                if($categoria[0]->nome == Categoria::$TIPO_LANCE){
+                if($categoria[0]->nome == Util::$CATEGORIA_TIPO_LANCE){
                      
                 //Quantidade de créditos a ser acrescentado ao usuario no caso de CATEGORIAS do TIPO LANCE para CADA PRODUTO
                 //Ex: Comprei Pacote de 25 Lances a quantidade é 25 (OBS: A quantidade pode ser alterada no cadastro de produto);
@@ -89,8 +89,8 @@ class NotificacaoController extends CI_Controller {
     }
     
     function pesquisarAction(){
-        $dataInicio = Util::ajustaDataSql($this->input->post("dataInicio"))."T00:00:00Z";
-        $dataFim = Util::ajustaDataSql($this->input->post("dataFim"))."T00:00:00Z";
+        $dataInicio = Util::ajustaDataSql($this->input->post("dataInicio"))."T00:00:01Z";
+        $dataFim = Util::ajustaDataSql($this->input->post("dataFim"))."T23:59:59Z";
         
         $this->transacoesPorIntervaloDatas($dataInicio, $dataFim);
     }
