@@ -12,6 +12,8 @@ class Util {
     
     public static $STATUS_PROCESSADO = "Processado";
     
+    public static $TIPO_LANCE = "Lance";
+    
     public static function ajustaDataSql($data) {
         if ($data) {
             $dataDividida = explode("/", $data);

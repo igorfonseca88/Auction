@@ -2,8 +2,11 @@
 
 class Clance extends CI_Controller {
 
+    public $cache;
+    
     function __construct() {
         parent::__construct();
+        $this->cache = true;
     }
 
     function darLance($idLeilaoBoot="", $idContaBoot="") {
@@ -71,8 +74,9 @@ class Clance extends CI_Controller {
 
 
         $saldoConta = $this->retLances($idConta);
-
+        
         echo json_encode(array("retorno" => "SUCESSO", "saldo" => $saldoConta));
+        
         
         // REGRA para dar lance através de um boot
         // Deverá existir um usuário do tipo Boot cadastrado o sistema
@@ -87,7 +91,7 @@ class Clance extends CI_Controller {
             $dataBoot = date('Y-m-d H:i:s');
             if($idConta != $idContaBoot && $arrayValores["dataInicio"] <= $dataBoot && $valor < $arrayValores["valorMinimoLeilao"]){
                 $idLeilaoBoot = $this->input->post("leilao");
-                sleep(2);
+                sleep(4);
                 $this->darLance($idLeilaoBoot, $idContaBoot);
             }
         }
@@ -128,12 +132,22 @@ class Clance extends CI_Controller {
     }
 
     function getDadosLeilao() {
+        
+       // if($this->cache == false){
+         //   unset($_GLOBALS["leiloes"]);
+       // }
+        //$leiloesS = $_SESSION["leiloes"];
+        //$atualizado = $_SESSION["atualizado"];
+        //if(count($leiloesS)> 0){
+          //  echo json_encode($leiloesS);
+           // exit;
+        //}
+        
         $this->load->model("leilao_model", "leilao");
         $leiloes = $this->input->post("Leiloes");
 
         $leiloes = substr($leiloes, 1, strlen($leiloes));
 
-        $leiloes = str_replace("_", ",", $leiloes);
         $dados = $this->leilao->buscarDadosLeilao($leiloes);
 
         $ret = array();
@@ -161,14 +175,24 @@ class Clance extends CI_Controller {
             $time2 = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
             $status = '2';
             
-            if(($time - $time2) <= 10){
-                
-            }
-            
+          
             if (($time - $time2) <= 0 && $value->vencedor == "" ) {
                 $status = 'F';
                 // chama o arremate
                 $this->arrematar($value->idLeilao, $value->valor, $value->idContaArremate, $value->idProduto);
+                
+                $ret[$i] = array(
+                    "idLeilao" => $value->idLeilao,
+                    "login" => $value->login,
+                    "valor" => $value->valor,
+                    "MicroTimeFim" => $time,
+                    "tempoCronometro" => $value->tempoCronometro,
+                    "status" => $status,
+                    "listaLances" => $this->getListaLances($value->idLeilao),
+                    "dataInicio" => date("d/m/Y H:i:s", strtotime($dataCalcular))
+               );
+                break;
+                
             }
 
             $ret[$i] = array(
@@ -179,15 +203,16 @@ class Clance extends CI_Controller {
                 "tempoCronometro" => $value->tempoCronometro,
                 "status" => $status,
                 "listaLances" => $this->getListaLances($value->idLeilao),
-                "dataInicio" => date("d/m/Y H:i:s", strtotime($dataCalcular))
+                "dataInicio" => date("d/m/Y H:i:s", strtotime($dataCalcular)),
+                "atualizado" => 1
             );
+            
             $i++;
         }
 
-
         echo json_encode($ret);
     }
-
+    
     private function arrematar($idLeilao, $valor, $idContaArremate, $idProduto) {
         
         $this->load->model("leilao_model", "leilao");

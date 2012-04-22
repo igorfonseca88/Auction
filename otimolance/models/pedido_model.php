@@ -66,7 +66,7 @@ class Pedido_model extends CI_Model {
     }
     
     function buscarPedidoPorId($id) {
-        $query = $this->db->query("SELECT pe.idPedido, pe.status,  c.nome as cliente, pe.dataCriacao
+        $query = $this->db->query("SELECT pe.idPedido, pe.status,  c.nome as cliente, pe.dataCriacao, pe.idLeilao
                                     FROM tb_pedido pe
                                     LEFT JOIN tb_leilao lei ON pe.idLeilao = lei.idLeilao
                                     LEFT JOIN tb_itemleilao ilei ON ilei.idLeilao = lei.idLeilao
