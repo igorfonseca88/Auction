@@ -414,7 +414,7 @@ function ProcuraFalhaTempo()
             var req = null
             delete req
 			
-            window.setTimeout("ProcuraFalhaTempo()", 10000);
+            window.setTimeout("ProcuraFalhaTempo()", 60000);
 
         }, "json");
     
@@ -477,9 +477,24 @@ function MontaHistoricoLeilao(CodigoLeilao, ListaHistorico)
 		
 }
 //var MicroTime = 0;
+var variavelTime = 0;
 function timeAtual()
 {
-    var retorno = dhtmlxAjax.postSync("/otimolance/clance/retHorarioAtual/");
+    
+    var horario= "";
+    var req =  $.post("/otimolance/clance/retHorario", {},
+     function(msg){
+               
+			
+            variavelTime=  msg.time;
+			
+	
+        },"json");
+	
+    return horario;
+    
+    
+    /*var retorno = dhtmlxAjax.postSync("/otimolance/clance/retHorarioAtual/");
     retorno = retorno.xmlDoc.responseText;
     
     DataTmp 		= new Date();
@@ -490,13 +505,13 @@ function timeAtual()
 
     GmtSegundo		= GmtDiferenca * 60 * 60;
 
-    retorno 		= retorno - GmtSegundo;
+    //retorno 		= retorno - GmtSegundo;
     
     MicroTime 		= retorno
 
-    RelogioTopo();
+    //RelogioTopo();
             
-    return retorno;	
+    return retorno;	*/
 }
 
 
@@ -556,7 +571,7 @@ function RequisitacaoLeiloes()
                             MontaHistoricoLeilao(Cod, Ret.listaLances);
                         }
 					
-                        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 500);
+                        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 1500);
 
                     }
                     }
@@ -568,7 +583,7 @@ function RequisitacaoLeiloes()
 
     }catch(err){
 
-        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 500);
+        Requisitacoes_Leiloes = window.setTimeout("RequisitacaoLeiloes()", 2000);
 
     }	
 	
@@ -596,9 +611,9 @@ function ContDowLeiloes()
             VarBoxSepara 	= VarBox.split("__");
             Status			= Trim(VarBoxSepara[2]);
             
-			
+			timeAtual();
             //MkTime Atual
-            TimeAtual		= mktime();//timeAtual();
+            TimeAtual		= variavelTime;//timeAtual();//mktime();//timeAtual();
             //alert(new Date());
 
             //MkTime do Produto
@@ -609,7 +624,7 @@ function ContDowLeiloes()
             
 			
             //Calcula os segundos restantes para acabar o leil�o
-            Diferenca		= TimeProduto - TimeAtual - FalhaTempo  - 1;
+            Diferenca		= TimeProduto - TimeAtual   - 1;
 		//alert(Diferenca);	
                 
             if(Status=="2")
@@ -621,15 +636,19 @@ function ContDowLeiloes()
                 CarregaTimeLeilao(CodigoLeilao, Fixador, Fixador);
 			
             }else if(Status=="F" && Diferenca < 1){
-				
-                DisparaFinalizadoLeilao(CodigoLeilao);
+                //DisparaFinalizadoLeilao(CodigoLeilao);
+                TipoLeilao	= $("#TipoLeilao_" + CodigoLeilao).val();
+                RetroClock(CodigoLeilao, 0, TipoLeilao);
+
+                $("#L_Tempo_" + CodigoLeilao).html("00:00:00");    
+                $("#boxBtn_"+CodigoLeilao).html("<p class='arrematado'>Arrematado</p>");
 				
             }
         //###############################
 			
         }
 		
-        Requisitacoes_ContDow = window.setTimeout("ContDowLeiloes()", 500);
+        Requisitacoes_ContDow = window.setTimeout("ContDowLeiloes()", 600);
 	
     }
 	
@@ -773,10 +792,10 @@ $(document).ready(function() {
    
     //Seguran�a
     CalculaGMT(); //Diferen�a de tempo do GMT
-    ProcuraFalhaTempo(); //Lag da conex�o
+    //ProcuraFalhaTempo(); //Lag da conex�o
 	
     //Obtem MicroTime do Servidor
-    MicroTimeServidor();
+    //MicroTimeServidor();
     //timeAtual();
  
     //Obtem leil�es da janela

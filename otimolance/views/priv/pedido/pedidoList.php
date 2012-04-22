@@ -21,6 +21,8 @@ $this->load->view('priv/_inc/superior');
                     <option value=""> Selecione </option>
                     <option value="Aguardando Pagamento" <?= $_POST["situacao"] == "Aguardando Pagamento" ? "selected" : "" ?>> Aguardando Pagamento</option>
                     <option value="Em Andamento" <?= $_POST["situacao"] == "Em Andamento" ? "selected" : "" ?>> Em Andamento</option>
+                    <option value="Paga" <?= $_POST["situacao"] == "Paga" ? "selected" : "" ?>> Pagamento confirmado</option>
+                    
                 </select>
             </div>
 

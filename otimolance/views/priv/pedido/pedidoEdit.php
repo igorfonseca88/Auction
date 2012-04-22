@@ -32,6 +32,16 @@ $this->load->view('priv/_inc/superior');
                         <input type="text" name="dataPedido" id="dataPedido" value="<?= date('d/m/Y', strtotime($row->dataCriacao)) ?>" class="inputSmall"/>
                     </div>
 
+                    <div class="item">
+                        <label>Leilão (Para produtos arrematados)</label><br />
+                        <input type="text" name="idLeilao" id="idLeilao" value="<?= $row->idLeilao ?>" class="inputSmall"/>
+                    </div>
+
+                    <div class="item">
+                        <label>Cliente </label><br />
+                        <input type="text" name="cliente" id="cliete" value="<?= $row->cliente ?>" class="inputSmall"/>
+                    </div>
+
                 </div>
 
                 <div class="itemDireita">
@@ -40,44 +50,42 @@ $this->load->view('priv/_inc/superior');
                         <option value=""> Selecione </option>
                         <option value="Em Andamento" <?= ($row->status == "Em Andamento") ? "selected" : "" ?>> Em Andamento</option>
                         <option value="Aguardando Pagamento" <?= ($row->status == "Aguardando Pagamento") ? "selected" : "" ?>> Aguardando Pagamento</option>
-                        <option value="Finalizado" <?= ($row->status == "Finalizado") ? "selected" : "" ?>> Finalizado</option>
+                        <option value="Paga" <?= ($row->status == "Paga") ? "selected" : "" ?>> Pagamento confirmado</option>
                         <option value="Entregue" <?= ($row->status == "Entregue") ? "selected" : "" ?>> Entregue</option>
                     </select>
                 </div>
 
-        </div>
-    </form>
-    <br/>
-    
 
+            </form>
+            <br/>
 
-    <form method="post" action="">
+            <h2>Itens do pedido</h2><br/><br/>
 
-       
+            <form method="post" action="">
 
+                <table class="tabela">
+                    <thead>
+                    <td>Código</td>
+                    <td>Produto</td>
+                    <td>Valor</td>
+                    <td>Frete</td>
+                    </thead>
 
-        <table class="tabela">
-            <thead>
-            <td>Código</td>
-            <td>Produto</td>
-            <td>Valor</td>
-            <td>Frete</td>
-            </thead>
+                    <? foreach ($itensPedido as $item) { ?>
+                        <tr class="linha">
+                            <td><?= $item->idPedido ?></td>
+                            <td><?= $item->nome ?></td>
+                            <td>R$ <?= number_format($item->valor, 2, ",", ".") ?></td>
+                            <td><?= $item->frete ?></td>
 
-            <? foreach ($itensPedido as $item) { ?>
-                <tr class="linha">
-                    <td><?= $item->idPedido ?></td>
-                    <td><?= $item->nome ?></td>
-                    <td><?= $item->valor ?></td>
-                    <td><?= $item->frete ?></td>
-                    
-                </tr>
-            <? } ?>
-        </table>
-        <br/>
-    </form>
+                        </tr>
+                    <? } ?>
+                </table>
+                <br/>
+            </form>
 
-<? } ?>
+        <? } ?>
+    </div>
 </div>
 </div>
 <?
