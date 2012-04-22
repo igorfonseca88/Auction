@@ -132,33 +132,27 @@
 {2012/04/08 20:55:18} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-08T21:55:18.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
 {2012/04/08 20:57:55} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
 {2012/04/08 20:57:55} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-08T21:57:55.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
-{2012/04/17 21:50:19} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=149,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 21:50:20} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=149,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}9F2E0565232359E334779FA9B01684BA 
-{2012/04/17 22:14:54} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:14:55} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}21D8AC089E9E01DEE4027FABB2903C15 
-{2012/04/17 22:14:56} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:14:57} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}27760968EBEB59E7749B8F90AD197707 
-{2012/04/17 22:14:57} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:14:58} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:14:58} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}2D2EDA54A6A6824554E76F997B98885E 
-{2012/04/17 22:14:58} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}2E6074C3D7D7C8F884501FB0E864C29A 
-{2012/04/17 22:14:59} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:14:59} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:14:59} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}31554234E4E47F6884FC3FAD7356095D 
-{2012/04/17 22:14:59} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}32BBF601DADAB5B444233F907491071A 
-{2012/04/17 22:15:00} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:15:00} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}368C007B8B8B2C2994192FAB53746C17 
-{2012/04/17 22:15:45} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - begin 
-{2012/04/17 22:15:46} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest(Reference=153,     SenderEmail=fernanda.pieretti@gmail.com)) - end {1}E839434EEDED097FF42F6FAFAFFFC935 
-{2012/04/17 22:31:38} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=T00:00:00Z, finalDate=T00:00:00Z) - begin 
-{2012/04/17 22:31:39} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=T00:00:00Z, finalDate=T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [13011] - finalDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).[13010] - initialDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25). 
-{2012/04/17 22:31:43} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-02-07T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
-{2012/04/17 22:31:44} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-02-07T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [11048] - search interval must be lower than or equal 30 days. 
-{2012/04/17 22:31:49} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
-{2012/04/17 22:31:49} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-17T23:31:48.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
-{2012/04/18 19:55:35} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
-{2012/04/18 19:55:36} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-18T20:55:33.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
-{2012/04/18 20:10:21} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-04-17T00:00:00Z, finalDate=2012-04-19T00:00:00Z) - begin 
-{2012/04/18 20:10:22} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-04-17T00:00:00Z, finalDate=2012-04-19T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [13009] - finalDate must be lower than allowed limit. 
-{2012/04/18 20:13:59} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-04-17T00:00:00Z, finalDate=2012-04-19T00:00:00Z) - begin 
-{2012/04/18 20:14:00} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-04-17T00:00:00Z, finalDate=2012-04-19T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [13009] - finalDate must be lower than allowed limit. 
+{2012/04/14 15:55:07} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-31T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/14 15:55:08} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-31T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-14T10:55:10.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=1) 
+{2012/04/14 15:55:16} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/14 15:55:17} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-14T10:55:18.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
+{2012/04/17 01:35:22} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-31T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/17 01:35:24} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-31T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-16T20:35:24.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=1) 
+{2012/04/17 01:35:27} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/17 01:35:31} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-16T20:35:31.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
+{2012/04/17 01:35:34} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-02-07T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/17 01:35:34} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-02-07T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [11048] - search interval must be lower than or equal 30 days. 
+{2012/04/17 01:35:41} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2011-12-10T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/17 01:35:41} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2011-12-10T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [11048] - search interval must be lower than or equal 30 days. 
+{2012/04/17 01:35:45} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/17 01:35:47} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-16T20:35:47.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
+{2012/04/17 01:37:13} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/17 01:37:15} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-16T20:37:15.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
+{2012/04/18 03:13:48} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/18 03:13:49} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-17T22:13:49.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
+{2012/04/18 03:15:06} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-02-07T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/18 03:15:06} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-02-07T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [11048] - search interval must be lower than or equal 30 days. 
+{2012/04/19 02:51:01} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2011-12-10T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/19 02:51:02} [Error] PagSeguroTransactionSearchService.SearchByDate(initialDate=2011-12-10T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end [HTTP 400] - BAD_REQUEST [11048] - search interval must be lower than or equal 30 days. 
+{2012/04/19 02:51:07} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - begin 
+{2012/04/19 02:51:07} [Info] PagSeguroTransactionSearchService.SearchByDate(initialDate=2012-03-08T00:00:00Z, finalDate=2012-04-07T00:00:00Z) - end PagSeguroTransactionSearchResult(Date=2012-04-18T21:51:08.000-03:00, CurrentPage=1, TotalPages=1, Transactions in this page=2) 
