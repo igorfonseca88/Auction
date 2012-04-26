@@ -17,7 +17,7 @@ $this->load->view('priv/_inc/superior');
         <form method="post" action="<?= base_url() ?>notificacaoController/processarEscolha">
             <input type="hidden" value="" id="optHidden" name="optHidden"/>
             <input type="hidden" value="" id="checkboxesChecked" name="checkboxesChecked"/>
-            <input id="dtAtual" type="hidden" value="07/04/2012">
+            <input id="dtAtual" type="hidden" value="<?=$dataAtual?>">
             
             <div class="item">
                 <div class="item">

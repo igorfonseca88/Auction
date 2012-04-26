@@ -17,7 +17,8 @@ private $pagSeguroCodExceptionList = array(
     11050 => "initialDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).",
     11051 => "finalDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).",
     11052 => 'page invalid value.',
-    11053 => 'maxPageResults invalid value (must be between 1 and 1000).'
+    11053 => 'maxPageResults invalid value (must be between 1 and 1000).',
+    13009 => 'finalDate must be lower than allowed limit'
     
     
     );

@@ -1,8 +1,6 @@
 <?php
 
 require_once "PagSeguroLibrary/PagSeguroLibrary.php";
-//require_once "otimolance/models/Util.php";
-//require_once "otimolance/models/Categoria.php";
 require_once "exception/otimoLanceException.php";
 
 class NotificacaoController extends CI_Controller {
@@ -17,6 +15,7 @@ class NotificacaoController extends CI_Controller {
 
     function transacoes() {
         $data["transactions"] = null;
+        $data["dataAtual"] = date("d/m/Y");
         $this->load->view("priv/transacoes/transacoesList", $data);
     }
 
@@ -28,15 +27,17 @@ class NotificacaoController extends CI_Controller {
             $this->processar();
         } else {
             $data["transactions"] = null;
+            $data["dataAtual"] = date("d/m/Y");
             $this->load->view("priv/transacoes/transacoesList", $data);
         }
     }
 
-            //processa somente os pedidos NÃO PROCESSADOS
-            if($pedido[0]->status != Util::$STATUS_PROCESSADO){
-            
-                if($categoria[0]->nome == Util::$CATEGORIA_TIPO_LANCE){
-                     
+    function processar() {
+        //processa somente os pedidos NÃO PROCESSADOS
+        if ($pedido[0]->status != Util::$STATUS_PROCESSADO) {
+
+            if ($categoria[0]->nome == Util::$CATEGORIA_TIPO_LANCE) {
+
                 //Quantidade de créditos a ser acrescentado ao usuario no caso de CATEGORIAS do TIPO LANCE para CADA PRODUTO
                 //Ex: Comprei Pacote de 25 Lances a quantidade é 25 (OBS: A quantidade pode ser alterada no cadastro de produto);
                 $quantidadeProduto = $produto[0]->quantidade;
@@ -46,63 +47,65 @@ class NotificacaoController extends CI_Controller {
                 //Crédito a ser inserido na conta do usuario.
                 //Ex: Comprei 2 unidades do produto Pacote de 25 lances com a quantidade = 25 cada, total a ser creditado = 50 .
                 $credito = $quantidadeProduto * $quantidadeItemPedido;
-                
+
                 //Atualiza o saldo da conta com os créditos comprados
                 $contaUpdate = array(
-                     "saldo" => $conta[0]->saldo + $credito
-                 );
+                    "saldo" => $conta[0]->saldo + $credito
+                );
 
-        $selecionados = $this->input->post("checkboxesChecked");
+                $selecionados = $this->input->post("checkboxesChecked");
 
-        $arrSelecionados = explode(",", $selecionados);
+                $arrSelecionados = explode(",", $selecionados);
 
-        if ($selecionados != "") {
-            foreach ($arrSelecionados as $row) {
-                $pedido = $this->pedidoDAO->buscarPorId($row);
-                $conta = $this->contaDAO->buscarContaPorId($pedido[0]->idConta);
-                $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($row);
+                if ($selecionados != "") {
+                    foreach ($arrSelecionados as $row) {
+                        $pedido = $this->pedidoDAO->buscarPorId($row);
+                        $conta = $this->contaDAO->buscarContaPorId($pedido[0]->idConta);
+                        $itensPedido = $this->itemPedidoDAO->buscarItemPedidoPorIdPedido($row);
 
-                foreach ($itensPedido as $itemPedido) {
-                    $produto = $this->produtoDAO->buscarPorId($itemPedido->idProduto);
-                    $categoria = $this->categoriaDAO->buscarPorId($produto[0]->idCategoria);
+                        foreach ($itensPedido as $itemPedido) {
+                            $produto = $this->produtoDAO->buscarPorId($itemPedido->idProduto);
+                            $categoria = $this->categoriaDAO->buscarPorId($produto[0]->idCategoria);
 
-                    //processa somente os pedidos NÃO PROCESSADOS
-                    if ($pedido[0]->status != Util::$STATUS_PROCESSADO) {
+                            //processa somente os pedidos NÃO PROCESSADOS
+                            if ($pedido[0]->status != Util::$STATUS_PROCESSADO) {
 
-                        if ($categoria[0]->nome == Util::$TIPO_LANCE) {
+                                if ($categoria[0]->nome == Util::$TIPO_LANCE) {
 
-                            //Quantidade de créditos a ser acrescentado ao usuario no caso de CATEGORIAS do TIPO LANCE para CADA PRODUTO
-                            //Ex: Comprei Pacote de 25 Lances a quantidade é 25 (OBS: A quantidade pode ser alterada no cadastro de produto);
-                            $quantidadeProduto = $produto[0]->quantidade;
-                            //Quantidade selecionado no ato da compra
-                            //Ex: Selecionei o produto Pacote de 25 Lances e escolhi comprar 2 unidades deste pacote. 
-                            $quantidadeItemPedido = $itemPedido->quantidade;
-                            //Crédito a ser inserido na conta do usuario.
-                            //Ex: Comprei 2 unidades do produto Pacote de 25 lances com a quantidade = 25 cada, total a ser creditado = 50 .
-                            $credito = $quantidadeProduto * $quantidadeItemPedido;
+                                    //Quantidade de créditos a ser acrescentado ao usuario no caso de CATEGORIAS do TIPO LANCE para CADA PRODUTO
+                                    //Ex: Comprei Pacote de 25 Lances a quantidade é 25 (OBS: A quantidade pode ser alterada no cadastro de produto);
+                                    $quantidadeProduto = $produto[0]->quantidade;
+                                    //Quantidade selecionado no ato da compra
+                                    //Ex: Selecionei o produto Pacote de 25 Lances e escolhi comprar 2 unidades deste pacote. 
+                                    $quantidadeItemPedido = $itemPedido->quantidade;
+                                    //Crédito a ser inserido na conta do usuario.
+                                    //Ex: Comprei 2 unidades do produto Pacote de 25 lances com a quantidade = 25 cada, total a ser creditado = 50 .
+                                    $credito = $quantidadeProduto * $quantidadeItemPedido;
 
-                            //Atualiza o saldo da conta com os créditos comprados
-                            $contaUpdate = array(
-                                "saldo" => $conta[0]->saldo + $credito
-                            );
+                                    //Atualiza o saldo da conta com os créditos comprados
+                                    $contaUpdate = array(
+                                        "saldo" => $conta[0]->saldo + $credito
+                                    );
 
-                            $this->contaDAO->update($contaUpdate, $conta[0]->idConta);
+                                    $this->contaDAO->update($contaUpdate, $conta[0]->idConta);
+                                }
+                                //Atualiza o status do pedido para Processado
+                                $pedidoUpdate = array(
+                                    "status" => Util::$STATUS_PROCESSADO
+                                );
+
+                                $this->pedidoDAO->atualizar($pedidoUpdate, $pedido[0]->idPedido);
+                            }
                         }
-                        //Atualiza o status do pedido para Processado
-                        $pedidoUpdate = array(
-                            "status" => Util::$STATUS_PROCESSADO
-                        );
-
-                        $this->pedidoDAO->atualizar($pedidoUpdate, $pedido[0]->idPedido);
                     }
                 }
             }
         }
     }
-    
-    function pesquisarAction(){
-        $dataInicio = Util::ajustaDataSql($this->input->post("dataInicio"))."T00:00:01Z";
-        $dataFim = Util::ajustaDataSql($this->input->post("dataFim"))."T23:59:59Z";
+
+    function pesquisarAction() {
+        $dataInicio = Util::ajustaDataSql($this->input->post("dataInicio")) . "T00:00:01Z";
+        $dataFim = Util::ajustaDataSql($this->input->post("dataFim")) ."T".date("H:i:s")."Z";
         
         $this->transacoesPorIntervaloDatas($dataInicio, $dataFim);
     }
@@ -147,14 +150,14 @@ class NotificacaoController extends CI_Controller {
             $result = PagSeguroTransactionSearchService::searchByDate(
                             $credentials, $pageNumber, $maxPageResults, $initialDate, $finalDate);
         } catch (PagSeguroServiceException $exp) {
-
+            
             foreach ($exp->getErrors(null) as $key => $error) {
                 $a = new OtimoLanceException();
                 $this->msgErro = $a->getMessage($error->getCode());
             }
-            $notificacao["erro"] = $this->msgErro;
-            $this->load->vars($notificacao);
-            $this->load->view("priv/transacoes/transacoesList");
+            $data["erro"] = $this->msgErro;
+            $data["dataAtual"] = date("d/m/Y");
+            $this->load->view("priv/transacoes/transacoesList", $data);
 
             return;
         } catch (Exception $e) {
@@ -168,6 +171,7 @@ class NotificacaoController extends CI_Controller {
         $transactions = $result->getTransactions();
 
         $data["transactions"] = $transactions;
+        $data["dataAtual"] = date("d/m/Y");
         $this->load->view("priv/transacoes/transacoesList", $data);
     }
 
